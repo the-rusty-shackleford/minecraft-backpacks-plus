@@ -152,7 +152,10 @@ public final class BackpackLayer extends RenderLayer<AbstractClientPlayer,Player
             // actual model thickness. A fixed outward lean leaves the tip floating.
             double surface=switch (tier) { case BASIC -> 4.0/16; case REINFORCED -> 4.5/16; case EXPEDITION -> 5.1/16; };
             double thickness=switch (b.plane()) { case XY -> b.depth(); case YZ -> b.width(); case XZ -> b.height(); };
-            sideDistance=surface+thickness*scale/2+1.0/512;
+            // The guard/pommel set the bounds, but the blade is thinner. Seat swords
+            // half a model pixel into that clearance so the blade contacts the bag.
+            double inset=display.item().is(ItemTags.SWORDS) ? 0.5/16 : 0;
+            sideDistance=surface+thickness*scale/2+1.0/512-inset;
         }
         pose.pushPose();
         pose.translate(large ? side*sideDistance : (small==0 ? -0.14 : 0.14),large ? 0 : 0.10,large ? 0.02 : 0.22);

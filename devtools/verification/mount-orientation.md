@@ -24,6 +24,13 @@ limits and one-item display remain. Resource and tag reloads invalidate cached d
 classification. The same placement applies to worn, opening and hand-carried bags.
 No storage, swap, keybind, protocol or admission behavior changed.
 
+Follow-up: Rusty still saw a slight floating gap. Swords now sit another 0.5/16 block
+inward: the wider guard/pommel bounds were leaving clearance around the thinner blade.
+Scale and rotation are unchanged; other item categories retain their placement. Fresh
+side/quarter captures checked both sword mounts with Refined Tools, and the build
+passed again. [Latest close-up](../orientation-preview/sword-contact-quarter.png).
+The earlier comparison frames and motion clips precede this final small inset.
+
 ## Executed this pass
 
 - Reproduced and captured the original appearance before changing the renderer.
