@@ -1,0 +1,82 @@
+/* Copyright (C) 2026 Rusty Shackleford and nfx. SPDX-License-Identifier: AGPL-3.0-or-later */
+package com.chunkworks.backpacksplus;
+
+import com.chunkworks.backpacksplus.domain.GearAction;
+import java.util.UUID;
+import java.util.function.Consumer;
+import net.minecraft.core.UUIDUtil;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+
+/** Version-one semantic gear protocol. Client intent contains no item data or animation poses. */
+public final class GearProtocol {
+    private GearProtocol() {}
+    private static Consumer<State> stateReceiver = state -> {};
+    private static Consumer<Action> actionReceiver = action -> {};
+
+    /** AF: requested mount and the server snapshot the user chose it from. RI: all fields untrusted until validated. */
+    public record Swap(UUID bag, long revision, int mount, int selected) implements CustomPacketPayload {
+        public static final Type<Swap> TYPE = new Type<>(BackpacksPlus.id("swap"));
+        public static final StreamCodec<RegistryFriendlyByteBuf, Swap> CODEC = StreamCodec.composite(
+                UUIDUtil.STREAM_CODEC, Swap::bag, ByteBufCodecs.VAR_LONG, Swap::revision,
+                ByteBufCodecs.VAR_INT, Swap::mount, ByteBufCodecs.VAR_INT, Swap::selected, Swap::new);
+        @Override public Type<Swap> type() { return TYPE; }
+    }
+
+    /** AF: authoritative worn bag, including mount contents. RI: owned stack copy; UUID/dimension prevent ID reuse. */
+    public record State(int entityId, UUID playerId, ResourceLocation dimension, long sequence, ItemStack bag) implements CustomPacketPayload {
+        public static final Type<State> TYPE = new Type<>(BackpacksPlus.id("state"));
+        public static final StreamCodec<RegistryFriendlyByteBuf, State> CODEC = StreamCodec.composite(
+                ByteBufCodecs.VAR_INT, State::entityId, UUIDUtil.STREAM_CODEC, State::playerId,
+                ResourceLocation.STREAM_CODEC, State::dimension, ByteBufCodecs.VAR_LONG, State::sequence,
+                ItemStack.OPTIONAL_STREAM_CODEC, State::bag, State::new);
+        public State { bag = bag.copy(); }
+        @Override public ItemStack bag() { return bag.copy(); }
+        @Override public Type<State> type() { return TYPE; }
+    }
+
+    /**
+     * AF: one accepted server action with visual before/after stacks and a shared game-time origin.
+     * RI: this message cannot mutate inventory; renderer is free to animate or omit it. Stacks are owned copies.
+     * The server sequence orders actions, while startedAt lets late viewers start at the current phase.
+     */
+    public record Action(int entityId, UUID playerId, ResourceLocation dimension, long sequence, UUID bag,
+            GearAction kind, int mount, long startedAt, ItemStack before, ItemStack after) implements CustomPacketPayload {
+        public static final Type<Action> TYPE = new Type<>(BackpacksPlus.id("action"));
+        public static final StreamCodec<RegistryFriendlyByteBuf, Action> CODEC = new StreamCodec<>() {
+            @Override public Action decode(RegistryFriendlyByteBuf b) {
+                return new Action(b.readVarInt(), b.readUUID(), b.readResourceLocation(), b.readVarLong(), b.readUUID(),
+                        GearAction.decode(b.readVarInt()), b.readVarInt(), b.readVarLong(),
+                        ItemStack.OPTIONAL_STREAM_CODEC.decode(b), ItemStack.OPTIONAL_STREAM_CODEC.decode(b));
+            }
+            @Override public void encode(RegistryFriendlyByteBuf b, Action a) {
+                b.writeVarInt(a.entityId); b.writeUUID(a.playerId); b.writeResourceLocation(a.dimension);
+                b.writeVarLong(a.sequence); b.writeUUID(a.bag); b.writeVarInt(a.kind.wireId());
+                b.writeVarInt(a.mount); b.writeVarLong(a.startedAt);
+                ItemStack.OPTIONAL_STREAM_CODEC.encode(b, a.before); ItemStack.OPTIONAL_STREAM_CODEC.encode(b, a.after);
+            }
+        };
+        public Action { before = before.copy(); after = after.copy(); }
+        @Override public ItemStack before() { return before.copy(); }
+        @Override public ItemStack after() { return after.copy(); }
+        @Override public Type<Action> type() { return TYPE; }
+    }
+
+    /** requires: client setup. effects: installs rendering adapters without loading client classes on a dedicated server. */
+    public static void receive(Consumer<State> state, Consumer<Action> action) { stateReceiver=state; actionReceiver=action; }
+    /** effects: registers required version-one, main-thread handlers; only the server accepts swap intent. */
+    public static void register(RegisterPayloadHandlersEvent event) {
+        var registrar = event.registrar("1");
+        registrar.playToServer(Swap.TYPE, Swap.CODEC, (packet, context) -> {
+            if (context.player() instanceof ServerPlayer player) GearSync.swap(player, packet);
+        });
+        registrar.playToClient(State.TYPE, State.CODEC, (packet, context) -> stateReceiver.accept(packet));
+        registrar.playToClient(Action.TYPE, Action.CODEC, (packet, context) -> actionReceiver.accept(packet));
+    }
+}

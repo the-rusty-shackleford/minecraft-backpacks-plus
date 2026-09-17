@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "#c:tools/shear", "#c:tools/brush", "#c:tools/igniter", "#c:tools/wrench",
+    { "id": "#farmersdelight:tools/knives", "required": false }
+  ]
+}
