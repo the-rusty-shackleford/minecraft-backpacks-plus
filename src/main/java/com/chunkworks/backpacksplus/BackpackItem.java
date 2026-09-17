@@ -29,11 +29,16 @@ public final class BackpackItem extends Item implements Equipable {
         if (!player.isAlive() || player.isSpectator()) return InteractionResultHolder.fail(stack);
         if (player instanceof ServerPlayer server && player.containerMenu == player.inventoryMenu) {
             int source = hand == InteractionHand.MAIN_HAND ? player.getInventory().selected : 40;
-            BagInventory inventory = BagInventory.bind(player, source);
-            var opened = server.openMenu(new SimpleMenuProvider((id, inv, p) -> new BackpackMenu(id, inv, inventory, tier, source), stack.getHoverName()),
-                    buffer -> { buffer.writeEnum(tier); buffer.writeVarInt(source); });
-            if (opened.isPresent()) GearSync.action(server, stack, com.chunkworks.backpacksplus.domain.GearAction.OPEN, -1, ItemStack.EMPTY, ItemStack.EMPTY);
+            open(server,stack,source);
         }
         return InteractionResultHolder.sidedSuccess(stack, level.isClientSide);
+    }
+    /** requires: authoritative exact source stack, no other open menu; effects: opens held or worn storage. */
+    public static void open(ServerPlayer player, ItemStack stack, int source) {
+        if (player.getInventory().getItem(source)!=stack || !(stack.getItem() instanceof BackpackItem item)) return;
+        BagInventory inventory = BagInventory.bind(player,source);
+        var opened=player.openMenu(new SimpleMenuProvider((id, inv, p) -> new BackpackMenu(id,inv,inventory,item.tier,source),stack.getHoverName()),
+                buffer -> { buffer.writeEnum(item.tier); buffer.writeVarInt(source); });
+        if (opened.isPresent()) GearSync.action(player,stack,com.chunkworks.backpacksplus.domain.GearAction.OPEN,-1,ItemStack.EMPTY,ItemStack.EMPTY);
     }
 }

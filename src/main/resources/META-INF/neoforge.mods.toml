@@ -9,6 +9,9 @@ displayName="Backpacks+"
 authors="Rusty Shackleford, nfx"
 description='''Wearable backpacks with deliberately mounted tools and carried supplies.'''
 
+[[mixins]]
+config="backpacksplus.mixins.json"
+
 [[dependencies.backpacksplus]]
 modId="neoforge"
 type="required"

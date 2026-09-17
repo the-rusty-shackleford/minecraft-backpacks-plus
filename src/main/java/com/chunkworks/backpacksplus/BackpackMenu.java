@@ -49,6 +49,8 @@ public final class BackpackMenu extends AbstractContainerMenu {
     }
     /** effects: returns the first player-inventory row's y coordinate. */
     public int inventoryTop() { return Math.max(112, 38 + tier.storageSlots() / 9 * 18); }
+    /** effects: returns the locked player inventory cell containing this bag. */
+    public int source() { return source; }
     private void addPlayerSlot(Inventory inventory, int cell, int x, int y) {
         addSlot(new Slot(inventory, cell, x, y) {
             @Override public boolean mayPickup(Player player) { return cell != source; }

@@ -1,0 +1,773 @@
+{
+  "draw_received": true,
+  "stow_received": true,
+  "retrieve_received": true,
+  "held_menu_opens": true,
+  "fresh_animations_view": {
+    "uuid": "4034faa2-276f-3515-a80b-511ffad69973",
+    "entity": 36,
+    "selected": 0,
+    "dimension": "minecraft:overworld",
+    "held": {
+      "item": "backpacksplus:expedition_backpack",
+      "count": 1
+    },
+    "bag": {
+      "item": "minecraft:air",
+      "count": 0
+    },
+    "quick": {
+      "item": "minecraft:shears",
+      "count": 1
+    },
+    "menu": "InventoryMenu",
+    "cursor": {
+      "item": "minecraft:air",
+      "count": 0
+    },
+    "slots": [
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "backpacksplus:expedition_backpack",
+        "count": 1
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:shears",
+        "count": 1
+      }
+    ],
+    "skinModel": "SLIM",
+    "syncedBag": {
+      "item": "minecraft:air",
+      "count": 0
+    },
+    "openedAt": -1
+  },
+  "wide_left_draw": true,
+  "plain_client_view": {
+    "uuid": "fe6431c3-ea4f-3760-96fa-cebe1715e9ce",
+    "entity": 49,
+    "selected": 0,
+    "dimension": "minecraft:overworld",
+    "held": {
+      "item": "minecraft:diamond_pickaxe",
+      "count": 1
+    },
+    "bag": {
+      "item": "backpacksplus:expedition_backpack",
+      "count": 1,
+      "id": "8843c23f-61a6-44b1-8f8a-d37c6878275b",
+      "revision": 6,
+      "cells": [
+        {
+          "item": "minecraft:bread",
+          "count": 8
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:diamond_sword",
+          "count": 1
+        },
+        {
+          "item": "minecraft:apple",
+          "count": 12
+        },
+        {
+          "item": "minecraft:torch",
+          "count": 32
+        }
+      ]
+    },
+    "quick": {
+      "item": "minecraft:shears",
+      "count": 1
+    },
+    "menu": "InventoryMenu",
+    "cursor": {
+      "item": "minecraft:air",
+      "count": 0
+    },
+    "slots": [
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "backpacksplus:expedition_backpack",
+        "count": 1
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:diamond_pickaxe",
+        "count": 1
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:air",
+        "count": 0
+      },
+      {
+        "item": "minecraft:shears",
+        "count": 1
+      }
+    ],
+    "skinModel": "WIDE",
+    "syncedBag": {
+      "item": "backpacksplus:expedition_backpack",
+      "count": 1,
+      "id": "8843c23f-61a6-44b1-8f8a-d37c6878275b",
+      "revision": 6,
+      "cells": [
+        {
+          "item": "minecraft:bread",
+          "count": 8
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:air",
+          "count": 0
+        },
+        {
+          "item": "minecraft:diamond_sword",
+          "count": 1
+        },
+        {
+          "item": "minecraft:apple",
+          "count": 12
+        },
+        {
+          "item": "minecraft:torch",
+          "count": 32
+        }
+      ]
+    },
+    "openedAt": -1
+  }
+}

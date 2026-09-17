@@ -4,15 +4,19 @@ Rustic survival backpacks for Minecraft 1.21.1 / NeoForge 21.1.x, with tools and
 mounted on the sides and small supplies carried on the outer face or hanging from straps.
 
 **Unreleased development build.** Storage, a real inventory menu, direct mount swaps,
-the first gear HUD and server action messages are implemented. Models, textures,
-third-person animations, Curios, recipes and migration are unfinished. The bag item
-currently displays Minecraft's missing-model fallback; this is a functional checkpoint.
+the horizontal gear HUD and server action messages are implemented. The first original
+bag models and third-person draw/stow, opening and side-carry gestures now have an
+[in-game motion preview](devtools/animation-preview/index.html). This is an early motion
+and proportion review: the models use vanilla material textures, not final artwork.
+Curios, recipes, lighting, migration and the complete pose/compatibility pass remain unfinished.
 
 Basic, Reinforced and Expedition have **9, 18 and 36** ordinary cells plus **2, 3 and 4**
 dedicated mounts. Their mount splits are one long/one small, two long/one small, and two
 of each. Contents travel with the bag item. Normal item stack limits apply.
 
-Hold a bag and right-click to open its actual menu. Click, split and shift-click normally;
+Hold a bag and right-click, or press **B** with a bag equipped, to open its actual menu.
+The open key is configurable; legacy backpack mods may also bind B during migration.
+Click, split and shift-click normally;
 the opened bag stays locked in its source cell. Ordinary furnaces, smokers, hoppers and
 similar utility blocks fit. Backpacks, chests, barrels, bundles, shulkers and retained
 portable inventories are rejected. A backpack may itself be placed in a chest.
@@ -46,9 +50,14 @@ support Gradle properties `testServerDir`, `testDriverDir`, `testObserverDir` to
 isolated profiles. Inspect host processes before launching and keep master volume zero.
 See [validation and remaining gates](devtools/verification/first-build.md).
 
-The protocol describes server-timed gear actions independently of any animation library.
-Fresh Animations Player Extension / EMF Compat Core integration is being evaluated;
-it is not yet implemented or runtime-verified.
+Protocol version 2 describes server-timed gear actions independently of any animation
+library, including persistent menu state for late viewers. Inventory changes happen on
+the server immediately; the client gesture does not move items. Vanilla player/hand
+rendering uses two small client-only `@Inject` hooks. No other mod is mixed into.
+An isolated optional adapter publishes owned arm poses through EMF Compat Core's public
+named-source API. It is checked with Fresh Animations Player Extension, EMF/ETF and NEA,
+alongside a plain client without those mods. See the [motion test record](devtools/verification/first-motion.md)
+for exact coverage and remaining visual work; this is not full-pack or shader acceptance.
 
 The wrapper is from the official [NeoForge MDK](https://github.com/NeoForgeMDKs/MDK-1.21.1-ModDevGradle);
 TEMPLATE_LICENSE.txt retains its licence. JDK rules live in `src/domain`, game adapters in

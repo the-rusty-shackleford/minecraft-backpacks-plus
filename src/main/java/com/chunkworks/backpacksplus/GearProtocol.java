@@ -14,7 +14,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 
-/** Version-one semantic gear protocol. Client intent contains no item data or animation poses. */
+/** Version-two semantic gear protocol. Client intent contains no item data or animation poses. */
 public final class GearProtocol {
     private GearProtocol() {}
     private static Consumer<State> stateReceiver = state -> {};
@@ -30,12 +30,21 @@ public final class GearProtocol {
     }
 
     /** AF: authoritative worn bag, including mount contents. RI: owned stack copy; UUID/dimension prevent ID reuse. */
-    public record State(int entityId, UUID playerId, ResourceLocation dimension, long sequence, ItemStack bag) implements CustomPacketPayload {
+    public record State(int entityId, UUID playerId, ResourceLocation dimension, long sequence, ItemStack bag, long openedAt, int openSource) implements CustomPacketPayload {
         public static final Type<State> TYPE = new Type<>(BackpacksPlus.id("state"));
-        public static final StreamCodec<RegistryFriendlyByteBuf, State> CODEC = StreamCodec.composite(
-                ByteBufCodecs.VAR_INT, State::entityId, UUIDUtil.STREAM_CODEC, State::playerId,
-                ResourceLocation.STREAM_CODEC, State::dimension, ByteBufCodecs.VAR_LONG, State::sequence,
-                ItemStack.OPTIONAL_STREAM_CODEC, State::bag, State::new);
+        public static final StreamCodec<RegistryFriendlyByteBuf, State> CODEC = new StreamCodec<>() {
+            @Override public State decode(RegistryFriendlyByteBuf b) {
+                return new State(b.readVarInt(),b.readUUID(),b.readResourceLocation(),b.readVarLong(),
+                        ItemStack.OPTIONAL_STREAM_CODEC.decode(b),b.readVarLong(),b.readVarInt());
+            }
+            @Override public void encode(RegistryFriendlyByteBuf b, State s) {
+                b.writeVarInt(s.entityId); b.writeUUID(s.playerId); b.writeResourceLocation(s.dimension); b.writeVarLong(s.sequence);
+                ItemStack.OPTIONAL_STREAM_CODEC.encode(b,s.bag); b.writeVarLong(s.openedAt); b.writeVarInt(s.openSource);
+            }
+        };
+        public State(int entityId, UUID playerId, ResourceLocation dimension, long sequence, ItemStack bag) {
+            this(entityId, playerId, dimension, sequence, bag, -1, -1);
+        }
         public State { bag = bag.copy(); }
         @Override public ItemStack bag() { return bag.copy(); }
         @Override public Type<State> type() { return TYPE; }
@@ -68,15 +77,26 @@ public final class GearProtocol {
         @Override public Type<Action> type() { return TYPE; }
     }
 
+    /** AF: request to open the current worn bag. RI: no client item data, validated against server equipment. */
+    public record Open(UUID bag, long revision) implements CustomPacketPayload {
+        public static final Type<Open> TYPE = new Type<>(BackpacksPlus.id("open"));
+        public static final StreamCodec<RegistryFriendlyByteBuf, Open> CODEC = StreamCodec.composite(
+                UUIDUtil.STREAM_CODEC, Open::bag, ByteBufCodecs.VAR_LONG, Open::revision, Open::new);
+        @Override public Type<Open> type() { return TYPE; }
+    }
+
     /** requires: client setup. effects: installs rendering adapters without loading client classes on a dedicated server. */
     public static void receive(Consumer<State> state, Consumer<Action> action) { stateReceiver=state; actionReceiver=action; }
-    /** effects: registers required version-one, main-thread handlers; only the server accepts swap intent. */
+    /** effects: registers required version-two, main-thread handlers; only the server accepts inventory intent. */
     public static void register(RegisterPayloadHandlersEvent event) {
-        var registrar = event.registrar("1");
+        var registrar = event.registrar("2");
         registrar.playToServer(Swap.TYPE, Swap.CODEC, (packet, context) -> {
             if (context.player() instanceof ServerPlayer player) GearSync.swap(player, packet);
         });
         registrar.playToClient(State.TYPE, State.CODEC, (packet, context) -> stateReceiver.accept(packet));
         registrar.playToClient(Action.TYPE, Action.CODEC, (packet, context) -> actionReceiver.accept(packet));
+        registrar.playToServer(Open.TYPE, Open.CODEC, (packet, context) -> {
+            if (context.player() instanceof ServerPlayer player) GearSync.open(player, packet);
+        });
     }
 }

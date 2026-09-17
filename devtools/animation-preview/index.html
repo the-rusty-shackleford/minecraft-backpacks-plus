@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Backpacks+ · First motion preview</title>
+<style>
+  :root{color-scheme:dark;font-family:system-ui,sans-serif;background:#171b18;color:#eee8dc}
+  *{box-sizing:border-box}body{margin:0;padding:32px 24px 48px}main{max-width:1120px;margin:auto}
+  .eyebrow{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#b7bf9b}
+  h1{font-size:clamp(28px,5vw,46px);font-weight:650;letter-spacing:-.035em;margin:12px 0}
+  p{color:#bdc1b5;line-height:1.6;max-width:780px}nav{display:flex;gap:8px;flex-wrap:wrap;margin:24px 0 14px}
+  button{font:inherit;font-size:14px;padding:11px 17px;border:1px solid #4b5546;border-radius:8px;background:#242b24;color:inherit;cursor:pointer}
+  button[aria-pressed=true]{background:#d0b384;border-color:#d0b384;color:#20261e}
+  button:focus-visible{outline:3px solid #f0d7a6;outline-offset:3px}
+  video{display:block;width:100%;aspect-ratio:16/9;background:#0d100d;border:1px solid #465042;border-radius:12px}
+  .caption{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:13px;margin-top:12px;color:#bcc4b3}
+  .stills{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:28px 0}figure{margin:0}
+  img{width:100%;border-radius:8px;border:1px solid #3d493d}figcaption{font-size:13px;color:#bcc4b3;margin-top:7px}
+  footer{border-top:1px solid #394338;margin-top:24px;padding-top:16px;font-size:13px;color:#9ba58f}
+  a{color:#dfc69d}@media(max-width:620px){body{padding:22px 14px}.stills{grid-template-columns:1fr}h1{font-size:32px}}
+</style>
+<main>
+  <div class="eyebrow">Backpacks+ / In-game development preview</div>
+  <h1>Gear that travels with you.</h1>
+  <p>The first working third-person pass: reach for a mounted tool, stow it, bring the bag forward to open it, and carry it by its top strap. These are recordings from two real clients on a dedicated test server.</p>
+  <nav aria-label="Preview clips">
+    <button data-clip="rear" aria-pressed="true">Draw &amp; stow</button>
+    <button data-clip="front" aria-pressed="false">Open &amp; carry</button>
+    <button data-clip="wide" aria-pressed="false">Wide skin · plain client</button>
+  </nav>
+  <video id="motion" controls autoplay muted loop playsinline preload="metadata" poster="worn.png" src="rear.mp4"></video>
+  <div class="caption"><span id="caption">Slim player · Refined Tools · Fresh Animations + EMF + NEA</span><span>Actual gameplay capture · silent</span></div>
+  <div class="stills">
+    <figure><a href="worn.png"><img src="worn.png" alt="Compact worn backpack with a pickaxe, sword, apple and torch mounted on it"></a><figcaption>Compact body fit and real item models</figcaption></figure>
+    <figure><a href="held.png"><img src="held.png" alt="Player holding the backpack by its top strap, with tools still attached"></a><figcaption>Top-strap carry, with mounts attached</figcaption></figure>
+    <figure><a href="open.png"><img src="open.png" alt="Player holding the backpack forward with its flap open"></a><figcaption>Opening and retrieval gesture</figcaption></figure>
+  </div>
+  <p>This is a motion and proportion review. The reach and handoff still need refinement, especially across the body. The original cuboid models use vanilla material textures for now; canvas, leather and visible fastenings will receive a separate art pass.</p>
+  <footer>Development only · release held · <a href="../verification/first-motion.md">Checks and remaining work</a></footer>
+</main>
+<script>
+  const video=document.querySelector('#motion');
+  const caption=document.querySelector('#caption');
+  const labels={rear:'Slim player · Refined Tools · Fresh Animations + EMF + NEA',front:'Worn and held opening · gear stays attached during carry',wide:'Wide player · left main arm · animation mods absent'};
+  document.querySelectorAll('[data-clip]').forEach(button=>button.addEventListener('click',()=>{
+    document.querySelectorAll('[data-clip]').forEach(other=>other.setAttribute('aria-pressed',String(other===button)));
+    video.src=button.dataset.clip+'.mp4';caption.textContent=labels[button.dataset.clip];video.play().catch(()=>{});
+  }));
+</script>
+</html>

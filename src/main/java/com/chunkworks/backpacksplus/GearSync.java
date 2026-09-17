@@ -25,6 +25,8 @@ public final class GearSync {
     private static final class Session {
         ItemStack seen = ItemStack.EMPTY;
         long revision = -1, sequence, lastRequest = Long.MIN_VALUE;
+        long openedAt = -1;
+        int openSource = -1;
         GearProtocol.Action action;
     }
     /** effects: registers nonpersistent session state and the network protocol. */
@@ -36,13 +38,16 @@ public final class GearSync {
         return item.getItem() instanceof BackpackItem && item.getCount()==1 ? item : ItemStack.EMPTY;
     }
     private static GearProtocol.State snapshot(ServerPlayer player, Session session) {
-        return new GearProtocol.State(player.getId(), player.getUUID(), player.level().dimension().location(), session.sequence, worn(player));
+        return new GearProtocol.State(player.getId(), player.getUUID(), player.level().dimension().location(), session.sequence, worn(player), session.openedAt, session.openSource);
     }
     private static void observe(ServerPlayer player) {
         Session state=player.getData(SESSION); ItemStack bag=worn(player);
         if (!bag.isEmpty()) BagContents.identify(bag);
         long revision=bag.isEmpty() ? 0 : BagContents.revision(bag);
-        if (state.seen==bag && state.revision==revision) return;
+        int openSource=player.containerMenu instanceof BackpackMenu menu && menu.stillValid(player) ? menu.source() : -1;
+        boolean changed=openSource!=state.openSource;
+        if (changed) { state.openedAt=openSource>=0 ? player.level().getGameTime() : -1; state.openSource=openSource; }
+        if (state.seen==bag && state.revision==revision && !changed) return;
         state.seen=bag; state.revision=revision; state.sequence++;
         PacketDistributor.sendToPlayersTrackingEntityAndSelf(player, snapshot(player,state));
     }
@@ -58,6 +63,14 @@ public final class GearSync {
         ItemStack after=player.getMainHandItem();
         GearAction kind=before.isEmpty() ? GearAction.DRAW : after.isEmpty() ? GearAction.STOW : GearAction.EXCHANGE;
         action(player,bag,kind,request.mount(),before,after);
+    }
+    /** effects: opens only the exact current worn bag for a living, non-spectating player outside another menu. */
+    public static void open(ServerPlayer player, GearProtocol.Open request) {
+        ItemStack bag=worn(player);
+        if (!player.isAlive() || player.isSpectator() || player.isUsingItem() || player.containerMenu!=player.inventoryMenu
+                || bag.isEmpty() || !request.bag().equals(bag.get(BackpackItems.ID)) || request.revision()!=BagContents.revision(bag)) return;
+        BackpackItem.open(player,bag,38);
+        observe(player);
     }
     /** effects: broadcasts a semantic action after its associated server operation succeeds. */
     public static void action(ServerPlayer player, ItemStack bag, GearAction kind, int mount, ItemStack before, ItemStack after) {

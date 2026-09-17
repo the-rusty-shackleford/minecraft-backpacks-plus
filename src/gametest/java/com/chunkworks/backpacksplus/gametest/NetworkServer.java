@@ -36,11 +36,13 @@ public final class NetworkServer {
                 switch (op) {
                     case "seed" -> {
                         p.closeContainer(); p.stopRiding(); p.getInventory().clearContent(); p.getInventory().selected=0;
+                        p.connection.send(new net.minecraft.network.protocol.game.ClientboundSetCarriedItemPacket(0));
                         p.setGameMode(GameType.SURVIVAL); p.setHealth(20); p.getFoodData().setFoodLevel(20);
                         ItemStack bag=new ItemStack(BackpackItems.EXPEDITION.get()); p.getInventory().setItem(38,bag);
                         var inventory=BagInventory.bind(p,38);
                         inventory.setItem(36,new ItemStack(Items.DIAMOND_PICKAXE)); inventory.setItem(37,new ItemStack(Items.DIAMOND_SWORD));
                         inventory.setItem(38,new ItemStack(Items.APPLE,12)); inventory.setItem(39,new ItemStack(Items.TORCH,32));
+                        inventory.setItem(0,new ItemStack(Items.BREAD,8));
                         Slot.replace(p,new ItemStack(Items.SHEARS)); p.getInventory().setItem(0,new ItemStack(Items.DIAMOND_AXE));
                         p.getInventory().setItem(1,new ItemStack(Items.FURNACE,16)); p.getInventory().setItem(2,new ItemStack(Items.SHULKER_BOX));
                         for (int x=-7;x<=7;x++) for (int z=-7;z<=7;z++) p.serverLevel().setBlock(new BlockPos(x,70,z),Blocks.STONE.defaultBlockState(),3);

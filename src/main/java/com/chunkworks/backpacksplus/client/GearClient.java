@@ -27,6 +27,10 @@ public final class GearClient {
     private GearClient() {}
     private static final Map<UUID,View> VIEWS = new LinkedHashMap<>();
     private static final Map<UUID,GearProtocol.Action> ACTIONS = new LinkedHashMap<>();
+    private static final Map<UUID,Motion> MOTIONS = new LinkedHashMap<>();
+    /** AF: action plus display stacks decoded once. RI: renderers treat the stacks as read-only. */
+    record Motion(GearProtocol.Action action, ItemStack before, ItemStack after) {}
+    static Motion motion(UUID player) { return MOTIONS.get(player); }
     private static boolean held, browsing, moved;
     private static int selected, hotbar, age;
     private static UUID bagId;
@@ -38,8 +42,10 @@ public final class GearClient {
         final ItemStack bag;
         final NonNullList<ItemStack> cells;
         final int receivedAt;
-        View(GearProtocol.State state) {
+        final long lastOpenedAt;
+        View(GearProtocol.State state, View prior) {
             this.state=state; this.bag=state.bag(); this.receivedAt=age;
+            this.lastOpenedAt=state.openedAt()>=0 ? state.openedAt() : prior==null ? -1 : prior.lastOpenedAt;
             this.cells=bag.isEmpty() ? NonNullList.create() : BagContents.copy(bag);
         }
         int mounts() { return bag.isEmpty() ? 0 : BagContents.tier(bag).mounts().size(); }
@@ -51,14 +57,16 @@ public final class GearClient {
         if (old!=null && old.state.entityId()==packet.entityId() && old.state.dimension().equals(packet.dimension()) && old.state.sequence()>=packet.sequence()) return;
         if (!packet.bag().isEmpty() && !(packet.bag().getItem() instanceof BackpackItem)) return;
         if (VIEWS.size()>=256 && !VIEWS.containsKey(packet.playerId())) VIEWS.remove(VIEWS.keySet().iterator().next());
-        VIEWS.put(packet.playerId(),new View(packet));
+        VIEWS.put(packet.playerId(),new View(packet,old));
     }
-    /** effects: caches ordered semantic actions for the forthcoming animation adapter; never touches inventory. */
+    /** effects: caches ordered semantic actions and display stacks for the animation adapter; never touches inventory. */
     public static void receive(GearProtocol.Action packet) {
         var old=ACTIONS.get(packet.playerId());
         if (old!=null && old.entityId()==packet.entityId() && old.dimension().equals(packet.dimension()) && old.sequence()>=packet.sequence()) return;
         if (ACTIONS.size()>=256 && !ACTIONS.containsKey(packet.playerId())) ACTIONS.remove(ACTIONS.keySet().iterator().next());
         ACTIONS.put(packet.playerId(),packet);
+        if (MOTIONS.size()>=256 && !MOTIONS.containsKey(packet.playerId())) MOTIONS.remove(MOTIONS.keySet().iterator().next());
+        MOTIONS.put(packet.playerId(),new Motion(packet,packet.before(),packet.after()));
     }
     static View self() {
         Minecraft mc=Minecraft.getInstance(); if (mc.player==null || mc.level==null) return null;
@@ -100,9 +108,13 @@ public final class GearClient {
             VIEWS.values().removeIf(v -> age-v.receivedAt>100 && (mc.level==null || !v.state.dimension().equals(mc.level.dimension().location())
                     || mc.level.getEntity(v.state.entityId())==null));
             ACTIONS.values().removeIf(a -> mc.level==null || !a.dimension().equals(mc.level.dimension().location()) || mc.level.getGameTime()-a.startedAt()>40);
+            MOTIONS.keySet().retainAll(ACTIONS.keySet());
         }
         boolean down=GearClientSetup.BROWSE.isDown(); View view=self();
         if (!usable(mc)) { browsing=false; moved=false; held=down; return; }
+        while (GearClientSetup.OPEN.consumeClick()) {
+            if (view!=null && !view.bag.isEmpty()) PacketDistributor.sendToServer(new GearProtocol.Open(view.bag.get(BackpackItems.ID),BagContents.revision(view.bag)));
+        }
         if (down && !held && count(view)>0) {
             begin(mc,view);
         }
@@ -126,6 +138,6 @@ public final class GearClient {
         selected=Math.floorMod(selected-(event.getScrollDeltaY()>0 ? 1 : -1),count); moved=true; event.setCanceled(true);
     }
     @SubscribeEvent public static void logout(ClientPlayerNetworkEvent.LoggingOut event) {
-        VIEWS.clear(); ACTIONS.clear(); browsing=false; held=false; moved=false; selected=0; age=0;
+        VIEWS.clear(); ACTIONS.clear(); MOTIONS.clear(); GearPoses.clear(); browsing=false; held=false; moved=false; selected=0; age=0;
     }
 }

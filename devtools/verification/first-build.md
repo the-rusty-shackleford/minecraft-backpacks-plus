@@ -3,6 +3,9 @@
 Status: development only; release HELD. This is backend/input evidence, not approval of
 the model, textures, third-person motion, Curios or shader compatibility.
 
+The later [first motion checkpoint](first-motion.md) adds the original model and animation
+preview. The missing-model and absent-renderer statements below describe this earlier build.
+
 ## Executed checks
 
 - JDK-only JUnit: 6 passing tests for whole-stack destination policy, stale-intent

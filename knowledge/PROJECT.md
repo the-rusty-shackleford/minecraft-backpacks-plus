@@ -32,8 +32,10 @@ gear bar (D-0009). Release remains HELD. No remote, tag, push or live pack chang
 The three backpack items, immutable inline component storage, UUID/revision identity,
 real inventory menu, mount transactions, first HUD/G adapter and server action/state
 messages exist. The native chest equipment route is implemented first; Curios is pending.
-The current item has no finished model or texture and displays Minecraft's missing-model
-fallback. No visual acceptance is claimed for the development build.
+Original compact cuboid models now replace the missing-model fallback, using referenced
+vanilla materials for the first motion review. Dedicated mounts follow the worn/held bag;
+real model measurements preserve Refined Tools proportions. The model and artwork have
+not been accepted as final.
 
 Ordinary cells precede mounts in the vanilla CONTAINER item component. Replacement checks
 every insertion; withdrawals of previously admitted items stay possible. Menus bind to an
@@ -43,7 +45,11 @@ never truncated. This schema is not the Sophisticated Backpacks migration format
 Clients request bag UUID/revision, mount and selected hotbar index. The server chooses
 the equipped source and moves actual server-owned stacks. Semantic action IDs describe
 DRAW/STOW/EXCHANGE/OPEN/RETRIEVE/CLOSE, with server game time and visual before/after
-stacks. The client cache/API exists; action renderers have not yet been attached.
+stacks. Client layers now animate draw/stow/exchange, opening/retrieval/closing and top-strap
+side carry. Protocol 2 adds validated worn opening and persistent held/worn menu state.
+Two client-only vanilla injections handle arm setup and transient hand-item ownership;
+there is no other-mod mixin. An isolated, guarded EMF Compat Core API adapter publishes
+only this mod's owned arms and clears only its own named source.
 
 Validation and remaining gates are recorded in `devtools/verification/first-build.md`.
 The tests cover real server/menu behavior and separate two-client input/sync checks;
@@ -51,13 +57,14 @@ they do not establish finished artwork, animation or shader compatibility.
 
 ## Next work
 
-Build the original worn model, mounted gear and actual motion preview. Inspect the
-installed EMF Compat Core 1.1.2 pose/source-priority API as the first animation adapter
-candidate. The personal profile enables Fresh Animations 1.10.4 and FA Player Extension
-1.1 through EMF 3.2.4/ETF 7.1, alongside NEA 1.12.4 and PlayerAnimator 2.0.4. That verified
-installation is not a runtime compatibility claim. Do not modify those resource packs.
+Review the first actual motion captures in `devtools/animation-preview/index.html` and
+`devtools/verification/first-motion.md`. The isolated observer uses Fresh Animations 1.10.4,
+FA Player Extension 1.1, EMF 3.2.4/ETF 7.1, NEA 1.12.4, PlayerAnimator 2.0.4 and EMF Compat
+Core 1.1.2. The driver provides the plain-client comparison. No personal profile changed.
+Refine the reaching path, hand contacts, visible fastenings and original material textures
+after Rusty's first motion review; do not treat this prototype as final visual acceptance.
 
-Curios, worn-bag opening, final model/pose/armor/elytra behavior, mount eligibility,
+Curios, final model/pose/armor/elytra behavior, mount eligibility,
 recipes/materials, death-policy review, dyes and dynamic lighting remain. Original Quick
 Slot lighting is also unfinished. Preserve its pre-existing documentation changes.
 
