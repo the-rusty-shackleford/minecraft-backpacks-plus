@@ -23,6 +23,9 @@ Slot only**. Mount swaps leave it untouched. An incompatible old hand item enter
 storage only when it fits completely; otherwise neither item moves. Focus loss or a bag/
 hotbar change cancels browsing. Holding and releasing without scrolling does nothing.
 
+The mounts always form a horizontal row. On smaller screens, the row sits above the
+status icons with its outer end aligned to Quick Slot; it never becomes a vertical column.
+
 Development items: `/give @s backpacksplus:basic_backpack`, with `reinforced_backpack`
 and `expedition_backpack` as the other IDs in that namespace. Recipes await the materials
 review. This build does not migrate legacy data; keep SB and Stowed in existing worlds.

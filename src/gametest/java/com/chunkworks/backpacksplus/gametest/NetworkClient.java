@@ -52,6 +52,7 @@ public final class NetworkClient {
                     case "close" -> { if (mc.screen!=null) mc.screen.onClose(); }
                     case "menuClick" -> mc.gameMode.handleInventoryMouseClick(mc.player.containerMenu.containerId,c.get("slot").getAsInt(),c.get("button").getAsInt(),ClickType.valueOf(c.get("type").getAsString()),mc.player);
                     case "hud" -> {
+                        if (c.has("width")) GLFW.glfwSetWindowSize(mc.getWindow().getWindow(),c.get("width").getAsInt(),c.get("height").getAsInt());
                         mc.options.mainHand().set(HumanoidArm.valueOf(c.get("arm").getAsString()));
                         mc.options.attackIndicator().set(AttackIndicatorStatus.valueOf(c.get("attack").getAsString()));
                         mc.options.guiScale().set(c.get("scale").getAsInt()); mc.resizeDisplay(); mc.options.broadcastOptions();
@@ -74,6 +75,7 @@ public final class NetworkClient {
         JsonObject state=new JsonObject(); state.addProperty("seq",completed); state.addProperty("tick",ticks); state.addProperty("error",error);
         state.addProperty("connected",mc.player!=null); state.addProperty("focused",mc.isWindowActive());
         state.addProperty("browsing",GearClient.browsing()); state.addProperty("selection",GearClient.selection());
+        state.addProperty("guiWidth",mc.getWindow().getGuiScaledWidth()); state.addProperty("guiHeight",mc.getWindow().getGuiScaledHeight());
         JsonObject players=new JsonObject();
         if (mc.level!=null) for (var player : mc.level.players()) {
             JsonObject p=NetworkFiles.player(player); var view=GearClient.snapshot(player.getUUID());

@@ -15,6 +15,8 @@ gear bar (D-0009). Release remains HELD. No remote, tag, push or live pack chang
 - Persistent gear bar beside the distinct original Quick Slot. Hold G, scroll, release
   to swap directly with the selected hotbar item. H remains original Quick Slot only,
   yielding to driving controls. Mount swaps never route through or displace Quick Slot.
+- The bar stays horizontal, including at compact GUI sizes (D-0011). If it cannot fit
+  beside Quick Slot, lift the complete mount row above the status icons, not into a column.
 - An incompatible old hand item enters ordinary storage only if the whole stack fits;
   otherwise refuse the exchange. Current implementation uses normal item stack limits.
 - No nested portable storage. Ordinary utility blocks including furnaces are permitted

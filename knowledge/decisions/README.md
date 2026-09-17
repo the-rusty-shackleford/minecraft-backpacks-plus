@@ -10,3 +10,4 @@
 - [D-0008](D-0008.md): Persistent gear bar; backpack mounts act as independent quick slots with direct release-G swaps.
 - [D-0009](D-0009.md): Implementation authorized; early real-game third-person animation review and Fresh Animations compatibility.
 - [D-0010](D-0010.md): Permit utility blocks while preventing nested portable storage.
+- [D-0011](D-0011.md): Horizontal gear row at every GUI size; correct the unintended vertical fallback.

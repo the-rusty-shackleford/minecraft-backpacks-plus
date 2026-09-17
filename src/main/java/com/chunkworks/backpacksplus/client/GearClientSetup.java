@@ -22,7 +22,7 @@ public final class GearClientSetup {
     static final KeyMapping BROWSE=new KeyMapping("key.backpacksplus.gear",KeyConflictContext.IN_GAME,
             InputConstants.Type.KEYSYM,GLFW.GLFW_KEY_G,"key.categories.backpacksplus");
     @SubscribeEvent public static void keys(RegisterKeyMappingsEvent event) { event.register(BROWSE); }
-    @SubscribeEvent public static void layers(RegisterGuiLayersEvent event) { event.registerAbove(VanillaGuiLayers.HOTBAR,BackpacksPlus.id("gear"),GearHud::render); }
+    @SubscribeEvent public static void layers(RegisterGuiLayersEvent event) { event.registerAbove(VanillaGuiLayers.AIR_LEVEL,BackpacksPlus.id("gear"),GearHud::render); }
     @SubscribeEvent public static void setup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> GearProtocol.receive(GearClient::receive,GearClient::receive));
     }

@@ -3,6 +3,8 @@
 Update: D-0009 authorizes implementation after this study. The first functional build
 implements the direct-swap/storage-fallback behavior below; actual client evidence and
 remaining layout/animation gates are in `devtools/verification/first-build.md`.
+After Rusty's D-0011 correction, the game also keeps compact mounts horizontal, matching
+this browser study. The first in-game vertical fallback was an implementation mistake.
 The text below retains the context of the original design study.
 
 The [interactive preview](../../devtools/interface-preview/index.html) shows the D-0008

@@ -42,10 +42,15 @@ retained contents; it does not instantiate arbitrary mod block entities to class
 
 [Inventory menu](storage-menu.png), [right-hand compact bar](gear-right.png), and
 [left-hand compact bar](gear-left.png) were inspected from real-client screenshots.
-The cells fit and mirror without overlapping hotbar/health/hunger. Both screenshots
-use the compact arrangement at the client's effective GUI size; the horizontal full-width
-layout still needs a larger-window check. The inventory drawing is a working layout,
-not finished backpack artwork. The held bag's missing-model fallback is visible.
+The gear images were refreshed after Rusty's D-0011 correction: the original in-game
+vertical fallback was a mistake. Mounts now stay in one horizontal row, matching the
+browser design. At 854×480 (427×240 GUI), the complete row lifts above the status icons;
+at 1280×720 (640×360 GUI), it fits beside Quick Slot. Both arms were visually inspected:
+[wide right](gear-wide-right.png), [wide left](gear-wide-left.png). The row clears the
+hotbar, health/hunger and reserved hotbar attack-indicator space in all four views.
+G selection highlights were visible during capture. The correction's build also passed
+all 6 JUnit and 19 GameTests. The inventory drawing is a working layout, not finished
+backpack artwork. The held bag's missing-model fallback is still visible in the menu.
 
 The reused profiles include Refined Tools 3.0, Curios, SB/Core, Vanilla Wheels, Trailblazer
 and Modefite, with Luminance bundled by Wheels. Stowed is absent from these isolated
@@ -61,7 +66,7 @@ No compatibility adapter, animation preview or shader validation is claimed yet.
 ## Next test gates
 
 Third-person worn model and animated gear drawing/opening; both skins and all poses;
-full-width HUD and remaining G/H/Controlify conflicts; Curios routing and visibility;
+remaining G/H/Controlify conflicts and unusually tall status overlays; Curios routing and visibility;
 death/keepInventory/vanishing/travel and server restart; optional-mod absence after client
 integration; pack-specific nested-container formats; mounted/Quick Slot light and shaders;
 lossless legacy migration with overflow recovery. Production changes stay held.
