@@ -10,6 +10,10 @@ bag models and third-person draw/stow, opening and side-carry gestures now have 
 and proportion review: the models use vanilla material textures, not final artwork.
 Curios, recipes, lighting, migration and the complete pose/compatibility pass remain unfinished.
 
+Mounted swords now sit straight and blade-down against the bag's side; headed tools,
+shields and small tools have their own orientations. The actual Refined Tools models
+and existing scale limits are preserved. See the [before/after comparison](devtools/orientation-preview/index.html).
+
 Basic, Reinforced and Expedition have **9, 18 and 36** ordinary cells plus **2, 3 and 4**
 dedicated mounts. Their mount splits are one long/one small, two long/one small, and two
 of each. Contents travel with the bag item. Normal item stack limits apply.

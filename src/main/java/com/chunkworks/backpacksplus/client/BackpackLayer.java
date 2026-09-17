@@ -23,6 +23,8 @@ import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.item.*;
+import net.minecraft.tags.ItemTags;
+import net.neoforged.neoforge.common.Tags;
 
 /**
  * AF: a compact pack with real rendered mount models and a server-timed handoff.
@@ -30,7 +32,8 @@ import net.minecraft.world.item.*;
  * no renderer mutates a stack. Model/pose quality requires actual wide/slim client capture.
  */
 public final class BackpackLayer extends RenderLayer<AbstractClientPlayer,PlayerModel<AbstractClientPlayer>> {
-    private record Display(ItemStack item, RenderedBounds.Shape shape, boolean hidden) {}
+    private enum MountFacing { BLADE, HEADED_TOOL, SHIELD, SMALL_TOOL, DEFAULT }
+    private record Display(ItemStack item, RenderedBounds.Shape shape, boolean hidden, MountFacing facing) {}
     private static final Map<ItemStack,Display> DISPLAYS=new WeakHashMap<>();
     private record HeldBag(long revision, NonNullList<ItemStack> cells) {}
     private static final Map<ItemStack,HeldBag> HELD=new WeakHashMap<>();
@@ -59,10 +62,19 @@ public final class BackpackLayer extends RenderLayer<AbstractClientPlayer,Player
             ItemStack item=stack.copyWithCount(1); var food=item.get(DataComponents.FOOD);
             boolean hidden=item.getCraftingRemainingItem().is(Items.BOWL)
                     || food!=null && food.usingConvertsTo().filter(s -> s.is(Items.BOWL)).isPresent();
-            result=new Display(item,hidden ? null : RenderedBounds.measure(player,item,light),hidden);
+            result=new Display(item,hidden ? null : RenderedBounds.measure(player,item,light),hidden,facing(item));
             DISPLAYS.put(stack,result);
         }
         return result;
+    }
+    private static MountFacing facing(ItemStack item) {
+        if (item.is(ItemTags.SWORDS) || item.is(Tags.Items.TOOLS_SPEAR)) return MountFacing.BLADE;
+        if (item.is(ItemTags.PICKAXES) || item.is(ItemTags.AXES) || item.is(ItemTags.HOES)
+                || item.is(Tags.Items.TOOLS_FISHING_ROD)) return MountFacing.HEADED_TOOL;
+        if (item.is(Tags.Items.TOOLS_SHIELD)) return MountFacing.SHIELD;
+        if (item.is(Tags.Items.TOOLS_BRUSH) || item.is(Tags.Items.TOOLS_SHEAR)
+                || item.is(Tags.Items.TOOLS_IGNITER) || item.is(Tags.Items.TOOLS_WRENCH)) return MountFacing.SMALL_TOOL;
+        return MountFacing.DEFAULT;
     }
     @Override public void render(PoseStack pose, MultiBufferSource buffers, int light, AbstractClientPlayer player,
             float swing, float amount, float partial, float age, float yaw, float pitch) {
@@ -133,13 +145,40 @@ public final class BackpackLayer extends RenderLayer<AbstractClientPlayer,Player
         int side=mount==0 ? -1 : 1;
         int small=mount-(tier==BackpackTier.BASIC ? 1 : 2);
         var b=display.shape().bounds(); double scale=b.fit(large ? 0.92 : 0.26);
+        boolean blade=large && display.facing()==MountFacing.BLADE;
+        double sideDistance=0.34;
+        if (blade) {
+            // Contact the side rail/pocket of the current bag, accounting for the
+            // actual model thickness. A fixed outward lean leaves the tip floating.
+            double surface=switch (tier) { case BASIC -> 4.0/16; case REINFORCED -> 4.5/16; case EXPEDITION -> 5.1/16; };
+            double thickness=switch (b.plane()) { case XY -> b.depth(); case YZ -> b.width(); case XZ -> b.height(); };
+            sideDistance=surface+thickness*scale/2+1.0/512;
+        }
         pose.pushPose();
-        pose.translate(large ? side*0.34 : (small==0 ? -0.14 : 0.14),large ? 0 : 0.10,large ? 0.02 : 0.22);
+        pose.translate(large ? side*sideDistance : (small==0 ? -0.14 : 0.14),large ? 0 : 0.10,large ? 0.02 : 0.22);
         pose.scale(1,-1,-1);
-        pose.mulPose(Axis.ZP.rotationDegrees(large ? (display.shape().sprite() ? 45 : 0)+side*8 : small==0 ? -8 : 8));
+        boolean shield=display.facing()==MountFacing.SHIELD;
+        pose.mulPose(Axis.ZP.rotationDegrees(large ? (shield || blade ? 0 : side*8) : small==0 ? -8 : 8));
+        // Blades point down with the grip accessible above the bag. Turn the broad
+        // heads of 3-D tools along its side, instead of out across the player's arm.
+        // Sprite tools stay against the surface: mirror their head inward, never edge-on.
+        if (large && display.facing()==MountFacing.HEADED_TOOL)
+            pose.mulPose(Axis.YP.rotationDegrees(display.shape().sprite() ? (side<0 ? 180 : 0) : side*90));
+        if (large && shield) pose.mulPose(Axis.YP.rotationDegrees(side*90));
+        if (blade) {
+            pose.mulPose(Axis.YP.rotationDegrees(side*90));
+            pose.mulPose(Axis.ZP.rotationDegrees(180));
+        }
+        if (large && display.shape().sprite()) pose.mulPose(Axis.ZP.rotationDegrees(45));
         pose.scale((float)scale,(float)scale,(float)scale);
-        if (large && b.plane()==ModelBounds.Plane.YZ) pose.mulPose(Axis.YP.rotationDegrees(90));
-        if (large && b.plane()==ModelBounds.Plane.XZ) pose.mulPose(Axis.XP.rotationDegrees(90));
+        if (!large && display.facing()==MountFacing.SMALL_TOOL && b.depth()>b.height()*1.4 && b.depth()>b.width()*1.4) {
+            // Some 3-D brushes are modeled handle-first along Z, with a square
+            // cross-section. Their longest axis, not a thin face, determines upright.
+            pose.mulPose(Axis.XP.rotationDegrees(90));
+        } else if (large || display.facing()==MountFacing.SMALL_TOOL) {
+            if (b.plane()==ModelBounds.Plane.YZ) pose.mulPose(Axis.YP.rotationDegrees(90));
+            if (b.plane()==ModelBounds.Plane.XZ) pose.mulPose(Axis.XP.rotationDegrees(90));
+        }
         pose.translate(-b.centerX(),-b.centerY(),-b.centerZ());
         Minecraft.getInstance().getItemRenderer().renderStatic(player,display.item(),ItemDisplayContext.NONE,false,pose,buffers,player.level(),light,OverlayTexture.NO_OVERLAY,player.getId());
         pose.popPose();

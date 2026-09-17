@@ -140,4 +140,8 @@ public final class GearClient {
     @SubscribeEvent public static void logout(ClientPlayerNetworkEvent.LoggingOut event) {
         VIEWS.clear(); ACTIONS.clear(); MOTIONS.clear(); GearPoses.clear(); browsing=false; held=false; moved=false; selected=0; age=0;
     }
+    /** effects: invalidates tag-derived mounting directions after server tag synchronization. */
+    @SubscribeEvent public static void tags(net.neoforged.neoforge.event.TagsUpdatedEvent event) {
+        Minecraft.getInstance().execute(BackpackLayer::clear);
+    }
 }

@@ -5,7 +5,7 @@
   "held_menu_opens": true,
   "fresh_animations_view": {
     "uuid": "4034faa2-276f-3515-a80b-511ffad69973",
-    "entity": 36,
+    "entity": 47,
     "selected": 0,
     "dimension": "minecraft:overworld",
     "held": {
@@ -225,7 +225,7 @@
   "wide_left_draw": true,
   "plain_client_view": {
     "uuid": "fe6431c3-ea4f-3760-96fa-cebe1715e9ce",
-    "entity": 49,
+    "entity": 34,
     "selected": 0,
     "dimension": "minecraft:overworld",
     "held": {
@@ -235,7 +235,7 @@
     "bag": {
       "item": "backpacksplus:expedition_backpack",
       "count": 1,
-      "id": "8843c23f-61a6-44b1-8f8a-d37c6878275b",
+      "id": "b0b6b40a-454a-412f-b0ac-02ed3d52cd92",
       "revision": 6,
       "cells": [
         {
@@ -603,7 +603,7 @@
     "syncedBag": {
       "item": "backpacksplus:expedition_backpack",
       "count": 1,
-      "id": "8843c23f-61a6-44b1-8f8a-d37c6878275b",
+      "id": "b0b6b40a-454a-412f-b0ac-02ed3d52cd92",
       "revision": 6,
       "cells": [
         {

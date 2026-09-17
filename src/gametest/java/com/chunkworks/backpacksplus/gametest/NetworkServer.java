@@ -54,6 +54,17 @@ public final class NetworkServer {
                     case "wearBag" -> { var bag=p.getInventory().getItem(0); p.getInventory().setItem(0,ItemStack.EMPTY); p.getInventory().setItem(38,bag); }
                     case "held" -> p.getInventory().setItem(p.getInventory().selected,new ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.parse(command.get("item").getAsString())),command.has("count") ? command.get("count").getAsInt() : 1));
                     case "full" -> { var inv=BagInventory.bind(p,38); for (int i=0;i<36;i++) inv.setItem(i,new ItemStack(Items.STONE,64)); }
+                    case "mounts" -> {
+                        var bag=p.getInventory().getItem(38); var inv=BagInventory.bind(p,38); var tier=BagContents.tier(bag);
+                        var mounts=command.getAsJsonArray("items");
+                        if (mounts.size()!=tier.mounts().size()) throw new IllegalArgumentException("Wrong mount count");
+                        for (int i=0;i<mounts.size();i++) {
+                            var id=ResourceLocation.parse(mounts.get(i).getAsString());
+                            if (!BuiltInRegistries.ITEM.containsKey(id)) throw new IllegalArgumentException("Unknown item "+id);
+                            inv.setItem(tier.mountSlot(i),new ItemStack(BuiltInRegistries.ITEM.get(id)));
+                        }
+                        Slot.replace(p,ItemStack.EMPTY); p.getInventory().setItem(p.getInventory().selected,ItemStack.EMPTY);
+                    }
                     case "position" -> p.teleportTo(p.serverLevel(),command.get("x").getAsDouble(),71,command.get("z").getAsDouble(),0,0);
                     case "save" -> server.getPlayerList().saveAll();
                     default -> throw new IllegalArgumentException("Unknown operation "+op);

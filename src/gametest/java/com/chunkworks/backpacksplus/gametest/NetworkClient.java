@@ -69,6 +69,14 @@ public final class NetworkClient {
                         capturePrefix=c.get("name").getAsString(); if (!capturePrefix.matches("[a-z0-9_-]+")) throw new IllegalArgumentException("Unsafe frame name");
                         frames=Math.clamp(c.get("frames").getAsInt(),1,600); frameIndex=0; nextFrame=0;
                     }
+                    case "resources" -> {
+                        var packs=new java.util.ArrayList<>(mc.getResourcePackRepository().getSelectedIds());
+                        String refined="file/Refined Tools 3.0";
+                        packs.remove(refined);
+                        if (c.get("refined").getAsBoolean()) packs.add(refined);
+                        mc.getResourcePackRepository().setSelected(packs);
+                        mc.reloadResourcePacks();
+                    }
                     case "h" -> KeyMapping.click(com.chunkworks.quickslot.client.ClientSetup.SWAP.getKey());
                     case "close" -> { if (mc.screen!=null) mc.screen.onClose(); }
                     case "menuClick" -> mc.gameMode.handleInventoryMouseClick(mc.player.containerMenu.containerId,c.get("slot").getAsInt(),c.get("button").getAsInt(),ClickType.valueOf(c.get("type").getAsString()),mc.player);
@@ -97,6 +105,7 @@ public final class NetworkClient {
         state.addProperty("connected",mc.player!=null); state.addProperty("focused",mc.isWindowActive());
         state.addProperty("browsing",GearClient.browsing()); state.addProperty("selection",GearClient.selection());
         state.addProperty("framesRemaining",frames);
+        state.addProperty("reloading",mc.getOverlay()!=null);
         state.addProperty("guiWidth",mc.getWindow().getGuiScaledWidth()); state.addProperty("guiHeight",mc.getWindow().getGuiScaledHeight());
         JsonObject players=new JsonObject();
         if (mc.level!=null) for (var player : mc.level.players()) {

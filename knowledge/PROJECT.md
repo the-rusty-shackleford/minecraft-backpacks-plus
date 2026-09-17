@@ -37,6 +37,12 @@ vanilla materials for the first motion review. Dedicated mounts follow the worn/
 real model measurements preserve Refined Tools proportions. The model and artwork have
 not been accepted as final.
 
+Rusty's mount review corrected the upside-down sword and outward-facing pickaxe head.
+Blades now sit straight against the side, with clearance derived from model thickness
+and the bag tier's surface. Headed tools, shields and small tools use distinct orientations;
+the approved scale limits remain unchanged. See `devtools/orientation-preview/index.html`
+and `devtools/verification/mount-orientation.md` for the actual comparison and audit.
+
 Ordinary cells precede mounts in the vanilla CONTAINER item component. Replacement checks
 every insertion; withdrawals of previously admitted items stay possible. Menus bind to an
 exact stack/UUID/revision and lock their source cell. Overflow is refused and retained,

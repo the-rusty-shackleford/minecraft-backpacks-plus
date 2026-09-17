@@ -1,6 +1,7 @@
 # First third-person motion preview — 2026-09-17
 
 Development checkpoint under D-0009; release HELD. [Watch the actual captures](../animation-preview/index.html).
+The clips now include the subsequent [mounted-item orientation correction](mount-orientation.md).
 This is Rusty's early motion/proportion review, before final artwork or complete compatibility acceptance.
 
 ## Implemented
