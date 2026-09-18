@@ -81,4 +81,20 @@ public final class CuriosGameTests {
         h.assertTrue(!curio.canEquipFromUse(context),"held right-click remains open, not equip");
         p.containerMenu=p.inventoryMenu;h.assertTrue(curio.canUnequip(context),"closed bag can be removed");h.succeed();
     }
+    @GameTest(template="empty",templateNamespace="backpacksplus")
+    public void explicitDepositsUseCuriosBagAndPreserveChestBag(GameTestHelper h) {
+        var p=equipped(h);var bag=BagLocations.stack(p,41);var inv=BagInventory.bind(p,41);
+        var chest=new ItemStack(BackpackItems.BASIC.get());BagContents.identify(chest);p.getInventory().setItem(38,chest);
+        ItemStack chestBefore=chest.copy();
+        inv.setItem(36,new ItemStack(net.minecraft.world.item.Items.DIAMOND_SWORD));
+        p.getInventory().setItem(0,new ItemStack(net.minecraft.world.item.Items.APPLE,16));
+        h.assertTrue(MountExchange.stow(p,41,bag.get(BackpackItems.ID),BagContents.revision(bag),-1,0)==MountExchange.StowResult.STORED,"held stack enters Curios bag");
+        p.getInventory().setItem(0,new ItemStack(net.minecraft.world.item.Items.DIAMOND_AXE));
+        h.assertTrue(MountExchange.stow(p,41,bag.get(BackpackItems.ID),BagContents.revision(bag),0,0)==MountExchange.StowResult.STORED,"mounted stack enters Curios storage");
+        var cells=BagContents.copy(bag);
+        h.assertTrue(cells.get(0).getCount()==16 && cells.get(1).is(net.minecraft.world.item.Items.DIAMOND_SWORD) && cells.get(36).isEmpty(),"both sources stored exactly once");
+        h.assertTrue(p.getMainHandItem().is(net.minecraft.world.item.Items.DIAMOND_AXE),"direct mount action preserves hand");
+        h.assertTrue(ItemStack.matches(chestBefore,chest),"chest bag contents and identity retained");h.succeed();
+    }
+
 }

@@ -13,9 +13,11 @@ class GearActionTest {
         assertEquals(GearAction.OPEN, GearAction.decode(4));
         assertEquals(GearAction.RETRIEVE, GearAction.decode(5));
         assertEquals(GearAction.CLOSE, GearAction.decode(6));
+        assertEquals(GearAction.STORE, GearAction.decode(7));
+        assertFalse(GearMotion.exchange(GearAction.STORE));
     }
     @Test void unknownActionsDoNotSilentlyBecomeAnotherAction() {
-        for (int id : new int[]{-1, 0, 7, Integer.MAX_VALUE})
+        for (int id : new int[]{-1, 0, 8, Integer.MAX_VALUE})
             assertThrows(IllegalArgumentException.class, () -> GearAction.decode(id));
     }
 }

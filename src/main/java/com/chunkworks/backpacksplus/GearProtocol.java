@@ -14,7 +14,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 
-/** Version-three semantic gear protocol. Client intent contains no item data or animation poses. */
+/** Version-four semantic gear protocol. Client intent contains no item data or animation poses. */
 public final class GearProtocol {
     private GearProtocol() {}
     private static Consumer<State> stateReceiver = state -> {};
@@ -27,6 +27,15 @@ public final class GearProtocol {
                 UUIDUtil.STREAM_CODEC, Swap::bag, ByteBufCodecs.VAR_LONG, Swap::revision,
                 ByteBufCodecs.VAR_INT, Swap::mount, ByteBufCodecs.VAR_INT, Swap::selected, Swap::new);
         @Override public Type<Swap> type() { return TYPE; }
+    }
+
+    /** AF: explicit storage request; mount=-1 means held stack. RI: all fields are untrusted intent. */
+    public record Stow(UUID bag, long revision, int mount, int selected) implements CustomPacketPayload {
+        public static final Type<Stow> TYPE = new Type<>(BackpacksPlus.id("stow"));
+        public static final StreamCodec<RegistryFriendlyByteBuf, Stow> CODEC = StreamCodec.composite(
+                UUIDUtil.STREAM_CODEC, Stow::bag, ByteBufCodecs.VAR_LONG, Stow::revision,
+                ByteBufCodecs.VAR_INT, Stow::mount, ByteBufCodecs.VAR_INT, Stow::selected, Stow::new);
+        @Override public Type<Stow> type() { return TYPE; }
     }
 
     /** AF: authoritative worn bag, including mount contents. RI: owned stack copy; UUID/dimension prevent ID reuse. */
@@ -91,11 +100,14 @@ public final class GearProtocol {
 
     /** requires: client setup. effects: installs rendering adapters without loading client classes on a dedicated server. */
     public static void receive(Consumer<State> state, Consumer<Action> action) { stateReceiver=state; actionReceiver=action; }
-    /** effects: registers required version-three, main-thread handlers; only the server accepts inventory intent. */
+    /** effects: registers required version-four, main-thread handlers; only the server accepts inventory intent. */
     public static void register(RegisterPayloadHandlersEvent event) {
-        var registrar = event.registrar("3");
+        var registrar = event.registrar("4");
         registrar.playToServer(Swap.TYPE, Swap.CODEC, (packet, context) -> {
             if (context.player() instanceof ServerPlayer player) GearSync.swap(player, packet);
+        });
+        registrar.playToServer(Stow.TYPE, Stow.CODEC, (packet, context) -> {
+            if (context.player() instanceof ServerPlayer player) GearSync.stow(player, packet);
         });
         registrar.playToClient(State.TYPE, State.CODEC, (packet, context) -> stateReceiver.accept(packet));
         registrar.playToClient(Action.TYPE, Action.CODEC, (packet, context) -> actionReceiver.accept(packet));

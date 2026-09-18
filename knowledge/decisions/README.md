@@ -23,3 +23,5 @@
 - [D-0021](D-0021.md): Elytra hides worn bags and mounts; storage, controls, light and held bags remain available.
 
 - [D-0022](D-0022.md): Coordinated release authorized; preserve approved visuals and vehicle handling.
+
+- [D-0023](D-0023.md): Explicit held/mount deposits, consistent size rejection and vanilla hotbar HUD frames.

@@ -17,8 +17,8 @@ gear bar (D-0009). Release 0.1.0 shipped in pack 1.38.0 under D-0022; see the de
   yielding to driving controls. Mount swaps never route through or displace Quick Slot.
 - The bar stays horizontal, including at compact GUI sizes (D-0011). If it cannot fit
   beside Quick Slot, lift the complete mount row above the status icons, not into a column.
-- An incompatible old hand item enters ordinary storage only if the whole stack fits;
-  otherwise refuse the exchange. Current implementation uses normal item stack limits.
+- D-0023 replaces the implicit storage fallback: incompatible mounts refuse the swap.
+  Explicit G-menu bag actions stow a whole held or mounted stack only when it fits.
 - No nested portable storage. Ordinary utility blocks including furnaces are permitted
   (D-0010); bags may go into chests. Keep D-0003's explicit chest/container prohibition.
 - Curios equipment support; right-click opening while held; top-strap carry at the side.
@@ -139,3 +139,13 @@ selected an older nested copy despite the updated Vanilla Wheels bundle. The 1.3
 correction matches the directly installed materials jar used in full-pack testing.
 Final startup verified all four updated mod versions; world, operators and DH settings
 were preserved. This supersedes the historical release holds above.
+
+## Explicit storage and hotbar HUD — 2026-09-18, unreleased
+
+Version 0.2.0 implements [D-0023](decisions/D-0023.md). G rejects mount-size mismatches,
+offers separate held/mounted "Put in bag" choices, and uses vanilla hotbar frames.
+Protocol 4 requires matching client/server updates. Quick Slot 0.1.1 supplies its
+matching HUD styling. Native reproduction caught the original behavior, and the
+new mismatch regression failed before the fix. Final validation passed: 13 JUnit, 41 real-server checks including Curios, and
+the complete-pack native interaction/visual checks under shaders. See
+`devtools/verification/explicit-stowing.md`. Release remains held.

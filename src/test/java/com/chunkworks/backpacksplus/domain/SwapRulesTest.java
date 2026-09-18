@@ -4,20 +4,9 @@ package com.chunkworks.backpacksplus.domain;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Partitions: compatible/incompatible hand, occupied/empty mount, free/full storage;
- * current/stale identity, selection and revision; dead/spectator/busy. JDK domain only. */
+/** Partitions: current/stale identity, selection and revision; dead/spectator/busy.
+ * JDK authorization only; actual stack transfer is covered by real-server GameTests. */
 class SwapRulesTest {
-    @Test void compatibleHandUsesMountRegardlessOfCapacity() {
-        for (boolean empty : new boolean[]{true, false}) for (boolean storage : new boolean[]{true, false})
-            assertEquals(SwapRules.Destination.MOUNT, SwapRules.destination(empty, true, storage));
-    }
-    @Test void drawingGearCanStowInStorageButCannotPartiallyExchange() {
-        assertEquals(SwapRules.Destination.STORAGE, SwapRules.destination(false, false, true));
-        assertEquals(SwapRules.Destination.REFUSE, SwapRules.destination(false, false, false));
-    }
-    @Test void emptyMountCannotBeUsedAsGenericDepositShortcut() {
-        assertEquals(SwapRules.Destination.REFUSE, SwapRules.destination(true, false, true));
-    }
     @Test void eachAuthorityPreconditionIsRequired() {
         assertTrue(SwapRules.current(true, false, false, true, 0, 0, 0, 0));
         assertTrue(SwapRules.current(true, false, false, true, 8, 8, 99, 99));

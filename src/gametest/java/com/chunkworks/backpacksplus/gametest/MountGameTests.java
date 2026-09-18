@@ -13,7 +13,7 @@ import net.minecraft.world.level.GameType;
 import net.neoforged.neoforge.gametest.GameTestHolder;
 import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
-/** Partitions: draw/stow/exchange, storage fallback/partial capacity, stale identity/revision,
+/** Partitions: draw/stow/exchange, size mismatch with empty/occupied mount, stale identity/revision,
  * selected slot changes, open menu, invalid mount, empty source, creative and survival. */
 @GameTestHolder("backpacksplus")
 @PrefixGameTestTemplate(false)
@@ -40,24 +40,19 @@ public final class MountGameTests {
         }
         h.succeed();
     }
-    @GameTest(template="empty") public void incompatibleHandUsesOrdinaryStorage(GameTestHelper h) {
-        Player p=player(h, GameType.SURVIVAL); var inv=BagInventory.bind(p, 38);
-        inv.setItem(9, new ItemStack(Items.TRIDENT)); inv.setItem(0, new ItemStack(Items.APPLE, 60));
-        p.getInventory().setItem(0, new ItemStack(Items.APPLE, 16));
-        h.assertTrue(swap(p, 0), "whole old hand fits by merging and a free cell");
-        var cells=BagContents.copy(bag(p));
-        h.assertValueEqual(cells.get(0).getCount(), 64, "existing stack filled");
-        h.assertValueEqual(cells.get(1).getCount(), 12, "remaining apples stored");
-        h.assertTrue(cells.get(9).isEmpty() && p.getMainHandItem().is(Items.TRIDENT), "draw completed"); h.succeed();
-    }
-    @GameTest(template="empty") public void partialRoomRefusesEntireExchange(GameTestHelper h) {
-        Player p=player(h, GameType.SURVIVAL); var inv=BagInventory.bind(p, 38);
-        for (int i=0;i<9;i++) inv.setItem(i, new ItemStack(Items.APPLE, i==0 ? 60 : 64));
-        inv.setItem(9, new ItemStack(Items.TRIDENT)); p.getInventory().setItem(0, new ItemStack(Items.APPLE, 16));
-        ItemStack before=bag(p).copy();
-        h.assertTrue(!swap(p, 0), "only four of sixteen fit, so refuse");
-        h.assertTrue(ItemStack.matches(before, bag(p)), "no partial merge or revision change");
-        h.assertValueEqual(p.getMainHandItem().getCount(), 16, "hand intact"); h.succeed();
+    @GameTest(template="empty") public void mismatchedMountNeverStowsImplicitly(GameTestHelper h) {
+        for (GameType mode : new GameType[]{GameType.SURVIVAL, GameType.CREATIVE}) {
+            for (int mount=0;mount<2;mount++) for (boolean occupied : new boolean[]{false,true}) {
+                Player p=player(h,mode);
+                if (occupied) BagInventory.bind(p,38).setItem(9+mount,new ItemStack(mount==0 ? Items.DIAMOND_SWORD : Items.APPLE));
+                p.getInventory().setItem(0,new ItemStack(mount==0 ? Items.APPLE : Items.DIAMOND_AXE));
+                ItemStack bagBefore=bag(p).copy(),handBefore=p.getMainHandItem().copy();
+                h.assertTrue(!swap(p,mount), "size mismatch refused whether the mount is empty or occupied");
+                h.assertTrue(ItemStack.matches(bagBefore,bag(p)), "bag contents and revision unchanged");
+                h.assertTrue(ItemStack.matches(handBefore,p.getMainHandItem()), "held stack unchanged");
+            }
+        }
+        h.succeed();
     }
     @GameTest(template="empty") public void staleIntentCannotOperateDifferentBagOrSelection(GameTestHelper h) {
         Player p=player(h, GameType.SURVIVAL); var inv=BagInventory.bind(p, 38); inv.setItem(9, new ItemStack(Items.DIAMOND_SWORD));
@@ -70,12 +65,12 @@ public final class MountGameTests {
         h.assertTrue(!MountExchange.swap(p,38,id,revision,0,0), "replayed request cannot undo transaction");
         h.assertTrue(p.getMainHandItem().is(Items.DIAMOND_SWORD), "replay left hand untouched"); h.succeed();
     }
-    @GameTest(template="empty") public void nestedOrEmptySourceFallbackCannotBypassAdmission(GameTestHelper h) {
+    @GameTest(template="empty") public void nestedOrEmptySourceCannotBypassAdmission(GameTestHelper h) {
         Player p=player(h, GameType.SURVIVAL); p.getInventory().setItem(0, new ItemStack(Items.APPLE, 8));
         h.assertTrue(!swap(p,0), "empty long mount is not an ordinary deposit shortcut");
         BagInventory.bind(p,38).setItem(9,new ItemStack(Items.DIAMOND_SWORD));
         p.getInventory().setItem(0,new ItemStack(Items.SHULKER_BOX));
-        h.assertTrue(!swap(p,0), "portable container cannot enter through swap fallback");
+        h.assertTrue(!swap(p,0), "portable container cannot enter through a mount exchange");
         h.assertTrue(p.getMainHandItem().is(Items.SHULKER_BOX) && BagContents.copy(bag(p)).get(9).is(Items.DIAMOND_SWORD), "both items intact"); h.succeed();
     }
     @GameTest(template="empty") public void openMenuBlocksMountExchange(GameTestHelper h) {

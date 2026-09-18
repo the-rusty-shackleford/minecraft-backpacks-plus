@@ -6,5 +6,17 @@
   "key.backpacksplus.gear": "Browse gear",
   "key.backpacksplus.open": "Open backpack",
   "key.categories.backpacksplus": "Backpacks+",
-  "itemGroup.backpacksplus": "Backpacks+"
+  "itemGroup.backpacksplus": "Backpacks+",
+  "backpacksplus.quick_slot": "Quick Slot",
+  "backpacksplus.long_mount": "Long gear mount",
+  "backpacksplus.small_mount": "Small item mount",
+  "backpacksplus.stow_held": "Put held %s in bag",
+  "backpacksplus.stow_mount": "Put mounted %s in bag",
+  "backpacksplus.storage_full": "Not enough room in backpack",
+  "backpacksplus.not_storable": "This item cannot go in a backpack",
+  "backpacksplus.stowed": "Item put in backpack",
+  "backpacksplus.release_stow": "Release G to put in bag",
+  "backpacksplus.release_swap": "Release G to swap",
+  "backpacksplus.long_only": "Long gear only",
+  "backpacksplus.small_only": "Small items only"
 }

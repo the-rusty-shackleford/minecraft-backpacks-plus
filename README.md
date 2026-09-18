@@ -66,16 +66,26 @@ functional. The bag remains locked while its storage menu is open.
 
 **Hold G and scroll, then release G** to
 swap the highlighted gear cell with the selected hotbar item. **H remains original Quick
-Slot only**. Mount swaps leave it untouched. An incompatible old hand item enters ordinary
-storage only when it fits completely; otherwise neither item moves. Focus loss or a bag/
-hotbar change cancels browsing. Holding and releasing without scrolling does nothing.
+Slot only**. Mount swaps leave it untouched. An incompatible mount turns red and
+explains which size it accepts; neither item moves.
+
+While holding G, scroll to a **backpack icon** to deliberately put something in the bag.
+Each occupied mount has its own arrow-linked action, labeled **Put mounted [item] in bag**.
+A separate **Put held [item] in bag** action frees the selected hotbar slot. Release G to
+commit. The entire stack must fit ordinary storage; otherwise nothing moves and the HUD
+explains why. Stowing a mount leaves your held item and other mounts alone.
+
+Focus loss, opening a menu, or a bag/hotbar/held-stack change cancels browsing. Holding and
+releasing without scrolling does nothing. Item counts, names and other components survive
+storage exactly as they do through the backpack menu.
 
 Curios also defaults to G. While wearing a bag, the gear gesture takes priority when the
 bindings match. Open Curios with its inventory-screen button or configure another key;
 without a bag, Curios retains its G shortcut. Your saved key bindings are not rewritten.
 See the [Curios compatibility checks](devtools/verification/curios.md).
 
-The mounts always form a horizontal row. On smaller screens, the row sits above the
+The HUD uses the active resource pack's vanilla hotbar frames and selection border,
+matching Quick Slot 0.1.1. The mounts always form a horizontal row. On smaller screens, the row sits above the
 status icons with its outer end aligned to Quick Slot; it never becomes a vertical column.
 
 Item IDs: `/give @s backpacksplus:basic_backpack`, with `reinforced_backpack`
@@ -122,7 +132,7 @@ support Gradle properties `testServerDir`, `testDriverDir`, `testObserverDir` to
 isolated profiles. Inspect host processes before launching and keep master volume zero.
 See [current validation and remaining gates](devtools/verification/release-readiness.md).
 
-Protocol version 3 describes server-timed gear actions independently of any animation
+Protocol version 4 describes server-timed gear actions independently of any animation
 library, including persistent menu state, equipment source and render visibility for late viewers. Inventory changes happen on
 the server immediately; the client gesture does not move items. Vanilla player/hand
 rendering uses two small client-only `@Inject` hooks. No other mod is mixed into.
@@ -136,3 +146,6 @@ TEMPLATE_LICENSE.txt retains its licence. JDK rules live in `src/domain`, game a
 `src/main`, and decisions in [knowledge](knowledge/PROJECT.md).
 
 Copyright (C) 2026 Rusty Shackleford and nfx. AGPL-3.0-or-later; see LICENSE.
+
+Backpacks+ 0.2.0 adds explicit storage requests and requires protocol 4 on both client
+and server. It preserves existing backpack contents and item IDs.

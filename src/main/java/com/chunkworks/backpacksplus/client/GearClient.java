@@ -3,6 +3,11 @@ package com.chunkworks.backpacksplus.client;
 
 import com.chunkworks.backpacksplus.*;
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.ArrayList;
+import com.chunkworks.backpacksplus.domain.GearChoices;
+import com.chunkworks.backpacksplus.domain.BackpackTier;
+import net.minecraft.network.chat.Component;
 import java.util.Map;
 import java.util.UUID;
 import net.minecraft.client.Minecraft;
@@ -31,6 +36,11 @@ public final class GearClient {
     /** AF: action plus display stacks decoded once. RI: renderers treat the stacks as read-only. */
     record Motion(GearProtocol.Action action, ItemStack before, ItemStack after) {}
     static Motion motion(UUID player) { return MOTIONS.get(player); }
+    /** AF: a frozen gesture preview. RI: null reason means permitted; renderers never recalculate capacity. */
+    record Option(GearChoices.Choice choice, Component title, Component reason) {}
+    private static List<Option> options=List.of();
+    private static GearChoices.Choice lastChoice;
+    private static ItemStack heldAtStart=ItemStack.EMPTY;
     private static boolean held, browsing, moved;
     private static int selected, hotbar, age, bagSource;
     private static UUID bagId;
@@ -86,6 +96,11 @@ public final class GearClient {
     public static boolean browsing() { return browsing; }
     /** effects: returns the highlighted gear-bar cell while browsing. */
     public static int selection() { return selected; }
+    static Option option() { return browsing && selected<options.size() ? options.get(selected) : null; }
+    static List<Option> options() { return options; }
+    static boolean selected(GearChoices.Kind kind, int mount) {
+        Option option=option(); return option!=null && option.choice().kind()==kind && option.choice().mount()==mount;
+    }
     private static int count(View view) { return (QUICK_SLOT ? 1 : 0)+(view==null ? 0 : view.mounts()); }
     private static boolean usable(Minecraft mc) {
         return mc.player!=null && mc.level!=null && mc.screen==null && mc.isWindowActive() && mc.player.isAlive()
@@ -97,10 +112,39 @@ public final class GearClient {
     private static boolean sameSelection(Minecraft mc, View view) {
         UUID current=view==null || view.bag.isEmpty() ? null : view.bag.get(BackpackItems.ID);
         long revision=view==null || view.bag.isEmpty() ? 0 : BagContents.revision(view.bag);
-        return java.util.Objects.equals(current,bagId) && (view==null ? -1 : view.state.wornSource())==bagSource && revision==bagRevision && mc.player.getInventory().selected==hotbar;
+        return java.util.Objects.equals(current,bagId) && (view==null ? -1 : view.state.wornSource())==bagSource && revision==bagRevision && mc.player.getInventory().selected==hotbar && ItemStack.matches(heldAtStart,mc.player.getMainHandItem());
     }
     private static void begin(Minecraft mc, View view) {
-        browsing=true; moved=false; selected=Math.min(selected,count(view)-1); hotbar=mc.player.getInventory().selected;
+        browsing=true; moved=false; hotbar=mc.player.getInventory().selected;
+        heldAtStart=mc.player.getMainHandItem().copy();
+        int mounts=view==null ? 0 : view.mounts(), occupied=0;
+        for (int i=0;i<mounts;i++) if (!view.mount(i).isEmpty()) occupied|=1<<i;
+        var next=new ArrayList<Option>();
+        for (var choice:GearChoices.build(QUICK_SLOT,mounts,occupied,!heldAtStart.isEmpty())) {
+            Component title,reason=null;
+            switch (choice.kind()) {
+                case QUICK -> title=Component.translatable("backpacksplus.quick_slot");
+                case MOUNT -> {
+                    var tier=BagContents.tier(view.bag);
+                    title=Component.translatable(tier.mounts().get(choice.mount())==BackpackTier.Mount.LONG
+                            ? "backpacksplus.long_mount" : "backpacksplus.small_mount");
+                    if (!BagContents.admits(tier,tier.mountSlot(choice.mount()),heldAtStart))
+                        reason=!BagContents.storable(heldAtStart) ? Component.translatable("backpacksplus.not_storable") : Component.translatable(tier.mounts().get(choice.mount())==BackpackTier.Mount.LONG
+                                ? "backpacksplus.long_only" : "backpacksplus.small_only");
+                }
+                case STOW_MOUNT, STOW_HELD -> {
+                    ItemStack item=choice.kind()==GearChoices.Kind.STOW_HELD ? heldAtStart : view.mount(choice.mount());
+                    title=Component.translatable(choice.kind()==GearChoices.Kind.STOW_HELD
+                            ? "backpacksplus.stow_held" : "backpacksplus.stow_mount",item.getHoverName());
+                    if (!BagContents.storable(item)) reason=Component.translatable("backpacksplus.not_storable");
+                    else if (!MountExchange.storageFits(view.bag,item)) reason=Component.translatable("backpacksplus.storage_full");
+                }
+                default -> throw new IllegalStateException("Unhandled gear choice");
+            }
+            next.add(new Option(choice,title,reason));
+        }
+        options=List.copyOf(next); selected=0;
+        for (int i=0;i<options.size();i++) if (options.get(i).choice().equals(lastChoice)) { selected=i; break; }
         bagId=view==null || view.bag.isEmpty() ? null : view.bag.get(BackpackItems.ID);
         bagRevision=view==null || view.bag.isEmpty() ? 0 : BagContents.revision(view.bag);
         bagSource=view==null ? -1 : view.state.wornSource();
@@ -125,8 +169,13 @@ public final class GearClient {
         if (browsing && !sameSelection(mc,view)) { browsing=false; moved=false; }
         if (!down && held && browsing) {
             if (moved) {
-                if (QUICK_SLOT && selected==0) QuickSlotCompat.swap(hotbar,quickRevision);
-                else if (bagId!=null) PacketDistributor.sendToServer(new GearProtocol.Swap(bagId,bagRevision,selected-(QUICK_SLOT ? 1 : 0),hotbar));
+                Option option=options.get(selected); lastChoice=option.choice();
+                if (option.reason()!=null) mc.player.displayClientMessage(option.reason(),true);
+                else switch (option.choice().kind()) {
+                    case QUICK -> QuickSlotCompat.swap(hotbar,quickRevision);
+                    case MOUNT -> PacketDistributor.sendToServer(new GearProtocol.Swap(bagId,bagRevision,option.choice().mount(),hotbar));
+                    case STOW_MOUNT, STOW_HELD -> PacketDistributor.sendToServer(new GearProtocol.Stow(bagId,bagRevision,option.choice().mount(),hotbar));
+                }
             }
             browsing=false; moved=false;
         }
@@ -138,11 +187,11 @@ public final class GearClient {
             begin(mc,self()); held=true;
         }
         if (!browsing || !usable(mc) || event.getScrollDeltaY()==0) return;
-        int count=count(self()); if (count==0) return;
+        int count=options.size(); if (count==0) return;
         selected=Math.floorMod(selected-(event.getScrollDeltaY()>0 ? 1 : -1),count); moved=true; event.setCanceled(true);
     }
     @SubscribeEvent public static void logout(ClientPlayerNetworkEvent.LoggingOut event) {
-        VIEWS.clear(); ACTIONS.clear(); MOTIONS.clear(); GearPoses.clear(); browsing=false; held=false; moved=false; selected=0; age=0;
+        VIEWS.clear(); ACTIONS.clear(); MOTIONS.clear(); GearPoses.clear(); browsing=false; held=false; moved=false; selected=0; age=0; options=List.of(); lastChoice=null; heldAtStart=ItemStack.EMPTY;
     }
     /** effects: invalidates tag-derived mounting directions after server tag synchronization. */
     @SubscribeEvent public static void tags(net.neoforged.neoforge.event.TagsUpdatedEvent event) {

@@ -29,6 +29,17 @@ public final class ProtocolGameTests {
         } finally { b.release(); }
         h.succeed();
     }
+    @GameTest(template="empty") public void storageIntentCarriesOnlySourceAndAuthority(GameTestHelper h) {
+        for (int mount:new int[]{-1,0,3}) {
+            var input=new GearProtocol.Stow(UUID.randomUUID(),21,mount,8);var b=buffer(h);
+            try {
+                GearProtocol.Stow.CODEC.encode(b,input);
+                h.assertValueEqual(GearProtocol.Stow.CODEC.decode(b),input,"held and mounted storage sources roundtrip");
+                h.assertValueEqual(b.readableBytes(),0,"no client item payload");
+            } finally {b.release();}
+        }
+        h.succeed();
+    }
     @GameTest(template="empty") public void equipmentSnapshotOwnsStacksAndPreservesComponents(GameTestHelper h) {
         ItemStack bag=new ItemStack(BackpackItems.EXPEDITION.get()); BagContents.identify(bag);
         var cells=BagContents.copy(bag); cells.set(36,new ItemStack(Items.TRIDENT)); BagContents.store(bag,cells);

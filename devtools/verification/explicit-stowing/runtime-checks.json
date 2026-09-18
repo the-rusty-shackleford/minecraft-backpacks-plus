@@ -1,0 +1,47 @@
+{
+  "checks": [
+    {
+      "check": "small-to-long",
+      "result": "refused without inventory or revision changes"
+    },
+    {
+      "check": "long-to-small",
+      "result": "refused without inventory or revision changes"
+    },
+    {
+      "check": "held stow",
+      "result": "whole held stack stored; all mounts and Quick Slot retained"
+    },
+    {
+      "check": "direct mount stow",
+      "result": "selected mount stored; held stack and all other mounts retained"
+    },
+    {
+      "check": "full bag 9",
+      "result": "refused whole operation without mutation"
+    },
+    {
+      "check": "full bag 2",
+      "result": "refused whole operation without mutation"
+    },
+    {
+      "check": "compatible mount exchange",
+      "result": "direct exchange, ordinary storage unchanged"
+    },
+    {
+      "check": "draw and restow",
+      "result": "empty hand draws and compatible hand restows"
+    },
+    {
+      "check": "G without scrolling",
+      "result": "no action"
+    },
+    {
+      "check": "changed hotbar cancels",
+      "result": "no deposit after selection changed"
+    }
+  ],
+  "independentH": "passed",
+  "shaders": true,
+  "allPackModsPresent": true
+}

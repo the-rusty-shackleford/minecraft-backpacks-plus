@@ -7,6 +7,7 @@ group = 'com.chunkworks.backpacksplus'
 base { archivesName = 'backpacksplus' }
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 repositories {
+    mavenLocal { content { includeGroup "com.chunkworks.vanillawheels" } }
     mavenCentral()
     maven { url = "https://maven.theillusivec4.top/"; content { includeGroup "top.theillusivec4.curios" } }
 }
@@ -75,15 +76,15 @@ dependencies {
     if (providers.gradleProperty("testCurios").isPresent())
         gametestRuntimeOnly "top.theillusivec4.curios:curios-neoforge:9.5.1+1.21.1"
     // Unreleased companion built in the adjacent workspace; never bundled into this jar.
-    compileOnly files('../minecraft-quickslot/build/libs/quickslot-0.1.0.jar')
+    compileOnly files('../minecraft-quickslot/build/libs/quickslot-0.1.1.jar')
     // Optional client integration; use the pack's existing Luminance instance at runtime.
     compileOnly files('../minecraft-luminance/build/libs/luminance-1.1.0.jar')
-    gametestCompileOnly files('../minecraft-vanilla-wheels/build/libs/vanillawheels-1.7.0.jar')
+    gametestCompileOnly("com.chunkworks.vanillawheels:vanillawheels:1.7.0") { transitive = false }
     gametestCompileOnly files('../minecraft-luminance/build/libs/luminance-1.1.0.jar')
     implementation sourceSets.domain.output
     gametestImplementation sourceSets.main.output
     gametestImplementation sourceSets.domain.output
-    gametestImplementation files('../minecraft-quickslot/build/libs/quickslot-0.1.0.jar')
+    gametestImplementation files('../minecraft-quickslot/build/libs/quickslot-0.1.1.jar')
     testImplementation sourceSets.domain.output
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.9.2'

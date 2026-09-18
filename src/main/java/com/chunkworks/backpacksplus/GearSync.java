@@ -64,6 +64,22 @@ public final class GearSync {
         GearAction kind=before.isEmpty() ? GearAction.DRAW : after.isEmpty() ? GearAction.STOW : GearAction.EXCHANGE;
         action(player,bag,kind,request.mount(),before,after);
     }
+    /** effects: validates and commits one explicit whole-stack storage request per tick. */
+    public static void stow(ServerPlayer player, GearProtocol.Stow request) {
+        Session state=player.getData(SESSION); long now=player.level().getGameTime();
+        if (state.lastRequest==now) return; state.lastRequest=now;
+        ItemStack bag=worn(player);
+        if (bag.isEmpty()) return;
+        var result=MountExchange.stow(player,BagLocations.worn(player),request.bag(),request.revision(),request.mount(),request.selected());
+        if (result==MountExchange.StowResult.STORED) {
+            observe(player);
+            action(player,bag,GearAction.STORE,request.mount(),ItemStack.EMPTY,ItemStack.EMPTY);
+            player.displayClientMessage(net.minecraft.network.chat.Component.translatable("backpacksplus.stowed"),true);
+        } else if (result==MountExchange.StowResult.FULL || result==MountExchange.StowResult.FORBIDDEN) {
+            player.displayClientMessage(net.minecraft.network.chat.Component.translatable(
+                    result==MountExchange.StowResult.FULL ? "backpacksplus.storage_full" : "backpacksplus.not_storable"),true);
+        }
+    }
     /** effects: opens only the exact current worn bag for a living, non-spectating player outside another menu. */
     public static void open(ServerPlayer player, GearProtocol.Open request) {
         ItemStack bag=worn(player);
