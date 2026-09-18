@@ -75,6 +75,9 @@ dependencies {
     gametestCompileOnly "top.theillusivec4.curios:curios-neoforge:9.5.1+1.21.1"
     if (providers.gradleProperty("testCurios").isPresent())
         gametestRuntimeOnly "top.theillusivec4.curios:curios-neoforge:9.5.1+1.21.1"
+    // Optional integration fixture: actual mod jars supplied by the caller, never bundled.
+    if (providers.gradleProperty("testMountMods").isPresent())
+        gametestRuntimeOnly files(fileTree(providers.gradleProperty("testMountMods").get()) { include "*.jar" })
     // Unreleased companion built in the adjacent workspace; never bundled into this jar.
     compileOnly files('../minecraft-quickslot/build/libs/quickslot-0.1.1.jar')
     // Optional client integration; use the pack's existing Luminance instance at runtime.

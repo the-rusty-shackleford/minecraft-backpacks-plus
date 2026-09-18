@@ -1,7 +1,29 @@
 {
   "replace": false,
   "values": [
-    "#c:tools/shear", "#c:tools/brush", "#c:tools/igniter", "#c:tools/wrench",
-    { "id": "#farmersdelight:tools/knives", "required": false }
+    "#c:tools/shear",
+    "#c:tools/brush",
+    "#c:tools/igniter",
+    "#c:tools/wrench",
+    {
+      "id": "#farmersdelight:tools/knives",
+      "required": false
+    },
+    {
+      "id": "rangedweaponsmod:pistol",
+      "required": false
+    },
+    {
+      "id": "anothergunmod:revolver",
+      "required": false
+    },
+    {
+      "id": "mowziesmobs:naga_fang_dagger",
+      "required": false
+    },
+    {
+      "id": "block_factorys_bosses:dagger",
+      "required": false
+    }
   ]
 }

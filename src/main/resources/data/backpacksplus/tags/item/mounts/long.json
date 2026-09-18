@@ -1,8 +1,83 @@
 {
   "replace": false,
   "values": [
-    "#minecraft:swords", "#minecraft:axes", "#minecraft:pickaxes", "#minecraft:shovels", "#minecraft:hoes",
-    "#c:tools/bow", "#c:tools/crossbow", "#c:tools/spear", "#c:tools/mace", "#c:tools/shield",
-    "#c:tools/fishing_rod", "#c:tools/mining_tool", "#c:tools/melee_weapon", "#c:tools/ranged_weapon"
+    "#minecraft:swords",
+    "#minecraft:axes",
+    "#minecraft:pickaxes",
+    "#minecraft:shovels",
+    "#minecraft:hoes",
+    "#c:tools/bow",
+    "#c:tools/crossbow",
+    "#c:tools/spear",
+    "#c:tools/mace",
+    "#c:tools/shield",
+    "#c:tools/fishing_rod",
+    "#c:tools/mining_tool",
+    "#c:tools/melee_weapon",
+    "#c:tools/ranged_weapon",
+    {
+      "id": "rangedweaponsmod:rifle",
+      "required": false
+    },
+    {
+      "id": "rangedweaponsmod:scoped_rifle",
+      "required": false
+    },
+    {
+      "id": "rangedweaponsmod:shotgun",
+      "required": false
+    },
+    {
+      "id": "rangedweaponsmod:machine_gun",
+      "required": false
+    },
+    {
+      "id": "anothergunmod:rifle",
+      "required": false
+    },
+    {
+      "id": "anothergunmod:rifle_spyglass",
+      "required": false
+    },
+    {
+      "id": "anothergunmod:shotgun",
+      "required": false
+    },
+    {
+      "id": "anothergunmod:auto_gun",
+      "required": false
+    },
+    {
+      "id": "anothergunmod:machine_gun",
+      "required": false
+    },
+    {
+      "id": "anothergunmod:flame_thrower",
+      "required": false
+    },
+    {
+      "id": "anothergunmod:soul_of_mosin",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:shield_of_the_deep",
+      "required": false
+    },
+    {
+      "id": "mowziesmobs:blowgun",
+      "required": false
+    },
+    {
+      "id": "mowziesmobs:sand_rake",
+      "required": false
+    },
+    {
+      "id": "create:potato_cannon",
+      "required": false
+    },
+    {
+      "id": "create:handheld_worldshaper",
+      "required": false
+    }
   ]
 }

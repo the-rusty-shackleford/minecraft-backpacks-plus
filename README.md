@@ -3,7 +3,7 @@
 Rustic survival backpacks for Minecraft 1.21.1 / NeoForge 21.1.x, with tools and weapons
 mounted on the sides and small supplies carried on the outer face or hanging from straps.
 
-**Version 0.1.1.** Crafting and canvas dyes, Curios equipment, direct mount swaps,
+**Version 0.2.0 (unreleased).** Crafting and canvas dyes, Curios equipment, direct mount swaps,
 the horizontal gear HUD, third-person carry/open/retrieval and optional Luminance lighting.
 The approved original pixel materials and item scales are retained. See the
 [actual motion and full-pack preview](devtools/release-preview/index.html) and
@@ -16,6 +16,17 @@ and existing scale limits are preserved. See the [before/after comparison](devto
 Basic, Reinforced and Expedition have **9, 18 and 36** ordinary cells plus **2, 3 and 4**
 dedicated mounts. Their mount splits are one long/one small, two long/one small, and two
 of each. Contents travel with the bag item. Normal item stack limits apply.
+
+Long mounts take full-size weapons and tools: rifles (including scoped rifles), shotguns,
+machine guns, bows, swords, shields and long-handled tools. Small mounts take sidearms,
+knives/daggers, magazines, compact hand tools and supplies. The Ranged Weapons Mod pistol
+and Another Gun Mod revolver remain small. Known untagged weapons from the installed
+mods have explicit compatibility entries; see the [sizing audit](devtools/verification/mount-sizing.md).
+
+Datapacks may classify additional gear through `backpacksplus:mounts/long` and
+`backpacksplus:mounts/small`; the small tag takes precedence over broad weapon/tool tags.
+Both menu insertion and G swaps use these rules. Items saved in a mount before a sizing
+correction remain retrievable or explicitly stowable; the correction never deletes them.
 Compare all three in the [in-game tier preview](devtools/tier-preview/index.html), with
 matched rear/angled views, mounted gear, and full-player proportions.
 
@@ -115,12 +126,20 @@ remote players and shaders. See the [real-client lighting checks](devtools/verif
 
 Java 21, official Mojang mappings, NeoForge 21.1.248. Build the Quick Slot
 companion in the adjacent `minecraft-quickslot` checkout first: compilation uses its
-`build/libs/quickslot-0.1.0.jar`, without bundling it. The runtime companion is optional.
+`build/libs/quickslot-0.1.1.jar`, without bundling it. The runtime companion is optional.
 Also build `minecraft-luminance` 1.1.0 in the adjacent checkout for its compile-only API
 jar at `build/libs/luminance-1.1.0.jar`. Luminance remains optional at runtime and is not
 bundled into Backpacks+. Curios 9.5.1’s API is resolved from its official Maven repository
 for compilation only. Add `-PtestCurios` to run the dedicated tests against the full Curios
 backend; it remains optional and unbundled.
+
+For real-item mount compatibility tests, add `-PtestMountMods=/absolute/path/to/test-mods`.
+That directory supplies actual runtime jars and their dependencies (including Ranged
+Weapons Mod and Metals and Materials); none is packaged in Backpacks+. Loading Ranged
+Weapons Mod enables four additional tests covering its guns, menu and G-swap paths,
+legacy retrieval, and 50 representative gear items when their mods are present. Keep
+Distant Horizons out of the headless GameTest fixture: version 3.3.1 expects a normal
+dedicated server and fails before GameTests run. See the sizing audit for tested jars.
 
 ```sh
 JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64 ./gradlew --no-watch-fs build

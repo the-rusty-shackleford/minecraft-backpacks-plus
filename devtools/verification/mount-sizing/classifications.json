@@ -1,0 +1,96 @@
+{
+  "registryEntries": 1307,
+  "checkedNonBlockGear": 48,
+  "changes": [
+    {
+      "id": "alexsmobs:shield_of_the_deep",
+      "before": "small",
+      "after": "long"
+    },
+    {
+      "id": "block_factorys_bosses:dagger",
+      "before": "long",
+      "after": "small"
+    },
+    {
+      "id": "anothergunmod:rifle",
+      "before": "small",
+      "after": "long"
+    },
+    {
+      "id": "anothergunmod:rifle_spyglass",
+      "before": "small",
+      "after": "long"
+    },
+    {
+      "id": "anothergunmod:shotgun",
+      "before": "small",
+      "after": "long"
+    },
+    {
+      "id": "anothergunmod:auto_gun",
+      "before": "small",
+      "after": "long"
+    },
+    {
+      "id": "anothergunmod:machine_gun",
+      "before": "small",
+      "after": "long"
+    },
+    {
+      "id": "anothergunmod:flame_thrower",
+      "before": "small",
+      "after": "long"
+    },
+    {
+      "id": "anothergunmod:soul_of_mosin",
+      "before": "small",
+      "after": "long"
+    },
+    {
+      "id": "mowziesmobs:blowgun",
+      "before": "small",
+      "after": "long"
+    },
+    {
+      "id": "mowziesmobs:naga_fang_dagger",
+      "before": "long",
+      "after": "small"
+    },
+    {
+      "id": "mowziesmobs:sand_rake",
+      "before": "small",
+      "after": "long"
+    },
+    {
+      "id": "rangedweaponsmod:shotgun",
+      "before": "small",
+      "after": "long"
+    },
+    {
+      "id": "rangedweaponsmod:rifle",
+      "before": "small",
+      "after": "long"
+    },
+    {
+      "id": "rangedweaponsmod:scoped_rifle",
+      "before": "small",
+      "after": "long"
+    },
+    {
+      "id": "rangedweaponsmod:machine_gun",
+      "before": "small",
+      "after": "long"
+    },
+    {
+      "id": "create:potato_cannon",
+      "before": "small",
+      "after": "long"
+    },
+    {
+      "id": "create:handheld_worldshaper",
+      "before": "small",
+      "after": "long"
+    }
+  ]
+}

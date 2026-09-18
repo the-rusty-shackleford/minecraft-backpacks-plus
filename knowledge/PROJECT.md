@@ -149,3 +149,17 @@ matching HUD styling. Native reproduction caught the original behavior, and the
 new mismatch regression failed before the fix. Final validation passed: 13 JUnit, 41 real-server checks including Curios, and
 the complete-pack native interaction/visual checks under shaders. See
 `devtools/verification/explicit-stowing.md`. Release remains held.
+
+
+## Mount sizing audit — 2026-09-18, unreleased
+
+Rusty reported rifles entering small mounts. The real server reproduced the failure:
+Ranged Weapons Mod guns had no matching common or backpack mount tags and fell through
+to small. Existing optional mount tags now put its rifle, scoped rifle, shotgun and
+machine gun in long mounts, retaining the pistol in small mounts. The pack audit also
+corrects Another Gun Mod long guns, Shield of the Deep, Mowzie's blowgun/sand rake and
+Create's potato cannon/handheld worldshaper. Naga Fang Dagger and Block Factory's dagger
+receive small overrides despite their sword inheritance. No admission algorithm, storage
+schema or protocol changes. Existing misplaced items remain withdrawable and stowable.
+The correction joins the held 0.2.0 follow-up; see
+[verification](../devtools/verification/mount-sizing.md). No release go was given.
