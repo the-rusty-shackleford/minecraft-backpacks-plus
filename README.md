@@ -3,7 +3,7 @@
 Rustic survival backpacks for Minecraft 1.21.1 / NeoForge 21.1.x, with tools and weapons
 mounted on the sides and small supplies carried on the outer face or hanging from straps.
 
-**Version 0.1.0.** Crafting and canvas dyes, Curios equipment, direct mount swaps,
+**Version 0.1.1.** Crafting and canvas dyes, Curios equipment, direct mount swaps,
 the horizontal gear HUD, third-person carry/open/retrieval and optional Luminance lighting.
 The approved original pixel materials and item scales are retained. See the
 [actual motion and full-pack preview](devtools/release-preview/index.html) and
@@ -19,7 +19,7 @@ of each. Contents travel with the bag item. Normal item stack limits apply.
 Compare all three in the [in-game tier preview](devtools/tier-preview/index.html), with
 matched rear/angled views, mounted gear, and full-player proportions.
 
-**Unreleased:** all three backpack tiers have their own **Backpacks+** Creative tab
+**Creative inventory:** all three backpack tiers have their own **Backpacks+** Creative tab
 and also appear in Tools & Utilities and search. See the
 [full-pack tab check](devtools/verification/creative-tab.md).
 
