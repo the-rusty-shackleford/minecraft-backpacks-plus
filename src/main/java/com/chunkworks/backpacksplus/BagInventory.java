@@ -24,13 +24,13 @@ public final class BagInventory implements Container {
     private long revision;
     private BagInventory(Player owner, int source) {
         if (owner.level().isClientSide) throw new IllegalStateException("Server inventory only");
-        this.owner = owner; this.source = source; this.bag = owner.getInventory().getItem(source);
+        this.owner = owner; this.source = source; this.bag = BagLocations.stack(owner,source);
         this.tier = BagContents.tier(bag); this.identity = BagContents.identify(bag); this.cells = BagContents.copy(bag);
         this.revision = BagContents.revision(bag);
     }
     /** effects: binds a player's current inventory/equipment cell; throws: IllegalArgumentException for invalid indices or bag. */
     public static BagInventory bind(Player owner, int source) {
-        if (source < 0 || source >= owner.getInventory().getContainerSize()) throw new IllegalArgumentException("Invalid source");
+        if (!BagLocations.isBag(BagLocations.stack(owner,source))) throw new IllegalArgumentException("Invalid source");
         return new BagInventory(owner, source);
     }
     @Override public int getContainerSize() { return cells.size(); }
@@ -58,12 +58,12 @@ public final class BagInventory implements Container {
         if (!stillValid(owner)) throw new IllegalStateException("Backpack moved");
         if (BagContents.store(bag, cells)) {
             revision = BagContents.revision(bag);
-            owner.getInventory().setChanged();
+            BagLocations.changed(owner,source);
         }
     }
     @Override public boolean stillValid(Player player) {
         return player == owner && player.isAlive() && !player.isSpectator()
-                && owner.getInventory().getItem(source) == bag && bag.getCount() == 1
+                && BagLocations.stack(owner,source) == bag && bag.getCount() == 1
                 && identity.equals(bag.get(BackpackItems.ID)) && revision == BagContents.revision(bag);
     }
     @Override public void clearContent() {

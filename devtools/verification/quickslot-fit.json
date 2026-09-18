@@ -1,0 +1,11 @@
+{
+  "checks": [
+    "Captured small hip items, hidden sword and permanently hidden bowl with visible Curios bag",
+    "Captured chestplate and actual crouch input without changing the approved item scale",
+    "Captured hidden Quick Slot items with elytra; observer light report: {\"field\": [11, 11, 12, 12, 11, 11, 10, 11, 12, 12, 12, 12, 11, 11, 12, 12, 13, 13, 12, 12, 11, 12, 12, 13, 13, 12, 12, 11, 11, 12, 12, 12, 12, 11, 11, 11, 11, 12, 12, 11, 11, 12, 10, 11, 11, 11, 11, 11, 12], \"held\": 0, \"sources\": [15], \"underwater\": false, \"worldBlockLight\": 0}",
+    "Captured actual visibility toggle and with_backpack override enable/disable through resource reload",
+    "Captured chest, inventory-only and carried bag: only a visibly worn bag covers the back",
+    "Native H draw/stow leaves all four backpack mounts, bag identity and revision untouched",
+    "Capture run complete; screenshots require visual review"
+  ]
+}

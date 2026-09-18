@@ -44,12 +44,12 @@ public final class BackpackMenu extends AbstractContainerMenu {
     public static BackpackMenu fromNetwork(int id, Inventory inventory, RegistryFriendlyByteBuf buffer) {
         BackpackTier tier = buffer.readEnum(BackpackTier.class);
         int source = buffer.readVarInt();
-        if (source < 0 || source >= inventory.getContainerSize()) throw new IllegalArgumentException("Invalid bag source");
+        if (source < 0) throw new IllegalArgumentException("Invalid bag source");
         return new BackpackMenu(id, inventory, new SimpleContainer(tier.totalSlots()), tier, source);
     }
     /** effects: returns the first player-inventory row's y coordinate. */
     public int inventoryTop() { return Math.max(112, 38 + tier.storageSlots() / 9 * 18); }
-    /** effects: returns the locked player inventory cell containing this bag. */
+    /** effects: returns the locked inventory or Curios source address of this bag. */
     public int source() { return source; }
     private void addPlayerSlot(Inventory inventory, int cell, int x, int y) {
         addSlot(new Slot(inventory, cell, x, y) {
@@ -64,14 +64,14 @@ public final class BackpackMenu extends AbstractContainerMenu {
         super.clicked(slot, button, type, player);
         if (player instanceof ServerPlayer server && !before.isEmpty() && slot >= 0 && slot < tier.totalSlots()
                 && type != ClickType.THROW && contents.getItem(slot).getCount() < before.getCount()) {
-            GearSync.action(server, player.getInventory().getItem(source), GearAction.RETRIEVE,
+            GearSync.action(server, BagLocations.stack(player,source), GearAction.RETRIEVE,
                     slot < tier.storageSlots() ? -1 : slot-tier.storageSlots(), before, contents.getItem(slot));
         }
     }
     @Override public void removed(Player player) {
         super.removed(player);
         if (player instanceof ServerPlayer server && contents.stillValid(player))
-            GearSync.action(server, player.getInventory().getItem(source), GearAction.CLOSE, -1, ItemStack.EMPTY, ItemStack.EMPTY);
+            GearSync.action(server, BagLocations.stack(player,source), GearAction.CLOSE, -1, ItemStack.EMPTY, ItemStack.EMPTY);
     }
     @Override public ItemStack quickMoveStack(Player player, int index) {
         if (!stillValid(player) || index < 0 || index >= slots.size()) return ItemStack.EMPTY;

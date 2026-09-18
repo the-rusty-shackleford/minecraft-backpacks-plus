@@ -1,0 +1,10 @@
+{
+  "checks": [
+    "Both clients retain exact bag contents and mounted light 15 with elytra; empty hand and world light 0",
+    "Native B opens the bag and release-G draws/stows a mount with elytra; standalone Quick Slot unchanged",
+    "Captured immediate worn-bag/mount restoration after removing elytra",
+    "Actual jump input starts server-confirmed fall flight; local third-person capture recorded",
+    "Carried bag still opens through normal right-click with elytra; carry/open captures recorded",
+    "Runtime assertions passed; screenshots require visual inspection"
+  ]
+}

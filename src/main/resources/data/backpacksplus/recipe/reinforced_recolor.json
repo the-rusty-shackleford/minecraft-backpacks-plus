@@ -1,0 +1,17 @@
+{
+  "type": "backpacksplus:backpack_dye",
+  "category": "equipment",
+  "group": "backpacksplus:recolor",
+  "ingredients": [
+    {
+      "item": "backpacksplus:reinforced_backpack"
+    },
+    {
+      "tag": "c:dyes"
+    }
+  ],
+  "result": {
+    "id": "backpacksplus:reinforced_backpack",
+    "count": 1
+  }
+}

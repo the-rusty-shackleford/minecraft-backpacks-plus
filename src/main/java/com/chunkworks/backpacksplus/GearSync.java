@@ -4,7 +4,6 @@ package com.chunkworks.backpacksplus;
 import com.chunkworks.backpacksplus.domain.GearAction;
 import java.util.function.Supplier;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -26,29 +25,30 @@ public final class GearSync {
         ItemStack seen = ItemStack.EMPTY;
         long revision = -1, sequence, lastRequest = Long.MIN_VALUE;
         long openedAt = -1;
-        int openSource = -1;
+        int openSource = -1, wornSource = -1;
+        boolean visible;
         GearProtocol.Action action;
     }
     /** effects: registers nonpersistent session state and the network protocol. */
     public static void register(IEventBus bus) { TYPES.register(bus); bus.addListener(GearProtocol::register); }
 
-    /** effects: returns the native chest-route bag, empty when none is equipped. Curios routing is a later adapter. */
+    /** effects: returns the active Curios back bag, falling back to the native chest route. */
     public static ItemStack worn(ServerPlayer player) {
-        ItemStack item=player.getItemBySlot(EquipmentSlot.CHEST);
-        return item.getItem() instanceof BackpackItem && item.getCount()==1 ? item : ItemStack.EMPTY;
+        return BagLocations.stack(player,BagLocations.worn(player));
     }
     private static GearProtocol.State snapshot(ServerPlayer player, Session session) {
-        return new GearProtocol.State(player.getId(), player.getUUID(), player.level().dimension().location(), session.sequence, worn(player), session.openedAt, session.openSource);
+        return new GearProtocol.State(player.getId(), player.getUUID(), player.level().dimension().location(), session.sequence, worn(player), session.openedAt, session.openSource, session.wornSource, session.visible);
     }
     private static void observe(ServerPlayer player) {
-        Session state=player.getData(SESSION); ItemStack bag=worn(player);
+        Session state=player.getData(SESSION); int source=BagLocations.worn(player);
+        ItemStack bag=BagLocations.stack(player,source); boolean visible=BagLocations.visible(player,source);
         if (!bag.isEmpty()) BagContents.identify(bag);
         long revision=bag.isEmpty() ? 0 : BagContents.revision(bag);
         int openSource=player.containerMenu instanceof BackpackMenu menu && menu.stillValid(player) ? menu.source() : -1;
         boolean changed=openSource!=state.openSource;
         if (changed) { state.openedAt=openSource>=0 ? player.level().getGameTime() : -1; state.openSource=openSource; }
-        if (state.seen==bag && state.revision==revision && !changed) return;
-        state.seen=bag; state.revision=revision; state.sequence++;
+        if (state.seen==bag && state.revision==revision && state.wornSource==source && state.visible==visible && !changed) return;
+        state.seen=bag; state.revision=revision; state.wornSource=source; state.visible=visible; state.sequence++;
         PacketDistributor.sendToPlayersTrackingEntityAndSelf(player, snapshot(player,state));
     }
     /** effects: accepts one current intent per tick, using only the server's equipped bag and actual held item. */
@@ -58,7 +58,7 @@ public final class GearSync {
         ItemStack bag=worn(player);
         if (bag.isEmpty()) return;
         ItemStack before=player.getMainHandItem().copy();
-        if (!MountExchange.swap(player,38,request.bag(),request.revision(),request.mount(),request.selected())) return;
+        if (!MountExchange.swap(player,BagLocations.worn(player),request.bag(),request.revision(),request.mount(),request.selected())) return;
         observe(player);
         ItemStack after=player.getMainHandItem();
         GearAction kind=before.isEmpty() ? GearAction.DRAW : after.isEmpty() ? GearAction.STOW : GearAction.EXCHANGE;
@@ -69,7 +69,7 @@ public final class GearSync {
         ItemStack bag=worn(player);
         if (!player.isAlive() || player.isSpectator() || player.isUsingItem() || player.containerMenu!=player.inventoryMenu
                 || bag.isEmpty() || !request.bag().equals(bag.get(BackpackItems.ID)) || request.revision()!=BagContents.revision(bag)) return;
-        BackpackItem.open(player,bag,38);
+        BackpackItem.open(player,bag,BagLocations.worn(player));
         observe(player);
     }
     /** effects: broadcasts a semantic action after its associated server operation succeeds. */
@@ -95,6 +95,14 @@ public final class GearSync {
         }
     }
     @SubscribeEvent public static void login(PlayerEvent.PlayerLoggedInEvent event) { refresh(event.getEntity()); }
+    @SubscribeEvent public static void clone(PlayerEvent.Clone event) {
+        if (event.getEntity() instanceof ServerPlayer next && event.getOriginal() instanceof ServerPlayer previous) {
+            // Vanilla reuses the entity ID on respawn. Keep message ordering continuous
+            // so owner and observer cannot reject the new session's snapshots as stale.
+            // Never copy equipment references, open-menu state or expired actions.
+            next.getData(SESSION).sequence = previous.getData(SESSION).sequence;
+        }
+    }
     @SubscribeEvent public static void respawn(PlayerEvent.PlayerRespawnEvent event) { refresh(event.getEntity()); }
     @SubscribeEvent public static void dimension(PlayerEvent.PlayerChangedDimensionEvent event) { refresh(event.getEntity()); }
     private static void refresh(net.minecraft.world.entity.player.Player entity) {

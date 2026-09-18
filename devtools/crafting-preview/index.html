@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Backpacks+ · Crafting and color guide</title>
+<style>
+  :root{color-scheme:dark;font-family:system-ui,sans-serif;background:#171b18;color:#eee8dc}
+  *{box-sizing:border-box}body{margin:0;padding:30px 24px 48px}main{max-width:1260px;margin:auto}
+  .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#b7bf9b}h1{font-size:clamp(28px,5vw,44px);font-weight:650;letter-spacing:-.035em;margin:12px 0}
+  p{line-height:1.6;color:#bdc1b5;max-width:930px}h2{font-size:23px;margin:0 0 8px}h3{font-size:18px;margin:28px 0 8px}
+  .concept{display:block;width:100%;border-radius:12px;border:1px solid #465042;margin-top:18px}.caption{font-size:13px;margin:8px 0 25px}
+  .controls{display:flex;flex-wrap:wrap;gap:18px;align-items:center;padding:18px 20px;background:#242b24;border:1px solid #465042;border-radius:10px}
+  label{display:flex;align-items:center;gap:9px;font-size:14px}select,input{accent-color:#d0b384}select{font:inherit;padding:8px;border:1px solid #778166;border-radius:5px;background:#171b18;color:inherit}
+  .recipes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:20px}article{padding:20px;border:1px solid #465042;border-radius:12px;background:#222821}
+  .capacity{font-size:14px;color:#dfc69d}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;max-width:285px;margin:22px auto;background:#353b32;padding:7px;border-radius:6px}
+  .cell{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;background:#51564b;border:2px solid;border-color:#2b3028 #79806c #79806c #2b3028;min-width:0}
+  .cell img{width:36px;height:36px;object-fit:contain;image-rendering:pixelated}.cell span{font-size:10px;color:#eee8dc;text-align:center}.cell.empty{background:#41473d}.cell.empty span{color:#bdc1b5}.bag{font-size:28px;line-height:1}.bag-icon{width:36px;height:38px;border:3px solid #523e2b;border-radius:5px;background:var(--canvas,#96724b);box-shadow:inset 0 -12px 0 #382c2066;position:relative}.bag-icon::before{content:'';position:absolute;top:9px;left:-3px;width:36px;border-top:4px solid #725135}.bag-icon::after{content:'';position:absolute;top:-10px;left:9px;width:11px;height:7px;border:3px solid #725135}
+  .materials{font-size:14px;line-height:1.7;color:#d0d4c6;min-height:74px}.purpose{font-size:13px;line-height:1.6;color:#a9b39e;margin:12px 0 0}.rules{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:26px}.rules p{font-size:14px;margin-top:6px}.rules h3{margin-top:0}
+  .notice{border-left:3px solid #d0b384;padding:10px 16px;background:#242b24;font-size:14px;margin-top:28px}footer{border-top:1px solid #394338;margin-top:28px;padding-top:16px;font-size:13px;color:#9ba58f;line-height:1.7}a{color:#dfc69d}
+  @media(max-width:800px){body{padding:22px 14px}.recipes,.rules{grid-template-columns:1fr}.recipes{max-width:520px;margin:20px auto}.materials{min-height:0}}
+</style>
+<main>
+  <div class="eyebrow">Backpacks+ / Crafting and color guide</div>
+  <h1>Built for a longer journey.</h1>
+  <p>The original Minecraft pixel materials are back. Craft and upgrade the same bag, with optional canvas dyes. <a href="../material-preview/index.html">See the actual bags and colors →</a></p>
+
+  <h2>Craft the first. Upgrade the same bag.</h2>
+  <p>Every recipe fits a normal 3 × 3 crafting table. Higher tiers consume the previous bag and preserve its contents, mounted gear, name and color. A dye in the bottom-center cell replaces the canvas color.</p>
+  <div class="controls">
+    <label><input id="dyed" type="checkbox" checked> Add a dye during crafting</label>
+    <label>Dye <select id="dye" aria-label="Dye color"></select></label>
+    <span id="color-note" aria-live="polite">Red canvas; natural leather and hardware.</span>
+  </div>
+  <div class="recipes">
+    <article><h2>Basic</h2><div class="capacity">9 storage · 2 mounts</div><div class="grid" id="basic-grid" aria-label="Basic shaped recipe"></div><div class="materials">5 leather · 2 string · 1 wool<br><span class="dye-cost">+ 1 red dye</span></div><p class="purpose">Early survival supplies: leather straps, a wool lining and cord stitching. Any wool color is accepted.</p></article>
+    <article><h2>Reinforced</h2><div class="capacity">18 storage · 3 mounts</div><div class="grid" id="reinforced-grid" aria-label="Reinforced shaped recipe"></div><div class="materials">1 Basic backpack · 4 iron ingots<br>1 leather · 2 string <span class="dye-cost">+ 1 red dye</span></div><p class="purpose">Add iron hardware, leather reinforcement and stronger stitching. Your Basic backpack becomes the upgraded bag.</p></article>
+    <article><h2>Expedition</h2><div class="capacity">36 storage · 4 mounts</div><div class="grid" id="expedition-grid" aria-label="Expedition shaped recipe"></div><div class="materials">1 Reinforced backpack · 2 iron blocks<br>2 leather · 2 honeycomb · 1 lead<br><span class="dye-cost">+ 1 red dye</span></div><p class="purpose">A substantial iron investment plus beeswax for the canvas and cord for the field rigging. All materials are obtainable in the Overworld.</p></article>
+  </div>
+  <div class="rules">
+    <div><h3>Sixteen dyes, natural materials</h3><p>Every vanilla dye works on every tier. Color applies to canvas panels only; leather, straps and metal keep their original materials. The selector shows recipe ingredients; the in-game preview shows the actual colors.</p><p>Leave the dye cell empty for an undyed Basic bag, or to preserve the previous bag’s color when upgrading. An undyed bag uses each tier’s natural palette.</p></div>
+    <div><h3>Recolor without rebuilding</h3><p>One backpack + one dye, anywhere in the crafting grid, recolors an existing bag. No dye mixing in the first version. Items, gear mounts and custom names stay intact.</p><p>Upgrades move mount contents into the new tier’s dedicated mounts. New storage cells and extra mounts start empty; no existing item changes into an ordinary storage item by accident.</p></div>
+  </div>
+  <div class="notice">Progression: early leather gathering → ironworking → a larger iron investment and beekeeping. Wax is a crafting/art material here, with no new waterproofing mechanic.</div>
+  <footer>Implemented in the development build · release remains held.<br>Ingredient icons come from the locally installed Minecraft 1.21.1 client.</footer>
+</main>
+<script>
+  const colors={white:'#c8c4b6',orange:'#b77c3e',magenta:'#965b8b',light_blue:'#7599a5',yellow:'#b3a451',lime:'#85994e',pink:'#b7888c',gray:'#535b59',light_gray:'#a1a398',cyan:'#4d8582',purple:'#75648d',blue:'#4c6383',brown:'#816140',green:'#67724a',red:'#9e5746',black:'#353a37'};
+  const title=name=>name.replaceAll('_',' ').replace(/^./,c=>c.toUpperCase());
+  const select=document.querySelector('#dye');
+  Object.keys(colors).forEach(color=>{const option=new Option(title(color),color);select.add(option)});select.value='red';
+  const items={leather:['Leather','leather'],string:['String','string'],wool:['Any wool','white_wool'],iron:['Iron ingot','iron_ingot'],block:['Iron block','iron_block'],wax:['Honeycomb','honeycomb'],lead:['Lead','lead'],basic:['Basic bag',null],reinforced:['Reinforced bag',null]};
+  const recipes={basic:['string','leather','string','leather','wool','leather','leather','dye','leather'],reinforced:['iron','leather','iron','string','basic','string','iron','dye','iron'],expedition:['wax','lead','wax','block','reinforced','block','leather','dye','leather']};
+  function render(){
+    const color=select.value,dyed=document.querySelector('#dyed').checked;
+    select.disabled=!dyed;
+    document.querySelector('#color-note').textContent=dyed?`${title(color)} canvas; natural leather and hardware.`:'Natural Basic color; upgrades retain the old color.';
+    document.documentElement.style.setProperty('--canvas',colors[color]);
+    document.querySelectorAll('.dye-cost').forEach(el=>el.textContent=dyed?`+ 1 ${color.replaceAll('_',' ')} dye`:'No dye required');
+    Object.entries(recipes).forEach(([tier,recipe])=>{
+      const grid=document.querySelector(`#${tier}-grid`);grid.replaceChildren();
+      recipe.forEach(key=>{
+        const cell=document.createElement('div');cell.className='cell';
+        let label,icon;
+        if(key==='dye'){label=dyed?title(color)+' dye':'Empty';icon=dyed?color+'_dye':null;if(!dyed)cell.classList.add('empty')}
+        else [label,icon]=items[key];
+        if(icon){const image=new Image();image.src=`icons/${icon}.png`;image.alt='';cell.append(image)}
+        else if(key!=='dye'){const bag=document.createElement('div');bag.className='bag-icon';bag.setAttribute('aria-hidden','true');cell.append(bag)}
+        const name=document.createElement('span');name.textContent=label;cell.title=label;cell.append(name);grid.append(cell);
+      });
+    });
+  }
+  select.addEventListener('change',render);document.querySelector('#dyed').addEventListener('change',render);render();
+</script>
+</html>

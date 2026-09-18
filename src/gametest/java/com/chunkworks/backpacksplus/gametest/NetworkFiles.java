@@ -32,7 +32,12 @@ public final class NetworkFiles {
     }
     public static JsonObject stack(ItemStack item) {
         JsonObject json=new JsonObject(); json.addProperty("item",item.isEmpty() ? "minecraft:air" : BuiltInRegistries.ITEM.getKey(item.getItem()).toString());
-        json.addProperty("count",item.getCount()); return json;
+        json.addProperty("count",item.getCount());
+        var color=item.get(net.minecraft.core.component.DataComponents.DYED_COLOR);
+        if(color!=null)json.addProperty("color",color.rgb());
+        var name=item.get(net.minecraft.core.component.DataComponents.CUSTOM_NAME);
+        if(name!=null)json.addProperty("name",name.getString());
+        return json;
     }
     public static JsonObject bag(ItemStack bag) {
         JsonObject json=stack(bag);
@@ -44,8 +49,13 @@ public final class NetworkFiles {
     }
     public static JsonObject player(Player p) {
         JsonObject json=new JsonObject(); json.addProperty("uuid",p.getUUID().toString()); json.addProperty("entity",p.getId());
+        json.addProperty("pose",p.getPose().name());json.addProperty("vehicle",p.getVehicle()==null?-1:p.getVehicle().getId());
+        json.addProperty("x",p.getX());json.addProperty("y",p.getY());json.addProperty("z",p.getZ());
+        json.addProperty("alive",p.isAlive()); json.addProperty("fallFlying",p.isFallFlying());
         json.addProperty("selected",p.getInventory().selected); json.addProperty("dimension",p.level().dimension().location().toString());
-        json.add("held",stack(p.getMainHandItem())); json.add("bag",bag(p.getItemBySlot(EquipmentSlot.CHEST)));
+        json.add("held",stack(p.getMainHandItem())); json.add("bag",bag(BagLocations.stack(p,BagLocations.worn(p))));
+        json.addProperty("source",BagLocations.worn(p));
+        if(net.neoforged.fml.ModList.get().isLoaded("curios"))json.add("curios",CuriosNetwork.observe(p));
         json.add("quick",stack(SlotData.copy(p))); json.addProperty("menu",p.containerMenu.getClass().getSimpleName());
         json.add("cursor",stack(p.containerMenu.getCarried())); JsonArray slots=new JsonArray();
         for (var slot : p.containerMenu.slots) slots.add(stack(slot.getItem())); json.add("slots",slots); return json;

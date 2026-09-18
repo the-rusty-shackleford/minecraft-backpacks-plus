@@ -11,3 +11,15 @@
 - [D-0009](D-0009.md): Implementation authorized; early real-game third-person animation review and Fresh Animations compatibility.
 - [D-0010](D-0010.md): Permit utility blocks while preventing nested portable storage.
 - [D-0011](D-0011.md): Horizontal gear row at every GUI size; correct the unintended vertical fallback.
+- [D-0012](D-0012.md): Approved rustic materials, escalating crafting costs, safe upgrades and sixteen canvas dyes.
+- [D-0013](D-0013.md): Simplify the busy material pass into quiet, coarse pixel textures.
+- [D-0014](D-0014.md): Restore original vanilla materials while retaining recipes and canvas dyes; supersedes D-0012/D-0013 artwork.
+- [D-0015](D-0015.md): Optional Luminance integration for equipped and hand-carried mount lights.
+- [D-0016](D-0016.md): Torch and lantern mounts use visible placed-block proportions and clear the outer pocket.
+- [D-0017](D-0017.md): Optional Curios back slot, exact-source storage, visibility and shared-key priority.
+- [D-0018](D-0018.md): Remove existing legacy bags without replacement grants; preserve their stored items.
+- [D-0019](D-0019.md): Discard legacy backpack contents as well; preserve Stowed holsters separately.
+- [D-0020](D-0020.md): Distinct Quick Slot uses hip/pocket-verse presentation while a backpack is visible.
+- [D-0021](D-0021.md): Elytra hides worn bags and mounts; storage, controls, light and held bags remain available.
+
+- [D-0022](D-0022.md): Coordinated release authorized; preserve approved visuals and vehicle handling.

@@ -73,3 +73,28 @@ remaining G/H/Controlify conflicts and unusually tall status overlays; Curios ro
 death/keepInventory/vanishing/travel and server restart; optional-mod absence after client
 integration; pack-specific nested-container formats; mounted/Quick Slot light and shaders;
 lossless legacy migration with overflow recovery. Production changes stay held.
+
+## Later crafting and material pass
+
+See [crafting, dyes and restored materials](crafting-materials.md) for the current recipe
+and dye checks. The original material textures are restored under D-0014. The historical
+first-build limitations above describe that earlier test, not the completed crafting pass.
+
+## Mounted light and larger lamps
+
+The 2026-09-17 lighting/size pass is recorded in [mounted-lighting.md](mounted-lighting.md),
+including real two-client, terrain, underwater, reload, shader and optional-dependency
+absence checks. See [the visual comparison](../lighting-preview/index.html). Release HELD.
+
+## Optional Curios equipment
+
+The Curios back-slot, visibility and real G/B input checks are in [curios.md](curios.md).
+All three tiers coexist with chest armor; Curios takes priority over a second chest bag.
+Source identity, capacity, remote snapshots, relog and absence checks passed. Release HELD.
+
+## Release-readiness checks
+
+The later [lifecycle checks](lifecycle.md), [legacy retirement rehearsal](legacy-retirement.md)
+and [Quick Slot/elytra fit](companion-fit.md) supersede those individual historical open
+items above. Retirement now discards old bags and their contents under D-0019; Stowed
+holsters are preserved separately. The final animation/full-pack review remains open.

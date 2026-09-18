@@ -1,0 +1,4103 @@
+{
+  "checks": [
+    "real result clicks",
+    "full storage and mount upgrades",
+    "all sixteen recolors",
+    "remote color and contents synchronization",
+    "save/relog",
+    "tracking range leave and return"
+  ],
+  "crafts": [
+    {
+      "recipe": "basic",
+      "dye": "none",
+      "bag": {
+        "item": "backpacksplus:basic_backpack",
+        "count": 1,
+        "id": "d7ed924c-3bfd-478e-a264-a3d1ab267789",
+        "revision": 0,
+        "cells": [
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          }
+        ]
+      }
+    },
+    {
+      "recipe": "reinforced",
+      "dye": "none",
+      "bag": {
+        "item": "backpacksplus:reinforced_backpack",
+        "count": 1,
+        "name": "Field pack",
+        "id": "d7ed924c-3bfd-478e-a264-a3d1ab267789",
+        "revision": 12,
+        "cells": [
+          {
+            "item": "minecraft:furnace",
+            "count": 1
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 2
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 3
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 4
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 5
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 6
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 7
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 8
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 9
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:diamond_pickaxe",
+            "count": 1
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:apple",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "recipe": "expedition",
+      "dye": "none",
+      "bag": {
+        "item": "backpacksplus:expedition_backpack",
+        "count": 1,
+        "name": "Field pack",
+        "id": "d7ed924c-3bfd-478e-a264-a3d1ab267789",
+        "revision": 27,
+        "cells": [
+          {
+            "item": "minecraft:furnace",
+            "count": 1
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 2
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 3
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 4
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 5
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 6
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 7
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 8
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 9
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 10
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 11
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 12
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 13
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 14
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 15
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 16
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 17
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 18
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:diamond_pickaxe",
+            "count": 1
+          },
+          {
+            "item": "minecraft:diamond_sword",
+            "count": 1
+          },
+          {
+            "item": "minecraft:apple",
+            "count": 1
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          }
+        ]
+      }
+    },
+    {
+      "recipe": "basic",
+      "dye": "red",
+      "bag": {
+        "item": "backpacksplus:basic_backpack",
+        "count": 1,
+        "color": -5231066,
+        "id": "6e6d82af-7308-48ca-9e22-06fb15fc496e",
+        "revision": 0,
+        "cells": [
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          }
+        ]
+      }
+    },
+    {
+      "recipe": "reinforced",
+      "dye": "none",
+      "bag": {
+        "item": "backpacksplus:reinforced_backpack",
+        "count": 1,
+        "color": -5231066,
+        "id": "6e6d82af-7308-48ca-9e22-06fb15fc496e",
+        "revision": 1,
+        "cells": [
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          }
+        ]
+      }
+    },
+    {
+      "recipe": "expedition",
+      "dye": "none",
+      "bag": {
+        "item": "backpacksplus:expedition_backpack",
+        "count": 1,
+        "color": -5231066,
+        "id": "6e6d82af-7308-48ca-9e22-06fb15fc496e",
+        "revision": 2,
+        "cells": [
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          }
+        ]
+      }
+    },
+    {
+      "recipe": "basic",
+      "dye": "blue",
+      "bag": {
+        "item": "backpacksplus:basic_backpack",
+        "count": 1,
+        "color": -12827478,
+        "id": "69466e37-edb4-4e90-bdd3-54042690f388",
+        "revision": 0,
+        "cells": [
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          }
+        ]
+      }
+    },
+    {
+      "recipe": "reinforced",
+      "dye": "none",
+      "bag": {
+        "item": "backpacksplus:reinforced_backpack",
+        "count": 1,
+        "color": -12827478,
+        "id": "69466e37-edb4-4e90-bdd3-54042690f388",
+        "revision": 1,
+        "cells": [
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          }
+        ]
+      }
+    },
+    {
+      "recipe": "expedition",
+      "dye": "none",
+      "bag": {
+        "item": "backpacksplus:expedition_backpack",
+        "count": 1,
+        "color": -12827478,
+        "id": "69466e37-edb4-4e90-bdd3-54042690f388",
+        "revision": 2,
+        "cells": [
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          }
+        ]
+      }
+    },
+    {
+      "recipe": "basic",
+      "dye": "green",
+      "bag": {
+        "item": "backpacksplus:basic_backpack",
+        "count": 1,
+        "color": -10585066,
+        "id": "9d1a47f4-fb72-4d66-93f4-f96fe1dc6b47",
+        "revision": 0,
+        "cells": [
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          }
+        ]
+      }
+    },
+    {
+      "recipe": "reinforced",
+      "dye": "none",
+      "bag": {
+        "item": "backpacksplus:reinforced_backpack",
+        "count": 1,
+        "color": -10585066,
+        "id": "9d1a47f4-fb72-4d66-93f4-f96fe1dc6b47",
+        "revision": 1,
+        "cells": [
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          }
+        ]
+      }
+    },
+    {
+      "recipe": "expedition",
+      "dye": "none",
+      "bag": {
+        "item": "backpacksplus:expedition_backpack",
+        "count": 1,
+        "color": -10585066,
+        "id": "9d1a47f4-fb72-4d66-93f4-f96fe1dc6b47",
+        "revision": 2,
+        "cells": [
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          },
+          {
+            "item": "minecraft:air",
+            "count": 0
+          }
+        ]
+      }
+    },
+    {
+      "recipe": "recolor",
+      "dye": "white",
+      "bag": {
+        "item": "backpacksplus:expedition_backpack",
+        "count": 1,
+        "color": -393218,
+        "name": "Field pack",
+        "id": "9d1a47f4-fb72-4d66-93f4-f96fe1dc6b47",
+        "revision": 43,
+        "cells": [
+          {
+            "item": "minecraft:furnace",
+            "count": 1
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 2
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 3
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 4
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 5
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 6
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 7
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 8
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 9
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 10
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 11
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 12
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 13
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 14
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 15
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 16
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 17
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 18
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 19
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 20
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 21
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 22
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 23
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 24
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 25
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 26
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 27
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 28
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 29
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 30
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 31
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 32
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 33
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 34
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 35
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 36
+          },
+          {
+            "item": "minecraft:diamond_pickaxe",
+            "count": 1
+          },
+          {
+            "item": "minecraft:diamond_sword",
+            "count": 1
+          },
+          {
+            "item": "minecraft:apple",
+            "count": 1
+          },
+          {
+            "item": "minecraft:apple",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "recipe": "recolor",
+      "dye": "orange",
+      "bag": {
+        "item": "backpacksplus:expedition_backpack",
+        "count": 1,
+        "color": -425955,
+        "name": "Field pack",
+        "id": "9d1a47f4-fb72-4d66-93f4-f96fe1dc6b47",
+        "revision": 44,
+        "cells": [
+          {
+            "item": "minecraft:furnace",
+            "count": 1
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 2
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 3
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 4
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 5
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 6
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 7
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 8
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 9
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 10
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 11
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 12
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 13
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 14
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 15
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 16
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 17
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 18
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 19
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 20
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 21
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 22
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 23
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 24
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 25
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 26
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 27
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 28
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 29
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 30
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 31
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 32
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 33
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 34
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 35
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 36
+          },
+          {
+            "item": "minecraft:diamond_pickaxe",
+            "count": 1
+          },
+          {
+            "item": "minecraft:diamond_sword",
+            "count": 1
+          },
+          {
+            "item": "minecraft:apple",
+            "count": 1
+          },
+          {
+            "item": "minecraft:apple",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "recipe": "recolor",
+      "dye": "magenta",
+      "bag": {
+        "item": "backpacksplus:expedition_backpack",
+        "count": 1,
+        "color": -3715395,
+        "name": "Field pack",
+        "id": "9d1a47f4-fb72-4d66-93f4-f96fe1dc6b47",
+        "revision": 45,
+        "cells": [
+          {
+            "item": "minecraft:furnace",
+            "count": 1
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 2
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 3
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 4
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 5
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 6
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 7
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 8
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 9
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 10
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 11
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 12
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 13
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 14
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 15
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 16
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 17
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 18
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 19
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 20
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 21
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 22
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 23
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 24
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 25
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 26
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 27
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 28
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 29
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 30
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 31
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 32
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 33
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 34
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 35
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 36
+          },
+          {
+            "item": "minecraft:diamond_pickaxe",
+            "count": 1
+          },
+          {
+            "item": "minecraft:diamond_sword",
+            "count": 1
+          },
+          {
+            "item": "minecraft:apple",
+            "count": 1
+          },
+          {
+            "item": "minecraft:apple",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "recipe": "recolor",
+      "dye": "light_blue",
+      "bag": {
+        "item": "backpacksplus:expedition_backpack",
+        "count": 1,
+        "color": -12930086,
+        "name": "Field pack",
+        "id": "9d1a47f4-fb72-4d66-93f4-f96fe1dc6b47",
+        "revision": 46,
+        "cells": [
+          {
+            "item": "minecraft:furnace",
+            "count": 1
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 2
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 3
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 4
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 5
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 6
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 7
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 8
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 9
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 10
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 11
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 12
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 13
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 14
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 15
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 16
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 17
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 18
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 19
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 20
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 21
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 22
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 23
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 24
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 25
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 26
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 27
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 28
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 29
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 30
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 31
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 32
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 33
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 34
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 35
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 36
+          },
+          {
+            "item": "minecraft:diamond_pickaxe",
+            "count": 1
+          },
+          {
+            "item": "minecraft:diamond_sword",
+            "count": 1
+          },
+          {
+            "item": "minecraft:apple",
+            "count": 1
+          },
+          {
+            "item": "minecraft:apple",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "recipe": "recolor",
+      "dye": "yellow",
+      "bag": {
+        "item": "backpacksplus:expedition_backpack",
+        "count": 1,
+        "color": -75715,
+        "name": "Field pack",
+        "id": "9d1a47f4-fb72-4d66-93f4-f96fe1dc6b47",
+        "revision": 47,
+        "cells": [
+          {
+            "item": "minecraft:furnace",
+            "count": 1
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 2
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 3
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 4
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 5
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 6
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 7
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 8
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 9
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 10
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 11
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 12
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 13
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 14
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 15
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 16
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 17
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 18
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 19
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 20
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 21
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 22
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 23
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 24
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 25
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 26
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 27
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 28
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 29
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 30
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 31
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 32
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 33
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 34
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 35
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 36
+          },
+          {
+            "item": "minecraft:diamond_pickaxe",
+            "count": 1
+          },
+          {
+            "item": "minecraft:diamond_sword",
+            "count": 1
+          },
+          {
+            "item": "minecraft:apple",
+            "count": 1
+          },
+          {
+            "item": "minecraft:apple",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "recipe": "recolor",
+      "dye": "lime",
+      "bag": {
+        "item": "backpacksplus:expedition_backpack",
+        "count": 1,
+        "color": -8337633,
+        "name": "Field pack",
+        "id": "9d1a47f4-fb72-4d66-93f4-f96fe1dc6b47",
+        "revision": 48,
+        "cells": [
+          {
+            "item": "minecraft:furnace",
+            "count": 1
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 2
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 3
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 4
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 5
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 6
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 7
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 8
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 9
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 10
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 11
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 12
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 13
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 14
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 15
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 16
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 17
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 18
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 19
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 20
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 21
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 22
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 23
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 24
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 25
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 26
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 27
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 28
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 29
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 30
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 31
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 32
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 33
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 34
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 35
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 36
+          },
+          {
+            "item": "minecraft:diamond_pickaxe",
+            "count": 1
+          },
+          {
+            "item": "minecraft:diamond_sword",
+            "count": 1
+          },
+          {
+            "item": "minecraft:apple",
+            "count": 1
+          },
+          {
+            "item": "minecraft:apple",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "recipe": "recolor",
+      "dye": "pink",
+      "bag": {
+        "item": "backpacksplus:expedition_backpack",
+        "count": 1,
+        "color": -816214,
+        "name": "Field pack",
+        "id": "9d1a47f4-fb72-4d66-93f4-f96fe1dc6b47",
+        "revision": 49,
+        "cells": [
+          {
+            "item": "minecraft:furnace",
+            "count": 1
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 2
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 3
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 4
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 5
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 6
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 7
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 8
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 9
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 10
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 11
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 12
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 13
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 14
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 15
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 16
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 17
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 18
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 19
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 20
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 21
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 22
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 23
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 24
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 25
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 26
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 27
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 28
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 29
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 30
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 31
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 32
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 33
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 34
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 35
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 36
+          },
+          {
+            "item": "minecraft:diamond_pickaxe",
+            "count": 1
+          },
+          {
+            "item": "minecraft:diamond_sword",
+            "count": 1
+          },
+          {
+            "item": "minecraft:apple",
+            "count": 1
+          },
+          {
+            "item": "minecraft:apple",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "recipe": "recolor",
+      "dye": "gray",
+      "bag": {
+        "item": "backpacksplus:expedition_backpack",
+        "count": 1,
+        "color": -12103854,
+        "name": "Field pack",
+        "id": "9d1a47f4-fb72-4d66-93f4-f96fe1dc6b47",
+        "revision": 50,
+        "cells": [
+          {
+            "item": "minecraft:furnace",
+            "count": 1
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 2
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 3
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 4
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 5
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 6
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 7
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 8
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 9
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 10
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 11
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 12
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 13
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 14
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 15
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 16
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 17
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 18
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 19
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 20
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 21
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 22
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 23
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 24
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 25
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 26
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 27
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 28
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 29
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 30
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 31
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 32
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 33
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 34
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 35
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 36
+          },
+          {
+            "item": "minecraft:diamond_pickaxe",
+            "count": 1
+          },
+          {
+            "item": "minecraft:diamond_sword",
+            "count": 1
+          },
+          {
+            "item": "minecraft:apple",
+            "count": 1
+          },
+          {
+            "item": "minecraft:apple",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "recipe": "recolor",
+      "dye": "light_gray",
+      "bag": {
+        "item": "backpacksplus:expedition_backpack",
+        "count": 1,
+        "color": -6447721,
+        "name": "Field pack",
+        "id": "9d1a47f4-fb72-4d66-93f4-f96fe1dc6b47",
+        "revision": 52,
+        "cells": [
+          {
+            "item": "minecraft:furnace",
+            "count": 1
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 2
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 3
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 4
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 5
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 6
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 7
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 8
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 9
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 10
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 11
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 12
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 13
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 14
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 15
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 16
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 17
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 18
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 19
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 20
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 21
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 22
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 23
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 24
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 25
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 26
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 27
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 28
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 29
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 30
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 31
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 32
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 33
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 34
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 35
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 36
+          },
+          {
+            "item": "minecraft:diamond_pickaxe",
+            "count": 1
+          },
+          {
+            "item": "minecraft:diamond_sword",
+            "count": 1
+          },
+          {
+            "item": "minecraft:apple",
+            "count": 1
+          },
+          {
+            "item": "minecraft:apple",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "recipe": "recolor",
+      "dye": "cyan",
+      "bag": {
+        "item": "backpacksplus:expedition_backpack",
+        "count": 1,
+        "color": -15295332,
+        "name": "Field pack",
+        "id": "9d1a47f4-fb72-4d66-93f4-f96fe1dc6b47",
+        "revision": 53,
+        "cells": [
+          {
+            "item": "minecraft:furnace",
+            "count": 1
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 2
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 3
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 4
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 5
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 6
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 7
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 8
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 9
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 10
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 11
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 12
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 13
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 14
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 15
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 16
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 17
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 18
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 19
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 20
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 21
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 22
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 23
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 24
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 25
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 26
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 27
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 28
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 29
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 30
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 31
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 32
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 33
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 34
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 35
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 36
+          },
+          {
+            "item": "minecraft:diamond_pickaxe",
+            "count": 1
+          },
+          {
+            "item": "minecraft:diamond_sword",
+            "count": 1
+          },
+          {
+            "item": "minecraft:apple",
+            "count": 1
+          },
+          {
+            "item": "minecraft:apple",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "recipe": "recolor",
+      "dye": "purple",
+      "bag": {
+        "item": "backpacksplus:expedition_backpack",
+        "count": 1,
+        "color": -7785800,
+        "name": "Field pack",
+        "id": "9d1a47f4-fb72-4d66-93f4-f96fe1dc6b47",
+        "revision": 54,
+        "cells": [
+          {
+            "item": "minecraft:furnace",
+            "count": 1
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 2
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 3
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 4
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 5
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 6
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 7
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 8
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 9
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 10
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 11
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 12
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 13
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 14
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 15
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 16
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 17
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 18
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 19
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 20
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 21
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 22
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 23
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 24
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 25
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 26
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 27
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 28
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 29
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 30
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 31
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 32
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 33
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 34
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 35
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 36
+          },
+          {
+            "item": "minecraft:diamond_pickaxe",
+            "count": 1
+          },
+          {
+            "item": "minecraft:diamond_sword",
+            "count": 1
+          },
+          {
+            "item": "minecraft:apple",
+            "count": 1
+          },
+          {
+            "item": "minecraft:apple",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "recipe": "recolor",
+      "dye": "blue",
+      "bag": {
+        "item": "backpacksplus:expedition_backpack",
+        "count": 1,
+        "color": -12827478,
+        "name": "Field pack",
+        "id": "9d1a47f4-fb72-4d66-93f4-f96fe1dc6b47",
+        "revision": 55,
+        "cells": [
+          {
+            "item": "minecraft:furnace",
+            "count": 1
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 2
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 3
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 4
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 5
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 6
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 7
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 8
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 9
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 10
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 11
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 12
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 13
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 14
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 15
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 16
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 17
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 18
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 19
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 20
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 21
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 22
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 23
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 24
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 25
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 26
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 27
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 28
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 29
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 30
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 31
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 32
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 33
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 34
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 35
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 36
+          },
+          {
+            "item": "minecraft:diamond_pickaxe",
+            "count": 1
+          },
+          {
+            "item": "minecraft:diamond_sword",
+            "count": 1
+          },
+          {
+            "item": "minecraft:apple",
+            "count": 1
+          },
+          {
+            "item": "minecraft:apple",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "recipe": "recolor",
+      "dye": "brown",
+      "bag": {
+        "item": "backpacksplus:expedition_backpack",
+        "count": 1,
+        "color": -8170446,
+        "name": "Field pack",
+        "id": "9d1a47f4-fb72-4d66-93f4-f96fe1dc6b47",
+        "revision": 56,
+        "cells": [
+          {
+            "item": "minecraft:furnace",
+            "count": 1
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 2
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 3
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 4
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 5
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 6
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 7
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 8
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 9
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 10
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 11
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 12
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 13
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 14
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 15
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 16
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 17
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 18
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 19
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 20
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 21
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 22
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 23
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 24
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 25
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 26
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 27
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 28
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 29
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 30
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 31
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 32
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 33
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 34
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 35
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 36
+          },
+          {
+            "item": "minecraft:diamond_pickaxe",
+            "count": 1
+          },
+          {
+            "item": "minecraft:diamond_sword",
+            "count": 1
+          },
+          {
+            "item": "minecraft:apple",
+            "count": 1
+          },
+          {
+            "item": "minecraft:apple",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "recipe": "recolor",
+      "dye": "green",
+      "bag": {
+        "item": "backpacksplus:expedition_backpack",
+        "count": 1,
+        "color": -10585066,
+        "name": "Field pack",
+        "id": "9d1a47f4-fb72-4d66-93f4-f96fe1dc6b47",
+        "revision": 57,
+        "cells": [
+          {
+            "item": "minecraft:furnace",
+            "count": 1
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 2
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 3
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 4
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 5
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 6
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 7
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 8
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 9
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 10
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 11
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 12
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 13
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 14
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 15
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 16
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 17
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 18
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 19
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 20
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 21
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 22
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 23
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 24
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 25
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 26
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 27
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 28
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 29
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 30
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 31
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 32
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 33
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 34
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 35
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 36
+          },
+          {
+            "item": "minecraft:diamond_pickaxe",
+            "count": 1
+          },
+          {
+            "item": "minecraft:diamond_sword",
+            "count": 1
+          },
+          {
+            "item": "minecraft:apple",
+            "count": 1
+          },
+          {
+            "item": "minecraft:apple",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "recipe": "recolor",
+      "dye": "red",
+      "bag": {
+        "item": "backpacksplus:expedition_backpack",
+        "count": 1,
+        "color": -5231066,
+        "name": "Field pack",
+        "id": "9d1a47f4-fb72-4d66-93f4-f96fe1dc6b47",
+        "revision": 58,
+        "cells": [
+          {
+            "item": "minecraft:furnace",
+            "count": 1
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 2
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 3
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 4
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 5
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 6
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 7
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 8
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 9
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 10
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 11
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 12
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 13
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 14
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 15
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 16
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 17
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 18
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 19
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 20
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 21
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 22
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 23
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 24
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 25
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 26
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 27
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 28
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 29
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 30
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 31
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 32
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 33
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 34
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 35
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 36
+          },
+          {
+            "item": "minecraft:diamond_pickaxe",
+            "count": 1
+          },
+          {
+            "item": "minecraft:diamond_sword",
+            "count": 1
+          },
+          {
+            "item": "minecraft:apple",
+            "count": 1
+          },
+          {
+            "item": "minecraft:apple",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "recipe": "recolor",
+      "dye": "black",
+      "bag": {
+        "item": "backpacksplus:expedition_backpack",
+        "count": 1,
+        "color": -14869215,
+        "name": "Field pack",
+        "id": "9d1a47f4-fb72-4d66-93f4-f96fe1dc6b47",
+        "revision": 59,
+        "cells": [
+          {
+            "item": "minecraft:furnace",
+            "count": 1
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 2
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 3
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 4
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 5
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 6
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 7
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 8
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 9
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 10
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 11
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 12
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 13
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 14
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 15
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 16
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 17
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 18
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 19
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 20
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 21
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 22
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 23
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 24
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 25
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 26
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 27
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 28
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 29
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 30
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 31
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 32
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 33
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 34
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 35
+          },
+          {
+            "item": "minecraft:furnace",
+            "count": 36
+          },
+          {
+            "item": "minecraft:diamond_pickaxe",
+            "count": 1
+          },
+          {
+            "item": "minecraft:diamond_sword",
+            "count": 1
+          },
+          {
+            "item": "minecraft:apple",
+            "count": 1
+          },
+          {
+            "item": "minecraft:apple",
+            "count": 1
+          }
+        ]
+      }
+    }
+  ]
+}

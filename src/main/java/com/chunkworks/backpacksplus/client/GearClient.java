@@ -32,7 +32,7 @@ public final class GearClient {
     record Motion(GearProtocol.Action action, ItemStack before, ItemStack after) {}
     static Motion motion(UUID player) { return MOTIONS.get(player); }
     private static boolean held, browsing, moved;
-    private static int selected, hotbar, age;
+    private static int selected, hotbar, age, bagSource;
     private static UUID bagId;
     private static long bagRevision, quickRevision;
     static final boolean QUICK_SLOT = ModList.get().isLoaded("quickslot");
@@ -91,15 +91,19 @@ public final class GearClient {
         return mc.player!=null && mc.level!=null && mc.screen==null && mc.isWindowActive() && mc.player.isAlive()
                 && !mc.player.isSpectator() && !mc.player.isUsingItem() && !(QUICK_SLOT && QuickSlotCompat.driving(mc.player));
     }
+    static boolean ownsBrowseKey() {
+        var view=self();return usable(Minecraft.getInstance()) && view!=null && !view.bag.isEmpty();
+    }
     private static boolean sameSelection(Minecraft mc, View view) {
         UUID current=view==null || view.bag.isEmpty() ? null : view.bag.get(BackpackItems.ID);
         long revision=view==null || view.bag.isEmpty() ? 0 : BagContents.revision(view.bag);
-        return java.util.Objects.equals(current,bagId) && revision==bagRevision && mc.player.getInventory().selected==hotbar;
+        return java.util.Objects.equals(current,bagId) && (view==null ? -1 : view.state.wornSource())==bagSource && revision==bagRevision && mc.player.getInventory().selected==hotbar;
     }
     private static void begin(Minecraft mc, View view) {
         browsing=true; moved=false; selected=Math.min(selected,count(view)-1); hotbar=mc.player.getInventory().selected;
         bagId=view==null || view.bag.isEmpty() ? null : view.bag.get(BackpackItems.ID);
         bagRevision=view==null || view.bag.isEmpty() ? 0 : BagContents.revision(view.bag);
+        bagSource=view==null ? -1 : view.state.wornSource();
         quickRevision=QUICK_SLOT ? QuickSlotCompat.revision(mc.player) : 0;
     }
     @SubscribeEvent public static void tick(ClientTickEvent.Post event) {

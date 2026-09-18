@@ -1,20 +1,12 @@
 # Backpacks+ implementation gates
 
-1. **Authorized and underway:** item-safe storage, actual menus, mount transactions,
-   persistent gear bar and semantic action sync. Verify two clients on a dedicated
-   server, normal inputs, save/relog, tracking changes and capacity refusal.
-2. **First motion preview implemented; review pending:** original rustic model, actual item mounts, top-strap side
-   carry, draw/stow and taking the pack off to open it. Show third-person motion from
-   local/remote views. Check Refined Tools, both skins and Fresh Animations/EMF/NEA.
-3. Add Curios routing/visibility, armor/elytra handling and reloadable
-   placements. Finalize recipes, materials and mount eligibility in focused interview
-   rounds as needed. Preserve creative behavior.
-4. Integrate Quick Slot/mounted lights through Luminance's existing lookup and API;
-   keep emission independent of visibility and check remote players with shaders.
-5. Rehearse migration on copies: inventories, Curios, placed bags, nested items, external
-   storage, upgrades and overflow. Retain/report unmapped data. Do not remove legacy mods.
-6. Complete death/travel, shader/resource-pack, multiplayer and performance checks;
-   review the finished visuals and obtain an explicit release go.
+The discussed 0.1.0 implementation is complete: safe tiered storage/mounts, native menus,
+horizontal gear bar, G swaps, server-timed carry/open/retrieval, recipes/dyes, Curios,
+Luminance, Quick Slot presentation and death/travel handling.
 
-D-0009 supersedes the interview-only implementation hold. Approved work proceeds while
-recipes/artwork can still need discussion. Release remains HELD.
+Release is authorized by D-0022. Publish the candidates and perform the fresh legacy
+cutover after private rollback-copy approval. [Current verification](../devtools/verification/release-readiness.md)
+records evidence and deployment status. Historical preview lists are not new scope.
+
+The previously deferred representative 4–8 player/Distant Horizons group check remains.
+Physical controller hardware and absent third-party mods are not claimed tested.

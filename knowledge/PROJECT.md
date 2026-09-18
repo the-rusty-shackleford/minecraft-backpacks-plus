@@ -3,11 +3,11 @@
 Repository `minecraft-backpacks-plus`; mod ID `backpacksplus`; namespace
 `com.chunkworks.backpacksplus`. Minecraft 1.21.1, NeoForge 21.1.248, Java 21,
 official Mojang mappings. Rusty authorized implementation after approving the persistent
-gear bar (D-0009). Release remains HELD. No remote, tag, push or live pack change yet.
+gear bar (D-0009). Release 0.1.0 is authorized under D-0022; see the current release record for deployment state.
 
 ## Approved direction
 
-- Separate rustic survival backpack mod, replacing SB only after verified lossless migration.
+- Separate rustic survival backpack mod, replacing SB through the approved legacy discard and Stowed holster preservation (D-0019).
   Canvas/leather, practical straps/stitching, modest hardware. Supplied pictures establish
   mood, not a design to copy. Use the approved 80% SB comparison as a proportion reference.
 - Basic / Reinforced / Expedition: 9 / 18 / 36 ordinary cells plus 2 / 3 / 4 mount cells.
@@ -31,17 +31,30 @@ gear bar (D-0009). Release remains HELD. No remote, tag, push or live pack chang
 
 The three backpack items, immutable inline component storage, UUID/revision identity,
 real inventory menu, mount transactions, first HUD/G adapter and server action/state
-messages exist. The native chest equipment route is implemented first; Curios is pending.
-Original compact cuboid models now replace the missing-model fallback, using referenced
-vanilla materials for the first motion review. Dedicated mounts follow the worn/held bag;
-real model measurements preserve Refined Tools proportions. The model and artwork have
-not been accepted as final.
+messages exist. The native chest route and optional Curios back slot are implemented (D-0017), with
+Curios priority, cosmetic visibility and exact-source menu locking.
+Original compact cuboid models retain their original vanilla pixel materials (D-0014).
+Both generated atlas passes were reverted at Rusty's request. Natural bags use the exact
+original material/UV mapping; dyes affect only the canvas. Dedicated mounts follow the worn/held bag;
+real model measurements preserve Refined Tools proportions. The approved original pixel appearance and mount fit are retained.
+
+D-0012's crafting is implemented: Basic leather/string/wool, iron-reinforced upgrades,
+and Expedition iron-block/honeycomb/lead upgrades. Six shaped recipes cover optional dye,
+and three shapeless recipes recolor with one dye, including in the inventory 2x2 grid.
+Custom serializers retain standard recipe books, matching and result consumption while
+preserving bag components and remapping existing mounts into the expanded inventory.
+Minecraft's DYED_COLOR component is synchronized normally and colors only canvas quads.
+All sixteen vanilla dyes are supported. See `devtools/verification/crafting-materials.md`
+and `devtools/material-preview/index.html` for current evidence and captures.
 
 Rusty's mount review corrected the upside-down sword and outward-facing pickaxe head.
 Blades now sit straight against the side, with clearance derived from model thickness
 and the bag tier's surface. Headed tools, shields and small tools use distinct orientations;
 the approved scale limits remain unchanged. See `devtools/orientation-preview/index.html`
 and `devtools/verification/mount-orientation.md` for the actual comparison and audit.
+Torches and lanterns now use larger upright placements, matching the visible height of
+their placed-block versions (D-0016). The original item/resource models remain in use.
+See `devtools/lighting-preview/index.html` for actual before/after size and light captures.
 
 Ordinary cells precede mounts in the vanilla CONTAINER item component. Replacement checks
 every insertion; withdrawals of previously admitted items stay possible. Menus bind to an
@@ -52,31 +65,30 @@ Clients request bag UUID/revision, mount and selected hotbar index. The server c
 the equipped source and moves actual server-owned stacks. Semantic action IDs describe
 DRAW/STOW/EXCHANGE/OPEN/RETRIEVE/CLOSE, with server game time and visual before/after
 stacks. Client layers now animate draw/stow/exchange, opening/retrieval/closing and top-strap
-side carry. Protocol 2 adds validated worn opening and persistent held/worn menu state.
+side carry. Protocol 3 adds the equipment source and cosmetic render visibility to validated worn
+opening and persistent held/worn menu state.
 Two client-only vanilla injections handle arm setup and transient hand-item ownership;
 there is no other-mod mixin. An isolated, guarded EMF Compat Core API adapter publishes
 only this mod's owned arms and clears only its own named source.
 
 Validation and remaining gates are recorded in `devtools/verification/first-build.md`.
 The tests cover real server/menu behavior and separate two-client input/sync checks;
-they do not establish finished artwork, animation or shader compatibility.
+they do not establish finished artwork or the complete pose/shader compatibility matrix.
+The Curios checks and native G-key conflict correction are in `devtools/verification/curios.md`.
 
-## Next work
+## Release status
 
-Review the first actual motion captures in `devtools/animation-preview/index.html` and
-`devtools/verification/first-motion.md`. The isolated observer uses Fresh Animations 1.10.4,
-FA Player Extension 1.1, EMF 3.2.4/ETF 7.1, NEA 1.12.4, PlayerAnimator 2.0.4 and EMF Compat
-Core 1.1.2. The driver provides the plain-client comparison. No personal profile changed.
-Refine the reaching path, hand contacts, visible fastenings and original material textures
-after Rusty's first motion review; do not treat this prototype as final visual acceptance.
+The 0.1.0 candidates are validated and release is explicitly authorized under D-0022.
+The [release record](../devtools/verification/release-readiness.md) supersedes historical
+open gates and records exact full-pack coverage, limitations and live cutover status.
 
-Curios, final model/pose/armor/elytra behavior, mount eligibility,
-recipes/materials, death-policy review, dyes and dynamic lighting remain. Original Quick
-Slot lighting is also unfinished. Preserve its pre-existing documentation changes.
+Legacy bags/contents are discarded under D-0019. Preserve Stowed holsters through fresh
+offline conversion. A separately approved private rollback snapshot precedes live changes.
+The historical audit remains private scratch evidence and is never deployed or published.
 
-The live pack still uses SB and Stowed. SB contents live in external UUID-indexed SavedData;
-renaming item IDs is not migration. Local reference capacities 27/45/54/81/108/120 exceed
-the new working capacities: preserve overflow and unmapped data. Audit copies of real
-world data before conversion or removal. Releases and production changes remain held.
+Elytra hides worn bags/mounts while retaining controls, light and held bags. A visible bag
+moves small Quick Slot items to the hip and hides large items. Lifecycle tests fixed the
+native respawn sequence-reuse defect; repeated death/travel/relog/tracking checks passed.
 
-Vault mirror and generated graph freshness are not assumed; verify before structural claims.
+Vault and graph freshness are not assumed. Reuse muted private-display profiles after
+host-process inspection and stop them after checks; desktop focus is unnecessary.

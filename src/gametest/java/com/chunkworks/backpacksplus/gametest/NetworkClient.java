@@ -32,6 +32,18 @@ public final class NetworkClient {
     private static int frames,frameIndex;
     private static long nextFrame;
     private static String capturePrefix="";
+    private static final java.util.Map<java.util.UUID,java.util.function.Supplier<net.minecraft.client.resources.PlayerSkin>> CAPES=new java.util.HashMap<>();
+    private static final java.lang.reflect.Method IRIS_ACTIVE=irisMethod();
+    private static java.lang.reflect.Method irisMethod() {
+        if(!ModList.get().isLoaded("iris"))return null;
+        try{return Class.forName("net.irisshaders.iris.api.v0.IrisApi").getMethod("isShaderPackInUse");}
+        catch(ReflectiveOperationException failure){throw new IllegalStateException("Cannot inspect Iris API",failure);}
+    }
+    private static boolean shaders() {
+        if(IRIS_ACTIVE==null)return false;
+        try{return (Boolean)IRIS_ACTIVE.invoke(IRIS_ACTIVE.getDeclaringClass().getMethod("getInstance").invoke(null));}
+        catch(ReflectiveOperationException failure){throw new IllegalStateException("Cannot inspect active shaders",failure);}
+    }
     @SubscribeEvent public static void frame(net.neoforged.neoforge.client.event.RenderFrameEvent.Post event) {
         if (!NetworkFiles.ENABLED || frames<=0 || System.nanoTime()<nextFrame) return;
         Minecraft mc=Minecraft.getInstance(); nextFrame=System.nanoTime()+50_000_000L; frames--;
@@ -45,8 +57,56 @@ public final class NetworkClient {
             if (ModList.get().isLoaded("stowed")) throw new IllegalStateException("Stowed conflicts with test");
             var c=NetworkFiles.read(role+"-command");
             if (NetworkFiles.sequence(c)>completed) {
-                completed=NetworkFiles.sequence(c);
+                completed=NetworkFiles.sequence(c); error="";
                 switch (c.get("op").getAsString()) {
+                    case "cape" -> {
+                        // Offline fixture identities have no paid/account cape. Feed a
+                        // native PlayerSkin descriptor to the real CapeLayer; restore its
+                        // original lookup when disabled. No production rendering is replaced.
+                        var info=mc.getConnection().getPlayerInfo(c.get("target").getAsString());
+                        if(info==null)throw new IllegalStateException("Target player unavailable");
+                        var field=net.minecraft.client.multiplayer.PlayerInfo.class.getDeclaredField("skinLookup");field.setAccessible(true);
+                        if(c.get("enabled").getAsBoolean()) {
+                            @SuppressWarnings("unchecked") var original=(java.util.function.Supplier<net.minecraft.client.resources.PlayerSkin>)field.get(info);
+                            CAPES.putIfAbsent(info.getProfile().getId(),original);
+                            var skin=info.getSkin();
+                            var cape=new net.minecraft.client.resources.PlayerSkin(skin.texture(),skin.textureUrl(),
+                                    net.minecraft.resources.ResourceLocation.withDefaultNamespace("textures/entity/elytra.png"),skin.elytraTexture(),skin.model(),skin.secure());
+                            field.set(info,(java.util.function.Supplier<net.minecraft.client.resources.PlayerSkin>)()->cape);
+                        } else if(CAPES.containsKey(info.getProfile().getId()))field.set(info,CAPES.remove(info.getProfile().getId()));
+                    }
+                    case "curios" -> CuriosClient.open();
+                    case "curiosToggle" -> CuriosClient.toggle();
+                    case "lightConfig" -> LightingNetwork.configure(c);
+                    case "lightData" -> {
+                        var folder=mc.gameDirectory.toPath().resolve("resourcepacks/backpacks-light-test");
+                        java.nio.file.Files.createDirectories(folder.resolve("assets/backpacksplus/luminance"));
+                        java.nio.file.Files.writeString(folder.resolve("pack.mcmeta"),"{\"pack\":{\"pack_format\":34,\"description\":\"Temporary mounted light verification\"}}");
+                        java.nio.file.Files.writeString(folder.resolve("assets/backpacksplus/luminance/items.json"),"{\"minecraft:torch\":{\"luminance\":9,\"underwater\":true},\"farmersdelight:apple_cider\":11}");
+                        mc.getResourcePackRepository().reload();
+                        var packs=new java.util.ArrayList<>(mc.getResourcePackRepository().getSelectedIds());
+                        packs.remove("file/backpacks-light-test");
+                        if(c.get("enabled").getAsBoolean())packs.add("file/backpacks-light-test");
+                        mc.getResourcePackRepository().setSelected(packs);mc.reloadResourcePacks();
+                    }
+                    case "placementData" -> {
+                        var folder=mc.gameDirectory.toPath().resolve("resourcepacks/quickslot-fit-test");
+                        java.nio.file.Files.createDirectories(folder.resolve("assets/quickslot/quickslot_placement/minecraft"));
+                        java.nio.file.Files.writeString(folder.resolve("pack.mcmeta"),"{\"pack\":{\"pack_format\":34,\"description\":\"Temporary Quick Slot placement verification\"}}");
+                        java.nio.file.Files.writeString(folder.resolve("assets/quickslot/quickslot_placement/minecraft/apple.json"),"{\"anchor\":\"lower_back\",\"with_backpack\":{\"offset\":[0,0.10,0],\"rotation\":[0,0,30],\"scale\":1.5}}");
+                        mc.getResourcePackRepository().reload();
+                        var packs=new java.util.ArrayList<>(mc.getResourcePackRepository().getSelectedIds());
+                        packs.remove("file/quickslot-fit-test");if(c.get("enabled").getAsBoolean())packs.add("file/quickslot-fit-test");
+                        mc.getResourcePackRepository().setSelected(packs);mc.reloadResourcePacks();
+                    }
+                    case "movement" -> {
+                        mc.options.keyUp.setDown(c.has("forward")&&c.get("forward").getAsBoolean());
+                        mc.options.keyLeft.setDown(c.has("left")&&c.get("left").getAsBoolean());
+                        mc.options.keyRight.setDown(c.has("right")&&c.get("right").getAsBoolean());
+                        mc.options.keyJump.setDown(c.has("jump")&&c.get("jump").getAsBoolean());
+                        mc.options.keyShift.setDown(c.has("crouch")&&c.get("crouch").getAsBoolean());
+                        mc.options.keySprint.setDown(c.has("sprint")&&c.get("sprint").getAsBoolean());
+                    }
                     case "focus" -> { GLFW.glfwFocusWindow(mc.getWindow().getWindow()); mc.mouseHandler.grabMouse(); }
                     case "g" -> java.util.Arrays.stream(mc.options.keyMappings).filter(key -> key.getName().equals("key.backpacksplus.gear"))
                             .findFirst().orElseThrow().setDown(c.get("down").getAsBoolean());
@@ -92,6 +152,7 @@ public final class NetworkClient {
                     }
                     case "disconnect" -> { connect=false; mc.disconnect(new TitleScreen()); }
                     case "join" -> connect=true;
+                    case "respawn" -> mc.player.respawn();
                     case "quit" -> { connect=false; mc.stop(); }
                     default -> throw new IllegalArgumentException("Unknown client operation");
                 }
@@ -106,17 +167,25 @@ public final class NetworkClient {
         state.addProperty("browsing",GearClient.browsing()); state.addProperty("selection",GearClient.selection());
         state.addProperty("framesRemaining",frames);
         state.addProperty("reloading",mc.getOverlay()!=null);
+        if(ModList.get().isLoaded("curios"))CuriosClient.observe(state);
+        state.addProperty("curios",ModList.get().isLoaded("curios"));
+        state.addProperty("luminance",ModList.get().isLoaded("luminance"));
+        state.addProperty("shaders",shaders());
         state.addProperty("guiWidth",mc.getWindow().getGuiScaledWidth()); state.addProperty("guiHeight",mc.getWindow().getGuiScaledHeight());
         JsonObject players=new JsonObject();
         if (mc.level!=null) for (var player : mc.level.players()) {
             JsonObject p=NetworkFiles.player(player); var view=GearClient.snapshot(player.getUUID());
-            p.addProperty("skinModel",player.getSkin().model().name());
+            if(ModList.get().isLoaded("luminance"))p.add("light",LightingNetwork.observe(player));
+            p.addProperty("skinModel",player.getSkin().model().name());p.addProperty("cape",player.getSkin().capeTexture()!=null);
             if (view!=null) p.add("syncedBag",NetworkFiles.bag(view.bag()));
-            if (view!=null) p.addProperty("openedAt",view.openedAt());
+            if (view!=null) { p.addProperty("openedAt",view.openedAt()); p.addProperty("wornSource",view.wornSource()); p.addProperty("bagVisible",view.visible()); }
             var action=GearClient.action(player.getUUID()); if (action!=null) p.addProperty("action",action.kind().name());
             players.add(player.getGameProfile().getName(),p);
         }
         state.add("players",players);
+        var vehicles=new com.google.gson.JsonArray();if(mc.level!=null)for(var entity:mc.level.entitiesForRendering()){
+            var vehicle=WheelsNetwork.describe(entity);if(vehicle!=null)vehicles.add(vehicle);
+        }state.add("vehicles",vehicles);
         try { NetworkFiles.write(role+"-state",state); } catch (Exception failure) { LogUtils.getLogger().error("Backpack client evidence failed",failure); }
     }
 }

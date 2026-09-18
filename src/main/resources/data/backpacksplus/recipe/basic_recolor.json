@@ -1,0 +1,17 @@
+{
+  "type": "backpacksplus:backpack_dye",
+  "category": "equipment",
+  "group": "backpacksplus:recolor",
+  "ingredients": [
+    {
+      "item": "backpacksplus:basic_backpack"
+    },
+    {
+      "tag": "c:dyes"
+    }
+  ],
+  "result": {
+    "id": "backpacksplus:basic_backpack",
+    "count": 1
+  }
+}

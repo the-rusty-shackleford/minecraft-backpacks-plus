@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Backpacks+ · Three tiers</title>
+<style>
+  :root{color-scheme:dark;font-family:system-ui,sans-serif;background:#171b18;color:#eee8dc}
+  *{box-sizing:border-box}body{margin:0;padding:32px 24px 40px}main{max-width:1320px;margin:auto}
+  .eyebrow{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#b7bf9b}
+  h1{font-size:clamp(28px,5vw,44px);font-weight:650;letter-spacing:-.035em;margin:12px 0}
+  p{color:#bdc1b5;line-height:1.6;margin:8px 0 20px}.controls{display:flex;gap:20px;flex-wrap:wrap;margin:24px 0 20px}
+  .group{display:flex;gap:6px}button{font:inherit;font-size:14px;padding:10px 14px;border:1px solid #4b5546;border-radius:8px;background:#242b24;color:inherit;cursor:pointer}
+  button[aria-pressed=true]{background:#d0b384;border-color:#d0b384;color:#20261e}button:focus-visible,a:focus-visible{outline:3px solid #f0d7a6;outline-offset:3px}
+  .models{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}figure{margin:0;border:1px solid #465042;border-radius:12px;overflow:hidden;background:#222821}
+  .viewport{display:block;background:#afcefb}svg{display:block;width:100%;aspect-ratio:11/10}image{image-rendering:pixelated}
+  body.full svg{aspect-ratio:48/67}figcaption{padding:18px 20px 20px}h2{font-size:23px;letter-spacing:-.025em;margin:0 0 8px}
+  .capacity{font-size:14px;color:#dfc69d;font-variant-numeric:tabular-nums}.description{font-size:14px;line-height:1.5;color:#b8c0ad;margin-top:11px}
+  footer{border-top:1px solid #394338;margin-top:26px;padding-top:16px;font-size:13px;color:#9ba58f;line-height:1.6}a{color:#dfc69d}
+  @media(max-width:760px){body{padding:22px 14px}.models{grid-template-columns:1fr;max-width:520px;margin:auto}.controls{gap:10px}h1{font-size:32px}}
+</style>
+<main>
+  <div class="eyebrow">Backpacks+ / Actual in-game models</div>
+  <h1>Basic. Reinforced. Expedition.</h1>
+  <p>One compact silhouette, three stages of progression. Same player, camera and scale in every capture.</p>
+  <div class="controls">
+    <div class="group" role="group" aria-label="Camera angle">
+      <button data-view="quarter" aria-pressed="true">Angled view</button>
+      <button data-view="rear" aria-pressed="false">Rear view</button>
+    </div>
+    <div class="group" role="group" aria-label="Mounted items">
+      <button data-gear="bare" aria-pressed="true">Bags only</button>
+      <button data-gear="gear" aria-pressed="false">Mounted gear</button>
+    </div>
+    <div class="group" role="group" aria-label="Framing">
+      <button data-frame="detail" aria-pressed="true">Close up</button>
+      <button data-frame="full" aria-pressed="false">Full player</button>
+    </div>
+  </div>
+  <div class="models">
+    <figure data-tier="basic">
+      <a class="viewport" href="tier-basic-quarter-bare.png" aria-label="Open full Basic screenshot">
+        <svg viewBox="550 235 330 300" role="img" aria-label="Basic backpack on the player"><image href="tier-basic-quarter-bare.png" width="1280" height="900"/></svg>
+      </a>
+      <figcaption><h2>Basic</h2><div class="capacity">9 storage slots · 2 gear mounts</div><div class="description">Brown canvas, leather straps and a front pocket.<br>1 long mount + 1 small mount.</div></figcaption>
+    </figure>
+    <figure data-tier="reinforced">
+      <a class="viewport" href="tier-reinforced-quarter-bare.png" aria-label="Open full Reinforced screenshot">
+        <svg viewBox="550 235 330 300" role="img" aria-label="Reinforced backpack on the player"><image href="tier-reinforced-quarter-bare.png" width="1280" height="900"/></svg>
+      </a>
+      <figcaption><h2>Reinforced</h2><div class="capacity">18 storage slots · 3 gear mounts</div><div class="description">Olive canvas with reinforcing side supports.<br>2 long mounts + 1 small mount.</div></figcaption>
+    </figure>
+    <figure data-tier="expedition">
+      <a class="viewport" href="tier-expedition-quarter-bare.png" aria-label="Open full Expedition screenshot">
+        <svg viewBox="550 235 330 300" role="img" aria-label="Expedition backpack on the player"><image href="tier-expedition-quarter-bare.png" width="1280" height="900"/></svg>
+      </a>
+      <figcaption><h2>Expedition</h2><div class="capacity">36 storage slots · 4 gear mounts</div><div class="description">The reinforced body with added side pockets.<br>2 long mounts + 2 small mounts.</div></figcaption>
+    </figure>
+  </div>
+  <footer>Current working models · original vanilla material textures (restored) · Refined Tools models shown with mounted gear.<br>Fresh Animations / EMF client capture, without shaders. Click any model to open its original screenshot. <a href="../animation-preview/index.html">Watch the movement preview →</a> · <a href="../material-preview/index.html">Crafting and dyes →</a></footer>
+</main>
+<script>
+  const state={view:'quarter',gear:'bare',frame:'detail'};
+  function update(){
+    document.body.classList.toggle('full',state.frame==='full');
+    document.querySelectorAll('figure[data-tier]').forEach(card=>{
+      const src=`tier-${card.dataset.tier}-${state.view}-${state.gear}.png`;
+      card.querySelector('image').setAttribute('href',src);
+      card.querySelector('a').setAttribute('href',src);
+      const box=state.frame==='full' ? '430 70 480 670' : (state.view==='quarter' ? '550 235 330 300' : '475 235 330 300');
+      card.querySelector('svg').setAttribute('viewBox',box);
+    });
+    ['view','gear','frame'].forEach(key=>document.querySelectorAll(`[data-${key}]`).forEach(button=>button.setAttribute('aria-pressed',String(button.dataset[key]===state[key]))));
+  }
+  ['view','gear','frame'].forEach(key=>document.querySelectorAll(`button[data-${key}]`).forEach(button=>button.addEventListener('click',()=>{state[key]=button.dataset[key];update()})));
+</script>
+</html>

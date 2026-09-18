@@ -32,10 +32,10 @@ def command(role: str, op: str, **fields: object) -> dict[str, object]:
     deadline = time.monotonic() + 25
     while time.monotonic() < deadline:
         state = read(role)
-        if state.get('error'):
-            raise RuntimeError(str(state['error']))
         current = state.get('seq', 0)
         if isinstance(current, int) and current >= sequence:
+            if state.get('error'):
+                raise RuntimeError(str(state['error']))
             return state
         time.sleep(0.1)
     raise TimeoutError(f'{role} did not acknowledge {op}')

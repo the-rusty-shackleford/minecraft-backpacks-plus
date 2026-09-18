@@ -77,10 +77,12 @@ def run() -> None:
     time.sleep(0.4)
     check(item(player('server')['held']) == 'minecraft:diamond_pickaxe', 'Focus loss cancels a pending gear swap')
     command('driver', 'focus')
+    previous_bread = cell('server', 0)['count']
+    assert isinstance(previous_bread, int)
     command('server', 'held', item='minecraft:bread', count=5)
     browse(1)
     wait_for(lambda: item(player('server')['held']) == 'minecraft:diamond_axe', 'Fallback draw failed')
-    check(item(cell('server', 0)) == 'minecraft:bread' and cell('server', 0)['count'] == 5, 'Incompatible hand stack is stored intact in ordinary storage')
+    check(item(cell('server', 0)) == 'minecraft:bread' and cell('server', 0)['count'] == previous_bread + 5, 'Incompatible hand stack is stored intact in ordinary storage')
     command('server', 'holdBag')
     wait_for(lambda: item(player('driver')['held']) == 'backpacksplus:expedition_backpack', 'Held bag not synced')
     command('driver', 'use')
@@ -111,7 +113,7 @@ def run() -> None:
     wait_for(lambda: player('server')['selected'] == 0, 'Normal scroll did not return to slot zero')
     command('server', 'save')
     command('driver', 'disconnect')
-    wait_for(lambda: len(obj(read('server')['players'])) == 1, 'Driver did not disconnect')
+    wait_for(lambda: 'QuickDriver' not in obj(read('server')['players']), 'Driver did not disconnect', 60)
     command('driver', 'join')
     wait_for(lambda: item(cell('driver', 37, True)) == 'minecraft:diamond_sword', 'Relog lost mount state')
     wait_for(lambda: 'QuickDriver' in obj(read('server')['players']), 'Server report has not caught up with reconnect')
@@ -128,11 +130,12 @@ def run() -> None:
     command('driver', 'capture', name='backpacks-gear-left-compact.png')
     OUT.joinpath('network-results.json').write_text(json.dumps({'passed': RESULTS, 'server': read('server'), 'driver': read('driver'), 'observer': read('observer')}, indent=2))
 
-try:
-    run()
-finally:
-    for role in ('driver', 'observer', 'server'):
-        try:
-            command(role, 'quit')
-        except (RuntimeError, TimeoutError):
-            pass
+if __name__ == '__main__':
+    try:
+        run()
+    finally:
+        for role in ('driver', 'observer', 'server'):
+            try:
+                command(role, 'quit')
+            except (RuntimeError, TimeoutError):
+                pass

@@ -32,7 +32,8 @@ import net.neoforged.neoforge.common.Tags;
  * no renderer mutates a stack. Model/pose quality requires actual wide/slim client capture.
  */
 public final class BackpackLayer extends RenderLayer<AbstractClientPlayer,PlayerModel<AbstractClientPlayer>> {
-    private enum MountFacing { BLADE, HEADED_TOOL, SHIELD, SMALL_TOOL, DEFAULT }
+    private static final HumanoidArm[] ARMS=HumanoidArm.values();
+    private enum MountFacing { BLADE, HEADED_TOOL, SHIELD, SMALL_TOOL, TORCH, LANTERN, DEFAULT }
     private record Display(ItemStack item, RenderedBounds.Shape shape, boolean hidden, MountFacing facing) {}
     private static final Map<ItemStack,Display> DISPLAYS=new WeakHashMap<>();
     private record HeldBag(long revision, NonNullList<ItemStack> cells) {}
@@ -41,11 +42,14 @@ public final class BackpackLayer extends RenderLayer<AbstractClientPlayer,Player
     private final Matrix4f inverseBody=new Matrix4f();
     private final Vector3f grip=new Vector3f();
     private static final ModelResourceLocation[] BODIES=new ModelResourceLocation[3], LIDS=new ModelResourceLocation[3];
+    private static final ModelResourceLocation[] DYED_BODIES=new ModelResourceLocation[3], DYED_LIDS=new ModelResourceLocation[3];
     static {
         for (BackpackTier tier:BackpackTier.values()) {
             String name=tier.name().toLowerCase(java.util.Locale.ROOT);
             BODIES[tier.ordinal()]=ModelResourceLocation.standalone(BackpacksPlus.id("item/"+name+"_body"));
             LIDS[tier.ordinal()]=ModelResourceLocation.standalone(BackpacksPlus.id("item/"+name+"_lid"));
+            DYED_BODIES[tier.ordinal()]=ModelResourceLocation.standalone(BackpacksPlus.id("item/"+name+"_body_dyed"));
+            DYED_LIDS[tier.ordinal()]=ModelResourceLocation.standalone(BackpacksPlus.id("item/"+name+"_lid_dyed"));
         }
     }
     /** effects: binds the layer to a wide or slim renderer. */
@@ -53,6 +57,8 @@ public final class BackpackLayer extends RenderLayer<AbstractClientPlayer,Player
     static void registerModels(net.neoforged.neoforge.client.event.ModelEvent.RegisterAdditional event) {
         for (var model:BODIES) event.register(model);
         for (var model:LIDS) event.register(model);
+        for (var model:DYED_BODIES) event.register(model);
+        for (var model:DYED_LIDS) event.register(model);
     }
     /** effects: invalidates all measured geometry after resource reload. */
     public static void clear() { DISPLAYS.clear(); HELD.clear(); }
@@ -68,9 +74,14 @@ public final class BackpackLayer extends RenderLayer<AbstractClientPlayer,Player
         return result;
     }
     private static MountFacing facing(ItemStack item) {
-        if (item.is(ItemTags.SWORDS) || item.is(Tags.Items.TOOLS_SPEAR)) return MountFacing.BLADE;
+        if(item.getItem() instanceof BlockItem block) {
+            if(block.getBlock() instanceof net.minecraft.world.level.block.BaseTorchBlock)return MountFacing.TORCH;
+            if(block.getBlock() instanceof net.minecraft.world.level.block.LanternBlock)return MountFacing.LANTERN;
+        }
+        if (item.is(ItemTags.SWORDS) || item.getItem() instanceof SwordItem || item.is(Tags.Items.TOOLS_SPEAR)) return MountFacing.BLADE;
         if (item.is(ItemTags.PICKAXES) || item.is(ItemTags.AXES) || item.is(ItemTags.HOES)
-                || item.is(Tags.Items.TOOLS_FISHING_ROD)) return MountFacing.HEADED_TOOL;
+                || item.is(Tags.Items.TOOLS_FISHING_ROD) || item.getItem() instanceof PickaxeItem
+                || item.getItem() instanceof AxeItem || item.getItem() instanceof HoeItem) return MountFacing.HEADED_TOOL;
         if (item.is(Tags.Items.TOOLS_SHIELD)) return MountFacing.SHIELD;
         if (item.is(Tags.Items.TOOLS_BRUSH) || item.is(Tags.Items.TOOLS_SHEAR)
                 || item.is(Tags.Items.TOOLS_IGNITER) || item.is(Tags.Items.TOOLS_WRENCH)) return MountFacing.SMALL_TOOL;
@@ -84,7 +95,7 @@ public final class BackpackLayer extends RenderLayer<AbstractClientPlayer,Player
         double progress=motion==null ? 1 : GearPoses.progress(player,motion,partial);
         double open=GearPoses.opening(player,partial);
         int side=player.getMainArm()==HumanoidArm.RIGHT ? -1 : 1;
-        if (view!=null && !view.bag.isEmpty()) {
+        if (GearPoses.wornVisible(player)) {
             pose.pushPose(); getParentModel().body.translateAndRotate(pose);
             // Keep the pack near the torso; the open path goes around the supporting side.
             if (open>0) {
@@ -106,7 +117,7 @@ public final class BackpackLayer extends RenderLayer<AbstractClientPlayer,Player
             pose.popPose();
         }
         if (GearPoses.available(player)) {
-            for (HumanoidArm arm:HumanoidArm.values()) {
+            for (HumanoidArm arm:ARMS) {
                 ItemStack held=arm==player.getMainArm() ? player.getMainHandItem() : player.getOffhandItem();
                 if (held.getItem() instanceof BackpackItem) {
                     pose.pushPose(); getParentModel().translateToHand(arm,pose);
@@ -126,16 +137,26 @@ public final class BackpackLayer extends RenderLayer<AbstractClientPlayer,Player
                 }
             }
         }
-        if (motion!=null) renderHand(player,progress<0.5 ? motion.before() : motion.after(),pose,buffers,light);
+        if (motion!=null) renderHand(player,player.getMainArm(),progress<0.5 ? motion.before() : motion.after(),pose,buffers,light,1);
+        var retrieval=GearPoses.retrieval(player,partial);
+        if (retrieval!=null) {
+            double t=(GearPoses.time(player,partial)-retrieval.action().startedAt())/18;
+            // The existing action carries the actual withdrawn stack. Show one model
+            // as the hand leaves the bag, then tuck it away; gameplay already finished.
+            double visible=GearMotion.ease((t-0.38)/0.14)*(1-GearMotion.ease((t-0.82)/0.18));
+            if (visible>0) renderHand(player,GearPoses.supportingArm(player,partial).getOpposite(),
+                    retrieval.before(),pose,buffers,light,visible);
+        }
     }
     private static void renderBag(ItemStack bag, PoseStack pose, MultiBufferSource buffers, int light, double open) {
         Minecraft mc=Minecraft.getInstance(); int tier=BagContents.tier(bag).ordinal();
+        boolean dyed=bag.has(DataComponents.DYED_COLOR);
         pose.pushPose(); pose.scale(1,-1,-1);
-        mc.getItemRenderer().render(bag,ItemDisplayContext.NONE,false,pose,buffers,light,OverlayTexture.NO_OVERLAY,mc.getModelManager().getModel(BODIES[tier]));
+        mc.getItemRenderer().render(bag,ItemDisplayContext.NONE,false,pose,buffers,light,OverlayTexture.NO_OVERLAY,mc.getModelManager().getModel((dyed ? DYED_BODIES : BODIES)[tier]));
         pose.pushPose(); pose.translate(0,5.0/16,2.0/16);
         pose.mulPose(Axis.XP.rotationDegrees((float)(135*GearMotion.ease((open-0.65)/0.35))));
         pose.translate(0,-5.0/16,-2.0/16);
-        mc.getItemRenderer().render(bag,ItemDisplayContext.NONE,false,pose,buffers,light,OverlayTexture.NO_OVERLAY,mc.getModelManager().getModel(LIDS[tier]));
+        mc.getItemRenderer().render(bag,ItemDisplayContext.NONE,false,pose,buffers,light,OverlayTexture.NO_OVERLAY,mc.getModelManager().getModel((dyed ? DYED_LIDS : LIDS)[tier]));
         pose.popPose(); pose.popPose();
     }
     private static void renderMount(AbstractClientPlayer player, ItemStack stack, BackpackTier tier, int mount,
@@ -144,7 +165,14 @@ public final class BackpackLayer extends RenderLayer<AbstractClientPlayer,Player
         boolean large=tier.mounts().get(mount)==BackpackTier.Mount.LONG;
         int side=mount==0 ? -1 : 1;
         int small=mount-(tier==BackpackTier.BASIC ? 1 : 2);
-        var b=display.shape().bounds(); double scale=b.fit(large ? 0.92 : 0.26);
+        boolean torch=!large && display.facing()==MountFacing.TORCH;
+        boolean lantern=!large && display.facing()==MountFacing.LANTERN;
+        boolean lamp=torch || lantern;
+        // Vanilla sprites include transparent padding. Match their visible height to
+        // placed torches (10px) / lanterns including handle (11px), not the full quad.
+        double length=torch ? (display.shape().sprite() ? 1.0 : 10.0/16)
+                : lantern ? (display.shape().sprite() ? 11.0/13 : 11.0/16) : large ? 0.92 : 0.26;
+        var b=display.shape().bounds(); double scale=b.fit(length);
         boolean blade=large && display.facing()==MountFacing.BLADE;
         double sideDistance=0.34;
         if (blade) {
@@ -154,14 +182,18 @@ public final class BackpackLayer extends RenderLayer<AbstractClientPlayer,Player
             double thickness=switch (b.plane()) { case XY -> b.depth(); case YZ -> b.width(); case XZ -> b.height(); };
             // The guard/pommel set the bounds, but the blade is thinner. Seat swords
             // half a model pixel into that clearance so the blade contacts the bag.
-            double inset=display.item().is(ItemTags.SWORDS) ? 0.5/16 : 0;
+            double inset=(display.item().is(ItemTags.SWORDS) || display.item().getItem() instanceof SwordItem) ? 0.5/16 : 0;
             sideDistance=surface+thickness*scale/2+1.0/512-inset;
         }
         pose.pushPose();
-        pose.translate(large ? side*sideDistance : (small==0 ? -0.14 : 0.14),large ? 0 : 0.10,large ? 0.02 : 0.22);
+        double smallSide=lantern ? 0.20 : torch ? 0.12 : 0.14;
+        // Keep the larger lamp against the outer pocket, with room for two adjacent
+        // lanterns. Its back surface touches the bag rather than sinking into it.
+        pose.translate(large ? side*sideDistance : (small==0 ? -smallSide : smallSide),large ? 0 : lamp ? 0.02 : 0.10,
+                large ? 0.02 : lamp ? 0.245+b.depth()*scale/2 : 0.22);
         pose.scale(1,-1,-1);
         boolean shield=display.facing()==MountFacing.SHIELD;
-        pose.mulPose(Axis.ZP.rotationDegrees(large ? (shield || blade ? 0 : side*8) : small==0 ? -8 : 8));
+        pose.mulPose(Axis.ZP.rotationDegrees(large ? (shield || blade ? 0 : side*8) : lamp ? 0 : small==0 ? -8 : 8));
         // Blades point down with the grip accessible above the bag. Turn the broad
         // heads of 3-D tools along its side, instead of out across the player's arm.
         // Sprite tools stay against the surface: mirror their head inward, never edge-on.
@@ -182,16 +214,19 @@ public final class BackpackLayer extends RenderLayer<AbstractClientPlayer,Player
             if (b.plane()==ModelBounds.Plane.YZ) pose.mulPose(Axis.YP.rotationDegrees(90));
             if (b.plane()==ModelBounds.Plane.XZ) pose.mulPose(Axis.XP.rotationDegrees(90));
         }
-        pose.translate(-b.centerX(),-b.centerY(),-b.centerZ());
+        double padding=display.shape().sprite() ? torch ? 3.0/16 : lantern ? -0.5/16 : 0 : 0;
+        pose.translate(-b.centerX(),-b.centerY()+padding,-b.centerZ());
         Minecraft.getInstance().getItemRenderer().renderStatic(player,display.item(),ItemDisplayContext.NONE,false,pose,buffers,player.level(),light,OverlayTexture.NO_OVERLAY,player.getId());
         pose.popPose();
     }
-    private void renderHand(AbstractClientPlayer player, ItemStack item, PoseStack pose, MultiBufferSource buffers, int light) {
+    private void renderHand(AbstractClientPlayer player, HumanoidArm hand, ItemStack item, PoseStack pose,
+            MultiBufferSource buffers, int light, double scale) {
         if (item.isEmpty()) return;
-        boolean left=player.getMainArm()==HumanoidArm.LEFT;
-        pose.pushPose(); getParentModel().translateToHand(player.getMainArm(),pose);
+        boolean left=hand==HumanoidArm.LEFT;
+        pose.pushPose(); getParentModel().translateToHand(hand,pose);
         pose.mulPose(Axis.XP.rotationDegrees(-90)); pose.mulPose(Axis.YP.rotationDegrees(180));
         pose.translate((left ? -1 : 1)/16.0,0.125,-0.625);
+        pose.scale((float)scale,(float)scale,(float)scale);
         Minecraft.getInstance().getEntityRenderDispatcher().getItemInHandRenderer().renderItem(player,item,
                 left ? ItemDisplayContext.THIRD_PERSON_LEFT_HAND : ItemDisplayContext.THIRD_PERSON_RIGHT_HAND,left,pose,buffers,light);
         pose.popPose();

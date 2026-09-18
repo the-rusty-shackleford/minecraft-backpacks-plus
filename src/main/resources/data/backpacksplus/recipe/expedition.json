@@ -1,0 +1,31 @@
+{
+  "type": "backpacksplus:backpack_crafting",
+  "category": "equipment",
+  "group": "backpacksplus:expedition",
+  "pattern": [
+    "HLH",
+    "IBI",
+    "C C"
+  ],
+  "key": {
+    "H": {
+      "item": "minecraft:honeycomb"
+    },
+    "L": {
+      "item": "minecraft:lead"
+    },
+    "I": {
+      "item": "minecraft:iron_block"
+    },
+    "B": {
+      "item": "backpacksplus:reinforced_backpack"
+    },
+    "C": {
+      "item": "minecraft:leather"
+    }
+  },
+  "result": {
+    "id": "backpacksplus:expedition_backpack",
+    "count": 1
+  }
+}

@@ -32,13 +32,14 @@ public final class ProtocolGameTests {
     @GameTest(template="empty") public void equipmentSnapshotOwnsStacksAndPreservesComponents(GameTestHelper h) {
         ItemStack bag=new ItemStack(BackpackItems.EXPEDITION.get()); BagContents.identify(bag);
         var cells=BagContents.copy(bag); cells.set(36,new ItemStack(Items.TRIDENT)); BagContents.store(bag,cells);
-        var input=new GearProtocol.State(12,UUID.randomUUID(),ResourceLocation.withDefaultNamespace("overworld"),22,bag,987,38);
+        var input=new GearProtocol.State(12,UUID.randomUUID(),ResourceLocation.withDefaultNamespace("overworld"),22,bag,987,41,41,false);
         var b=buffer(h);
         try {
             GearProtocol.State.CODEC.encode(b,input); var decoded=GearProtocol.State.CODEC.decode(b);
             h.assertTrue(ItemStack.matches(decoded.bag(),bag),"bag components survive wire codec");
             h.assertTrue(decoded.openedAt()==987,"persistent menu pose survives snapshot for late trackers");
-            h.assertTrue(decoded.openSource()==38,"held and worn menu poses remain distinct");
+            h.assertTrue(decoded.openSource()==41 && decoded.wornSource()==41,"Curios menu source survives the codec");
+            h.assertTrue(!decoded.visible(),"hidden equipment still carries the functional snapshot");
             input.bag().shrink(1); bag.shrink(1);
             h.assertTrue(!input.bag().isEmpty() && !decoded.bag().isEmpty(),"caller cannot mutate snapshot");
             h.assertTrue(BagContents.copy(decoded.bag()).get(36).is(Items.TRIDENT),"mounted gear retained");

@@ -86,7 +86,9 @@ public final class BagContents {
     public static boolean longGear(ItemStack item) {
         if (item.is(SMALL)) return false;
         return item.is(LONG) || item.is(ItemTags.SWORDS) || item.is(ItemTags.AXES) || item.is(ItemTags.PICKAXES)
-                || item.is(ItemTags.SHOVELS) || item.is(ItemTags.HOES);
+                || item.is(ItemTags.SHOVELS) || item.is(ItemTags.HOES)
+                || item.getItem() instanceof net.minecraft.world.item.SwordItem
+                || item.getItem() instanceof net.minecraft.world.item.DiggerItem;
     }
     /** effects: returns whether the cell admits this stack; invalid indices reject rather than wrap. */
     public static boolean admits(BackpackTier tier, int cell, ItemStack item) {

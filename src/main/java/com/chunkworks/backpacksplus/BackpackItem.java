@@ -35,7 +35,7 @@ public final class BackpackItem extends Item implements Equipable {
     }
     /** requires: authoritative exact source stack, no other open menu; effects: opens held or worn storage. */
     public static void open(ServerPlayer player, ItemStack stack, int source) {
-        if (player.getInventory().getItem(source)!=stack || !(stack.getItem() instanceof BackpackItem item)) return;
+        if (BagLocations.stack(player,source)!=stack || !(stack.getItem() instanceof BackpackItem item)) return;
         BagInventory inventory = BagInventory.bind(player,source);
         var opened=player.openMenu(new SimpleMenuProvider((id, inv, p) -> new BackpackMenu(id,inv,inventory,item.tier,source),stack.getHoverName()),
                 buffer -> { buffer.writeEnum(item.tier); buffer.writeVarInt(source); });

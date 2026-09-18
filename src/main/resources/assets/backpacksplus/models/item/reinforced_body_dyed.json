@@ -1,0 +1,6 @@
+{
+  "parent": "backpacksplus:item/reinforced_body",
+  "textures": {
+    "canvas": "minecraft:block/white_terracotta"
+  }
+}

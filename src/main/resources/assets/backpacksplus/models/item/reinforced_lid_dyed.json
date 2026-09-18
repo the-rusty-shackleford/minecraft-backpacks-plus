@@ -1,0 +1,6 @@
+{
+  "parent": "backpacksplus:item/reinforced_lid",
+  "textures": {
+    "canvas": "minecraft:block/white_terracotta"
+  }
+}

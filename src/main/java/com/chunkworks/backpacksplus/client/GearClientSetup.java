@@ -38,9 +38,13 @@ public final class GearClientSetup {
     @SubscribeEvent public static void models(ModelEvent.RegisterAdditional event) { BackpackLayer.registerModels(event); }
     @SubscribeEvent public static void reload(RegisterClientReloadListenersEvent event) {
         event.registerReloadListener((ResourceManagerReloadListener)resources -> BackpackLayer.clear());
+        if(net.neoforged.fml.ModList.get().isLoaded("luminance"))
+            event.registerReloadListener((ResourceManagerReloadListener)resources -> LuminanceCompat.clear());
     }
     @SubscribeEvent public static void layers(RegisterGuiLayersEvent event) { event.registerAbove(VanillaGuiLayers.AIR_LEVEL,BackpacksPlus.id("gear"),GearHud::render); }
     @SubscribeEvent public static void setup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> GearProtocol.receive(GearClient::receive,GearClient::receive));
+        if(net.neoforged.fml.ModList.get().isLoaded("quickslot"))event.enqueueWork(QuickSlotCompat::registerPresentation);
+        if(net.neoforged.fml.ModList.get().isLoaded("luminance"))event.enqueueWork(LuminanceCompat::register);
     }
 }

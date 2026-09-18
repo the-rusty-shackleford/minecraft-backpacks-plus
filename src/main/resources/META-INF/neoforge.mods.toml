@@ -20,8 +20,22 @@ ordering="NONE"
 side="BOTH"
 
 [[dependencies.backpacksplus]]
+modId="luminance"
+type="optional"
+versionRange="[1.1.0,)"
+ordering="AFTER"
+side="CLIENT"
+
+[[dependencies.backpacksplus]]
 modId="minecraft"
 type="required"
 versionRange="[1.21.1]"
 ordering="NONE"
+side="BOTH"
+
+[[dependencies.backpacksplus]]
+modId="curios"
+type="optional"
+versionRange="[9.5.1,10)"
+ordering="AFTER"
 side="BOTH"

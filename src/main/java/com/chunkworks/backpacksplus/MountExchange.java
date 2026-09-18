@@ -22,8 +22,8 @@ public final class MountExchange {
      * it fits completely. Returns false without mutation on a stale or impossible intent.
      */
     public static boolean swap(Player player, int source, UUID bagId, long revision, int mount, int selected) {
-        if (player.level().isClientSide || source < 0 || source >= player.getInventory().getContainerSize() || source == selected) return false;
-        ItemStack bag = player.getInventory().getItem(source);
+        if (player.level().isClientSide || source < 0 || source == selected) return false;
+        ItemStack bag = BagLocations.stack(player,source);
         if (!(bag.getItem() instanceof BackpackItem) || bag.getCount() != 1) return false;
         boolean busy = player.isUsingItem() || player.containerMenu != player.inventoryMenu;
         if (!SwapRules.current(player.isAlive(), player.isSpectator(), busy, bagId != null && bagId.equals(bag.get(BackpackItems.ID)),
@@ -44,6 +44,7 @@ public final class MountExchange {
         if (!BagContents.store(bag, working)) return false;
         player.getInventory().setItem(selected, drawn);
         player.getInventory().setChanged();
+        BagLocations.changed(player,source);
         player.inventoryMenu.broadcastChanges();
         return true;
     }

@@ -1,0 +1,25 @@
+{
+  "type": "backpacksplus:backpack_crafting",
+  "category": "equipment",
+  "group": "backpacksplus:basic",
+  "pattern": [
+    "SLS",
+    "LWL",
+    "L L"
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:string"
+    },
+    "L": {
+      "item": "minecraft:leather"
+    },
+    "W": {
+      "tag": "minecraft:wool"
+    }
+  },
+  "result": {
+    "id": "backpacksplus:basic_backpack",
+    "count": 1
+  }
+}

@@ -6,7 +6,10 @@ version = mod_version
 group = 'com.chunkworks.backpacksplus'
 base { archivesName = 'backpacksplus' }
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
-repositories { mavenCentral() }
+repositories {
+    mavenCentral()
+    maven { url = "https://maven.theillusivec4.top/"; content { includeGroup "top.theillusivec4.curios" } }
+}
 
 // Domain rules will remain JDK-only; game adapters live in main.
 sourceSets { domain; gametest }
@@ -44,6 +47,12 @@ neoForge {
             programArgument '--username'; programArgument 'QuickViewer'
             systemProperty 'backpacksplus.testRole','observer'
         }
+        legacyServer {
+            server(); sourceSet=sourceSets.gametest
+            gameDirectory=file('run/legacy-retirement')
+            programArgument '--nogui'
+            systemProperty 'backpacksplus.legacyRetirement',providers.gradleProperty('legacyMode').getOrElse('verify')
+        }
         matching { it.name.startsWith('network') }.configureEach {
             systemProperty 'backpacksplus.networkTest','true'
             systemProperty 'backpacksplus.testDir',file('run/network-control').absolutePath
@@ -57,12 +66,20 @@ neoForge {
     }
     addModdingDependenciesTo(sourceSets.gametest)
 }
-neoForge.runs.matching { it.name != 'gameTestServer' && !it.name.startsWith('network') }.configureEach {
+neoForge.runs.matching { it.name != 'gameTestServer' && it.name != 'legacyServer' && !it.name.startsWith('network') }.configureEach {
     loadedMods = neoForge.mods.matching { it.name != 'backpacksplus_gametest' }
 }
 dependencies {
+    compileOnly "top.theillusivec4.curios:curios-neoforge:9.5.1+1.21.1:api"
+    gametestCompileOnly "top.theillusivec4.curios:curios-neoforge:9.5.1+1.21.1"
+    if (providers.gradleProperty("testCurios").isPresent())
+        gametestRuntimeOnly "top.theillusivec4.curios:curios-neoforge:9.5.1+1.21.1"
     // Unreleased companion built in the adjacent workspace; never bundled into this jar.
     compileOnly files('../minecraft-quickslot/build/libs/quickslot-0.1.0.jar')
+    // Optional client integration; use the pack's existing Luminance instance at runtime.
+    compileOnly files('../minecraft-luminance/build/libs/luminance-1.1.0.jar')
+    gametestCompileOnly files('../minecraft-vanilla-wheels/build/libs/vanillawheels-1.7.0.jar')
+    gametestCompileOnly files('../minecraft-luminance/build/libs/luminance-1.1.0.jar')
     implementation sourceSets.domain.output
     gametestImplementation sourceSets.main.output
     gametestImplementation sourceSets.domain.output
@@ -86,6 +103,16 @@ tasks.named('runGameTestServer') {
         def passed = log =~ /All (\d+) required tests passed/
         if (!passed.find()) throw new GradleException('No passing GameTest completion marker')
         logger.lifecycle("backpacksplus: all ${passed.group(1)} required GameTests passed")
+    }
+}
+tasks.named('runLegacyServer') {
+    def result = file("run/legacy-retirement/legacy-${providers.gradleProperty('legacyMode').getOrElse('verify')}-result.json")
+    doFirst { result.delete() }
+    doLast {
+        if (!result.exists()) throw new GradleException('No retirement experiment result')
+        def evidence = new groovy.json.JsonSlurper().parse(result)
+        if (evidence.error || !(evidence.seeded || evidence.verified))
+            throw new GradleException("Retirement experiment failed: ${evidence}")
     }
 }
 check { dependsOn 'runGameTestServer' }

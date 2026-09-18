@@ -1,0 +1,17 @@
+{
+  "checks": [
+    "chest: death/respawn keepInventory=False Vanishing=False; exact contents/components and no duplicate drops",
+    "chest: death/respawn keepInventory=False Vanishing=True; exact contents/components and no duplicate drops",
+    "chest: death/respawn keepInventory=True Vanishing=False; exact contents/components and no duplicate drops",
+    "chest: death/respawn keepInventory=True Vanishing=True; exact contents/components and no duplicate drops",
+    "chest: Nether/End round trips preserve the bag, mounts, dye/name and Quick Slot on both clients",
+    "chest: actual relog and tracking exit/reentry rebuild complete remote bag state",
+    "curios: death/respawn keepInventory=False Vanishing=False; exact contents/components and no duplicate drops",
+    "curios: death/respawn keepInventory=False Vanishing=True; exact contents/components and no duplicate drops",
+    "curios: death/respawn keepInventory=True Vanishing=False; exact contents/components and no duplicate drops",
+    "curios: death/respawn keepInventory=True Vanishing=True; exact contents/components and no duplicate drops",
+    "curios: Nether/End round trips preserve the bag, mounts, dye/name and Quick Slot on both clients",
+    "curios: actual relog and tracking exit/reentry rebuild complete remote bag state",
+    "Lifecycle run complete; no production data used"
+  ]
+}
