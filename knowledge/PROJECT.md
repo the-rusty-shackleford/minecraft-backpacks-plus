@@ -94,3 +94,15 @@ native respawn sequence-reuse defect; repeated death/travel/relog/tracking check
 
 Vault and graph freshness are not assumed. Reuse muted private-display profiles after
 host-process inspection and stop them after checks; desktop focus is unnecessary.
+
+
+## Unreleased follow-up — 2026-09-18
+
+Rusty reiterated that Creative should allow freely obtaining and testing equipment
+without consumables. Added all three backpack tiers to Tools & Utilities and Creative
+search, correcting missing Creative registration. Survival crafting is unchanged;
+ingredient-free crafting tables are not part of this fix. The regression failed before
+the fix, then all 29 real-server GameTests passed. A full pack 1.39.0 client with shaders
+found and retrieved all three bags through ordinary Creative search and clicks.
+See [evidence](../devtools/verification/creative-inventory.md). Publication and deployment
+are held pending an explicit release go.

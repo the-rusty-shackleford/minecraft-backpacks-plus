@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.gametest.framework.GameTest;
@@ -21,6 +22,8 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.CraftingMenu;
+import net.minecraft.world.flag.FeatureFlags;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.Item;
@@ -42,12 +45,29 @@ import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 /** Partitions: all tiers and 16 dyes; dyed/undyed creation; both upgrade edges with
  * full storage and mounts; pure repeated previews; normal/shift result clicks;
  * full player inventory; extra/missing/wrong-tier ingredients; corrupt count/overflow/
- * revision; registry save/load and recipe network codecs. FakePlayer provides input;
+ * revision; registry save/load and recipe network codecs; every registered backpack
+ * in the Creative tools and search tabs, with and without operator permissions. FakePlayer provides input;
  * matching, crafting menus, result consumption and serialization are real backends. */
 @GameTestHolder("backpacksplus")
 @PrefixGameTestTemplate(false)
 public final class CraftingGameTests {
     public CraftingGameTests() {}
+    @GameTest(template="empty")
+    public void everyBackpackIsAvailableInCreativeToolsAndSearch(GameTestHelper h) {
+        for (boolean operator : new boolean[]{false, true}) {
+            CreativeModeTabs.tryRebuildTabContents(FeatureFlags.DEFAULT_FLAGS, operator, h.getLevel().registryAccess());
+            var tools = BuiltInRegistries.CREATIVE_MODE_TAB.getOrThrow(CreativeModeTabs.TOOLS_AND_UTILITIES);
+            for (Item registered : BuiltInRegistries.ITEM) {
+                var id = BuiltInRegistries.ITEM.getKey(registered);
+                if (!id.getNamespace().equals("backpacksplus")) continue;
+                h.assertTrue(tools.getDisplayItems().stream().anyMatch(stack -> stack.is(registered)),
+                        id + " is available in Tools & Utilities, operator=" + operator);
+                h.assertTrue(CreativeModeTabs.searchTab().getDisplayItems().stream().anyMatch(stack -> stack.is(registered)),
+                        id + " is searchable in Creative, operator=" + operator);
+            }
+        }
+        h.succeed();
+    }
     private static Item item(BackpackTier tier) {
         return switch(tier) {case BASIC -> BackpackItems.BASIC.get();case REINFORCED -> BackpackItems.REINFORCED.get();case EXPEDITION -> BackpackItems.EXPEDITION.get();};
     }

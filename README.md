@@ -19,7 +19,14 @@ of each. Contents travel with the bag item. Normal item stack limits apply.
 Compare all three in the [in-game tier preview](devtools/tier-preview/index.html), with
 matched rear/angled views, mounted gear, and full-player proportions.
 
+**Unreleased fix:** all three backpack tiers now appear in the Creative inventory
+and search. See the [gameplay verification](devtools/verification/creative-inventory.md).
+
 ## Crafting and color
+
+In Creative, take any tier directly from **Tools & Utilities**, or search for
+**backpack** in the Creative inventory. Crafting and recipe unlocks are not needed
+to obtain a bag for testing.
 
 Use a normal crafting table. Each tier upgrades the previous bag, preserving its stored
 items, mounted gear, custom name and other item data. You do not need to empty it first.
@@ -72,7 +79,7 @@ status icons with its outer end aligned to Quick Slot; it never becomes a vertic
 
 Item IDs: `/give @s backpacksplus:basic_backpack`, with `reinforced_backpack`
 and `expedition_backpack` as the other IDs in that namespace. For existing worlds, follow the coordinated [cutover procedure](devtools/verification/legacy-retirement.md).
-Existing legacy bags and their contents will be discarded as requested. New bags require crafting.
+Existing legacy bags and their contents will be discarded as requested. In Survival, new bags require crafting; Creative provides all three tiers directly.
 
 When elytra is equipped, the worn backpack and its mounts are hidden to keep the wings
 clear. B, G, storage and mounted lighting still work. A bag carried in hand stays visible;

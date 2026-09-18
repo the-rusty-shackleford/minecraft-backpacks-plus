@@ -8,6 +8,8 @@ import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.CreativeModeTabs;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraft.world.inventory.MenuType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
@@ -34,6 +36,20 @@ public final class BackpackItems {
     private static DeferredItem<BackpackItem> register(String id, BackpackTier tier) {
         return ITEMS.register(id, () -> new BackpackItem(new Item.Properties().stacksTo(1), tier));
     }
-    /** effects: registers this mod's items, item data and menu type on the mod bus. */
-    public static void register(IEventBus bus) { ITEMS.register(bus); COMPONENTS.register(bus); MENUS.register(bus); }
+    /** effects: registers items, item data, menu type and Creative inventory entries on the mod bus. */
+    public static void register(IEventBus bus) {
+        ITEMS.register(bus);
+        COMPONENTS.register(bus);
+        MENUS.register(bus);
+        bus.addListener(BackpackItems::buildCreativeTabs);
+    }
+
+    /** effects: makes every backpack tier available in Tools & Utilities and Creative search. */
+    private static void buildCreativeTabs(BuildCreativeModeTabContentsEvent event) {
+        if (event.getTabKey().equals(CreativeModeTabs.TOOLS_AND_UTILITIES)) {
+            event.accept(BASIC);
+            event.accept(REINFORCED);
+            event.accept(EXPEDITION);
+        }
+    }
 }
