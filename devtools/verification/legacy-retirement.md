@@ -3,7 +3,8 @@
 Rusty explicitly chose to discard existing Sophisticated Backpacks bags and their contents
 (D-0018/D-0019), with no free replacements. New Backpacks+ bags require crafting. Stowed
 holsters remain separate and will move into Quick Slot with all their item data intact.
-Release and production changes remain HELD.
+This is the historical rehearsal. The subsequent authorized [deployment](deployment.md)
+completed with fresh server-local files; the old hold is superseded.
 
 The private approved local audit and four-player copied-save conversion completed. Two
 holster stacks were preserved; no real inventory data enters this repository. The remote
@@ -31,6 +32,6 @@ Curios stays installed. Installed client and server metadata show no other depen
 on Core; recheck before release. No production or personal-profile files were changed.
 
 The complete copied-save utility instructions, checksums/refusal rules, fresh-backup
-requirement and held deployment procedure live in the sibling Quick Slot store:
+requirement and deployment procedure live in the sibling Quick Slot store:
 `knowledge/validation/legacy-cutover.md`. Native loading clears invalid stacks as their
 players/chunks are loaded; this does not eagerly rewrite every unloaded region.

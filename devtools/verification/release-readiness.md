@@ -62,8 +62,7 @@ owned fixture process completed the remaining checks. Failed/aborted runs are no
 
 ## Deployment
 
-Publish the two 0.1.0 jars and coordinate both sides of pack 1.38.0. Preserve Curios,
-the attached decoration jars and unrelated files. Retire Stowed/SB/unused Core. Archive
-SB SavedData outside the active world, discard old bags and contents under D-0019, grant
-no replacements, and preserve Stowed holsters using fresh offline files. Never deploy
-the historical audit copy. The operator record will state hashes, backup and live parity.
+Both 0.1.0 releases are published and deployed with pack 1.38.0. The existing local client
+is updated and the server is running at 20 TPS with matching jar hashes. The approved
+server-local snapshot and fresh holster conversion completed; legacy mods are retired.
+See the [deployment record](deployment.md) for artifact hashes, exact checks and limits.

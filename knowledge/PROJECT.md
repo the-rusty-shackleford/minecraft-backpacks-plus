@@ -3,7 +3,7 @@
 Repository `minecraft-backpacks-plus`; mod ID `backpacksplus`; namespace
 `com.chunkworks.backpacksplus`. Minecraft 1.21.1, NeoForge 21.1.248, Java 21,
 official Mojang mappings. Rusty authorized implementation after approving the persistent
-gear bar (D-0009). Release 0.1.0 is authorized under D-0022; see the current release record for deployment state.
+gear bar (D-0009). Release 0.1.0 shipped in pack 1.38.0 under D-0022; see the deployment record.
 
 ## Approved direction
 
@@ -71,14 +71,16 @@ Two client-only vanilla injections handle arm setup and transient hand-item owne
 there is no other-mod mixin. An isolated, guarded EMF Compat Core API adapter publishes
 only this mod's owned arms and clears only its own named source.
 
-Validation and remaining gates are recorded in `devtools/verification/first-build.md`.
-The tests cover real server/menu behavior and separate two-client input/sync checks;
-they do not establish finished artwork or the complete pose/shader compatibility matrix.
+Current validation is recorded in `devtools/verification/release-readiness.md`;
+`first-build.md` is the historical first checkpoint. The final record distinguishes
+completed native, two-client and visual checks from hardware/group limitations.
 The Curios checks and native G-key conflict correction are in `devtools/verification/curios.md`.
 
 ## Release status
 
-The 0.1.0 candidates are validated and release is explicitly authorized under D-0022.
+Both 0.1.0 mods are published and deployed in pack 1.38.0 under D-0022.
+The existing client is updated and the server is running with verified matching jars.
+See [deployment](../devtools/verification/deployment.md).
 The [release record](../devtools/verification/release-readiness.md) supersedes historical
 open gates and records exact full-pack coverage, limitations and live cutover status.
 
