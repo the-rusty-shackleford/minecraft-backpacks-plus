@@ -72,3 +72,16 @@ Private raw evidence and reproduction source: `/tmp/codex-mount-sizing-20260918/
 The four retained regressions are in `src/gametest/.../MountSizingGameTests.java`,
 registered when the real Ranged Weapons Mod is loaded. Supply actual dependency jars
 through `testMountMods`; ordinary builds never bundle them.
+
+
+## Release follow-up — 2026-09-18
+
+Rusty subsequently authorized release. Backpacks+ 0.2.0 and Quick Slot 0.1.1 are
+published and deployed in **pack 1.40.0**. A clean release build reran all 45 server
+checks with the dependency versions actually published in pack 1.39.2, keeping the
+unrelated shared-materials packaging changes held. Both downloaded assets match
+the builds, and both installed server hashes match the releases. The new startup
+loads the correct versions, Mod Hub reports no differences, and RCON reports 20 TPS.
+The empty-server restart preserved world/configuration. Native visual limitations
+above still apply; no personal Prism files changed. This supersedes this record's
+historical release hold. Release evidence: `/tmp/codex-mount-release-20260918/`.

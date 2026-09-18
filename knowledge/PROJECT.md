@@ -173,3 +173,16 @@ release holds for these two versions above. Clean builds and actual-item server 
 gate publication; a fresh empty-player check gates the production restart. Client
 delivery is through Mod Hub; Rusty updates Prism themselves. The separate materials
 packaging follow-up remains outside this release.
+
+
+## Published release — 2026-09-18, pack 1.40.0
+
+Version 0.2.0 is [published](https://github.com/the-rusty-shackleford/minecraft-backpacks-plus/releases/tag/v0.2.0)
+and deployed through Mod Hub in pack **1.40.0**. The downloaded GitHub asset and
+installed server jar both match SHA-1 `40b6a169b1707d94bcc8f1135d9bff868b329df8`.
+Clean builds passed; Backpacks+ additionally passed all 45 real-server tests with
+the published dependency versions. Startup confirms both new mods; pack parity is
+clean and the sampled server rate is 20 TPS. A fresh zero-player check preceded
+the restart. Existing world selection, seed, operators and DH configuration were
+preserved. Rusty updates Prism themselves; this release did not modify their client.
+This supersedes the release holds and pending-publication statements for this version.
