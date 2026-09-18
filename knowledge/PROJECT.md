@@ -197,3 +197,11 @@ sprites. All bag tiers, both mounts, swapped pairs, reference tools and carried 
 were checked in the real shader client, followed by a G/wheel/release draw/restow.
 See [evidence](../devtools/verification/firearm-mounts.md). Automatic approval review requires a separate hotfix release go; publication and
 deployment are held pending that answer. No other held mod release is included.
+
+
+## Hotfix release authorization — 2026-09-18
+
+Rusty explicitly approved publishing Backpacks+ 0.2.1 and deploying pack 1.40.1
+after the firearm visual and regression checks. This supersedes the automatic-review
+release hold above. Only this backpack hotfix is included; the other held releases
+remain held. A fresh empty-player check gates the production restart.
