@@ -186,3 +186,14 @@ clean and the sampled server rate is 20 TPS. A fresh zero-player check preceded
 the restart. Existing world selection, seed, operators and DH configuration were
 preserved. Rusty updates Prism themselves; this release did not modify their client.
 This supersedes the release holds and pending-publication statements for this version.
+
+
+## Firearm orientation correction — 2026-09-18
+
+Rusty reported that 0.2.0 put newly classified long guns across the back. Version 0.2.1
+corrects their orientation: barrel-up, broad face against the bag's side, with measured
+clearance and unchanged size limits. Covers the four RWM long guns and six AGM gun
+sprites. All bag tiers, both mounts, swapped pairs, reference tools and carried bags
+were checked in the real shader client, followed by a G/wheel/release draw/restow.
+See [evidence](../devtools/verification/firearm-mounts.md). Automatic approval review requires a separate hotfix release go; publication and
+deployment are held pending that answer. No other held mod release is included.

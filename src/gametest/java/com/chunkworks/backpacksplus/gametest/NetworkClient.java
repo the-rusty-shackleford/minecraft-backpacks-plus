@@ -118,7 +118,21 @@ public final class NetworkClient {
                     case "use" -> KeyMapping.click(mc.options.keyUse.getKey());
                     case "b" -> java.util.Arrays.stream(mc.options.keyMappings).filter(key -> key.getName().equals("key.backpacksplus.open"))
                             .findFirst().ifPresent(key -> KeyMapping.click(key.getKey()));
+                    case "orbit" -> {
+                        // A detached, unspawned vanilla camera lets one real client
+                        // inspect its own networked player from either side.
+                        var camera=new net.minecraft.world.entity.decoration.ArmorStand(mc.level,0,0,0);
+                        double x=c.get("x").getAsDouble(), y=c.get("y").getAsDouble()-camera.getEyeHeight(), z=c.get("z").getAsDouble();
+                        camera.setPos(x,y,z); camera.xo=x; camera.yo=y; camera.zo=z;
+                        camera.xOld=x; camera.yOld=y; camera.zOld=z;
+                        camera.setYRot(c.get("yaw").getAsFloat()); camera.yRotO=camera.getYRot();
+                        camera.setYHeadRot(camera.getYRot()); camera.yHeadRotO=camera.getYRot();
+                        camera.setXRot(c.get("pitch").getAsFloat()); camera.xRotO=camera.getXRot();
+                        mc.setCameraEntity(camera); mc.options.setCameraType(CameraType.FIRST_PERSON);
+                        mc.options.fov().set(c.get("fov").getAsInt()); mc.options.hideGui=true;
+                    }
                     case "view" -> {
+                        mc.setCameraEntity(mc.player);
                         mc.options.setCameraType(CameraType.valueOf(c.get("camera").getAsString()));
                         mc.options.fov().set(c.get("fov").getAsInt()); mc.options.hideGui=c.get("hideGui").getAsBoolean();
                         float yaw=c.get("yaw").getAsFloat(), pitch=c.get("pitch").getAsFloat();

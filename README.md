@@ -3,7 +3,7 @@
 Rustic survival backpacks for Minecraft 1.21.1 / NeoForge 21.1.x, with tools and weapons
 mounted on the sides and small supplies carried on the outer face or hanging from straps.
 
-**Version 0.2.0.** Crafting and canvas dyes, Curios equipment, direct mount swaps,
+**Version 0.2.1.** Crafting and canvas dyes, Curios equipment, direct mount swaps,
 the horizontal gear HUD, third-person carry/open/retrieval and optional Luminance lighting.
 The approved original pixel materials and item scales are retained. See the
 [actual motion and full-pack preview](devtools/release-preview/index.html) and
@@ -12,6 +12,11 @@ The approved original pixel materials and item scales are retained. See the
 Mounted swords now sit straight and blade-down against the bag's side; headed tools,
 shields and small tools have their own orientations. The actual Refined Tools models
 and existing scale limits are preserved. See the [before/after comparison](devtools/orientation-preview/index.html).
+
+Mounted rifles, scoped rifles, shotguns and machine guns lie flat along the bag sides,
+with barrels up and stocks down. This covers Ranged Weapons Mod and Another Gun Mod
+long guns, including its auto gun and flamethrower. See the
+[shader captures and verification](devtools/verification/firearm-mounts.md).
 
 Basic, Reinforced and Expedition have **9, 18 and 36** ordinary cells plus **2, 3 and 4**
 dedicated mounts. Their mount splits are one long/one small, two long/one small, and two

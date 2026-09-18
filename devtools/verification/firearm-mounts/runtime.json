@@ -1,0 +1,40 @@
+{
+  "shaders": true,
+  "luminance": true,
+  "curios": true,
+  "skin": "SLIM",
+  "mounts": [
+    {
+      "item": "rangedweaponsmod:rifle",
+      "count": 1
+    },
+    {
+      "item": "rangedweaponsmod:machine_gun",
+      "count": 1
+    },
+    {
+      "item": "minecraft:air",
+      "count": 0
+    },
+    {
+      "item": "minecraft:air",
+      "count": 0
+    }
+  ],
+  "held": {
+    "item": "minecraft:air",
+    "count": 0
+  },
+  "g_wheel_release_draw_then_stow": "passed",
+  "image_sha256": {
+    "after.png": "7474c14a3689e9dfb37541a257f6eb17723246a63ffaffa372c2051a548274a6",
+    "agm-sheet.png": "93385682e49d0ddb5489cbf5026a93fd8da89722cf47de567b07158ed6b6dd46",
+    "reinforced-sheet.png": "9bbd26ce4733ad81e9a387e340fe3a66ba02d632affcf10275c96e0834f57918",
+    "carried.png": "18d4df828b8ecab510fd3506065dd4e70d2f6b4444fcbdf5ce51ea75a61fd0df",
+    "restowed.png": "1bb1dd8ff1162db332f9a5de0ca6767fe8c6a0e25ad541ab3f30e81fbfef8002",
+    "machine-gun-shotgun-rear.png": "c2f5005fb90df33a8b347f37fa24f8792dc2932ef4d15d5f30f00c502d0beb7e",
+    "guns-sheet.png": "49cd73c086fb004118f782747fc580e14ae48396eddb9294aea465f58f23755a",
+    "before.png": "91e43d1ce6879212d64252eae579caba956065e18001f43ccfed6871b6654598",
+    "held-reference-sheet.png": "9c4e7c6d5952008ff0245058dfba75a38886358eef2b9199ba7adff36f1a57b4"
+  }
+}

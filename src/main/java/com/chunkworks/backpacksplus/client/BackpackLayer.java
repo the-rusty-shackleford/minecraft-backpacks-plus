@@ -33,7 +33,9 @@ import net.neoforged.neoforge.common.Tags;
  */
 public final class BackpackLayer extends RenderLayer<AbstractClientPlayer,PlayerModel<AbstractClientPlayer>> {
     private static final HumanoidArm[] ARMS=HumanoidArm.values();
-    private enum MountFacing { BLADE, HEADED_TOOL, SHIELD, SMALL_TOOL, TORCH, LANTERN, DEFAULT }
+    private enum MountFacing { BLADE, HEADED_TOOL, SHIELD, FIREARM, SMALL_TOOL, TORCH, LANTERN, DEFAULT }
+    private static final net.minecraft.tags.TagKey<Item> FIREARMS=net.minecraft.tags.TagKey.create(
+            net.minecraft.core.registries.Registries.ITEM,BackpacksPlus.id("mounts/firearms"));
     private record Display(ItemStack item, RenderedBounds.Shape shape, boolean hidden, MountFacing facing) {}
     private static final Map<ItemStack,Display> DISPLAYS=new WeakHashMap<>();
     private record HeldBag(long revision, NonNullList<ItemStack> cells) {}
@@ -78,6 +80,7 @@ public final class BackpackLayer extends RenderLayer<AbstractClientPlayer,Player
             if(block.getBlock() instanceof net.minecraft.world.level.block.BaseTorchBlock)return MountFacing.TORCH;
             if(block.getBlock() instanceof net.minecraft.world.level.block.LanternBlock)return MountFacing.LANTERN;
         }
+        if (item.is(FIREARMS)) return MountFacing.FIREARM;
         if (item.is(ItemTags.SWORDS) || item.getItem() instanceof SwordItem || item.is(Tags.Items.TOOLS_SPEAR)) return MountFacing.BLADE;
         if (item.is(ItemTags.PICKAXES) || item.is(ItemTags.AXES) || item.is(ItemTags.HOES)
                 || item.is(Tags.Items.TOOLS_FISHING_ROD) || item.getItem() instanceof PickaxeItem
@@ -174,8 +177,9 @@ public final class BackpackLayer extends RenderLayer<AbstractClientPlayer,Player
                 : lantern ? (display.shape().sprite() ? 11.0/13 : 11.0/16) : large ? 0.92 : 0.26;
         var b=display.shape().bounds(); double scale=b.fit(length);
         boolean blade=large && display.facing()==MountFacing.BLADE;
+        boolean firearm=large && display.facing()==MountFacing.FIREARM;
         double sideDistance=0.34;
-        if (blade) {
+        if (blade || firearm) {
             // Contact the side rail/pocket of the current bag, accounting for the
             // actual model thickness. A fixed outward lean leaves the tip floating.
             double surface=switch (tier) { case BASIC -> 4.0/16; case REINFORCED -> 4.5/16; case EXPEDITION -> 5.1/16; };
@@ -193,7 +197,7 @@ public final class BackpackLayer extends RenderLayer<AbstractClientPlayer,Player
                 large ? 0.02 : lamp ? 0.245+b.depth()*scale/2 : 0.22);
         pose.scale(1,-1,-1);
         boolean shield=display.facing()==MountFacing.SHIELD;
-        pose.mulPose(Axis.ZP.rotationDegrees(large ? (shield || blade ? 0 : side*8) : lamp ? 0 : small==0 ? -8 : 8));
+        pose.mulPose(Axis.ZP.rotationDegrees(large ? (shield || blade || firearm ? 0 : side*8) : lamp ? 0 : small==0 ? -8 : 8));
         // Blades point down with the grip accessible above the bag. Turn the broad
         // heads of 3-D tools along its side, instead of out across the player's arm.
         // Sprite tools stay against the surface: mirror their head inward, never edge-on.
@@ -204,7 +208,13 @@ public final class BackpackLayer extends RenderLayer<AbstractClientPlayer,Player
             pose.mulPose(Axis.YP.rotationDegrees(side*90));
             pose.mulPose(Axis.ZP.rotationDegrees(180));
         }
-        if (large && display.shape().sprite()) pose.mulPose(Axis.ZP.rotationDegrees(45));
+        if (firearm) {
+            // RWM's 3-D muzzles point +X; AGM's flat artwork points upper-left.
+            // Stand the barrel up, then put the broad face against the side wall.
+            pose.mulPose(Axis.YP.rotationDegrees(side*90));
+            pose.mulPose(Axis.ZP.rotationDegrees(display.shape().sprite() ? -45 : 90));
+        }
+        if (large && !firearm && display.shape().sprite()) pose.mulPose(Axis.ZP.rotationDegrees(45));
         pose.scale((float)scale,(float)scale,(float)scale);
         if (!large && display.facing()==MountFacing.SMALL_TOOL && b.depth()>b.height()*1.4 && b.depth()>b.width()*1.4) {
             // Some 3-D brushes are modeled handle-first along Z, with a square

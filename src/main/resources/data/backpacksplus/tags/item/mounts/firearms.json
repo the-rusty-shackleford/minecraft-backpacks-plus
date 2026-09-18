@@ -1,0 +1,45 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "rangedweaponsmod:rifle",
+      "required": false
+    },
+    {
+      "id": "rangedweaponsmod:scoped_rifle",
+      "required": false
+    },
+    {
+      "id": "rangedweaponsmod:shotgun",
+      "required": false
+    },
+    {
+      "id": "rangedweaponsmod:machine_gun",
+      "required": false
+    },
+    {
+      "id": "anothergunmod:rifle",
+      "required": false
+    },
+    {
+      "id": "anothergunmod:rifle_spyglass",
+      "required": false
+    },
+    {
+      "id": "anothergunmod:shotgun",
+      "required": false
+    },
+    {
+      "id": "anothergunmod:auto_gun",
+      "required": false
+    },
+    {
+      "id": "anothergunmod:machine_gun",
+      "required": false
+    },
+    {
+      "id": "anothergunmod:flame_thrower",
+      "required": false
+    }
+  ]
+}
