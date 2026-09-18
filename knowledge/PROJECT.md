@@ -163,3 +163,13 @@ receive small overrides despite their sword inheritance. No admission algorithm,
 schema or protocol changes. Existing misplaced items remain withdrawable and stowable.
 The correction joins the held 0.2.0 follow-up; see
 [verification](../devtools/verification/mount-sizing.md). No release go was given.
+
+
+## Release authorization — 2026-09-18, pack 1.40.0
+
+Rusty explicitly authorized publication and deployment of the backpack mount correction
+and the coordinated Backpacks+ 0.2.0 / Quick Slot 0.1.1 update. This supersedes the
+release holds for these two versions above. Clean builds and actual-item server checks
+gate publication; a fresh empty-player check gates the production restart. Client
+delivery is through Mod Hub; Rusty updates Prism themselves. The separate materials
+packaging follow-up remains outside this release.
