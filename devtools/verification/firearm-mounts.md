@@ -49,3 +49,14 @@ observing the ordinary networked player; it does not replace production renderin
 General animation/body pose coverage is not claimed by this focused correction.
 
 Clean `./gradlew --no-watch-fs clean build -PtestMountMods=<published server fixture>` passed: **13 JUnit and 45 actual-server GameTests**. The headless fixture excludes DH because of its previously reproduced GameTestServer cast failure; the visual dedicated server/client included DH. The final jar contains byte-identical renderer and firearm tag payloads to those inspected in the live client. Both private runtimes exited after an empty-player check.
+
+
+## Released — 2026-09-18
+
+Rusty explicitly approved the separate hotfix release. Backpacks+ **0.2.1** is
+published and deployed in **pack 1.40.1**. The release asset and installed server jar
+match SHA-1 `36881028ae418631612c7961b6b99e10593283d9`. The new startup loads
+0.2.1, Mod Hub reports no differences, and RCON reports 20 TPS. The downloaded client
+archive also matches staging. World/configuration remained intact, and the production
+restart followed a fresh empty-player check. The separate carry-clearance observation
+is tracked in [issue #1](https://github.com/the-rusty-shackleford/minecraft-backpacks-plus/issues/1).

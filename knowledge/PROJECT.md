@@ -205,3 +205,15 @@ Rusty explicitly approved publishing Backpacks+ 0.2.1 and deploying pack 1.40.1
 after the firearm visual and regression checks. This supersedes the automatic-review
 release hold above. Only this backpack hotfix is included; the other held releases
 remain held. A fresh empty-player check gates the production restart.
+
+
+## Published hotfix — 2026-09-18, pack 1.40.1
+
+Backpacks+ 0.2.1 is [published](https://github.com/the-rusty-shackleford/minecraft-backpacks-plus/releases/tag/v0.2.1)
+and deployed through Mod Hub in **pack 1.40.1**. Release asset, tested jar and installed
+server jar match SHA-1 `36881028ae418631612c7961b6b99e10593283d9`. Startup explicitly
+loads 0.2.1, pack parity is clean, and the verified sample is 20 TPS. The restart
+followed a fresh zero-player check; world selection, seed, operators and DH config
+were preserved. Mod Hub's downloaded client archive matches verified staging and
+contains the new jar. Rusty updates Prism themselves; no personal client was edited.
+The previous hotfix release hold is superseded by the explicit approval and deployment.
