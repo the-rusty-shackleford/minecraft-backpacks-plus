@@ -16,7 +16,7 @@ implement ingredient-free crafting tables.
   with operator permissions disabled and enabled. Before the fix, it failed on
   Basic Backpack; the other 28 GameTests passed.
 - After the registration fix, `./gradlew --no-watch-fs build` passed all 29 server
-  GameTests. The unchanged 13 JUnit tests were up to date in this build.
+  GameTests. All 13 JUnit tests also ran and passed.
 - Started the isolated complete pack 1.39.0 server and one muted client, using the
   changed Backpacks+ source. Iris/Complementary shaders were enabled.
 - Cleared the test player's inventory, opened the normal Creative inventory using

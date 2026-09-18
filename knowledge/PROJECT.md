@@ -106,3 +106,14 @@ the fix, then all 29 real-server GameTests passed. A full pack 1.39.0 client wit
 found and retrieved all three bags through ordinary Creative search and clicks.
 See [evidence](../devtools/verification/creative-inventory.md). Publication and deployment
 are held pending an explicit release go.
+
+
+## Dedicated Creative tabs — 2026-09-18, unreleased
+
+Rusty requested a separate Creative inventory page for each item-adding mod, then
+explicitly chose to group all vehicles in Vanilla Wheels.
+The dedicated Backpacks+ Creative tab groups all three tiers, alongside their existing
+Tools & Utilities and search entries.
+No release or deployment is authorized by this follow-up.
+Validation: 29 real-server GameTests and native full-pack Creative tab navigation/
+item pickup passed; see [evidence](../devtools/verification/creative-tab.md).

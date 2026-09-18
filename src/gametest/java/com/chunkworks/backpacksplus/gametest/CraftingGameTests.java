@@ -46,20 +46,22 @@ import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
  * full storage and mounts; pure repeated previews; normal/shift result clicks;
  * full player inventory; extra/missing/wrong-tier ingredients; corrupt count/overflow/
  * revision; registry save/load and recipe network codecs; every registered backpack
- * in the Creative tools and search tabs, with and without operator permissions. FakePlayer provides input;
+ * in the dedicated Creative tab, tools and search tabs, with and without operator permissions. FakePlayer provides input;
  * matching, crafting menus, result consumption and serialization are real backends. */
 @GameTestHolder("backpacksplus")
 @PrefixGameTestTemplate(false)
 public final class CraftingGameTests {
     public CraftingGameTests() {}
     @GameTest(template="empty")
-    public void everyBackpackIsAvailableInCreativeToolsAndSearch(GameTestHelper h) {
+    public void everyBackpackIsAvailableInOwnCreativeTabToolsAndSearch(GameTestHelper h) {
         for (boolean operator : new boolean[]{false, true}) {
             CreativeModeTabs.tryRebuildTabContents(FeatureFlags.DEFAULT_FLAGS, operator, h.getLevel().registryAccess());
             var tools = BuiltInRegistries.CREATIVE_MODE_TAB.getOrThrow(CreativeModeTabs.TOOLS_AND_UTILITIES);
             for (Item registered : BuiltInRegistries.ITEM) {
                 var id = BuiltInRegistries.ITEM.getKey(registered);
                 if (!id.getNamespace().equals("backpacksplus")) continue;
+                h.assertTrue(BackpackItems.CREATIVE_TAB.get().getDisplayItems().stream().anyMatch(stack -> stack.is(registered)),
+                        id + " is available in the Backpacks+ tab, operator=" + operator);
                 h.assertTrue(tools.getDisplayItems().stream().anyMatch(stack -> stack.is(registered)),
                         id + " is available in Tools & Utilities, operator=" + operator);
                 h.assertTrue(CreativeModeTabs.searchTab().getDisplayItems().stream().anyMatch(stack -> stack.is(registered)),

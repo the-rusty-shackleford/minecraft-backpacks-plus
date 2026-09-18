@@ -19,12 +19,13 @@ of each. Contents travel with the bag item. Normal item stack limits apply.
 Compare all three in the [in-game tier preview](devtools/tier-preview/index.html), with
 matched rear/angled views, mounted gear, and full-player proportions.
 
-**Unreleased fix:** all three backpack tiers now appear in the Creative inventory
-and search. See the [gameplay verification](devtools/verification/creative-inventory.md).
+**Unreleased:** all three backpack tiers have their own **Backpacks+** Creative tab
+and also appear in Tools & Utilities and search. See the
+[full-pack tab check](devtools/verification/creative-tab.md).
 
 ## Crafting and color
 
-In Creative, take any tier directly from **Tools & Utilities**, or search for
+In Creative, take any tier directly from the **Backpacks+** tab, or search for
 **backpack** in the Creative inventory. Crafting and recipe unlocks are not needed
 to obtain a bag for testing.
 
