@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.ArrayList;
 import com.chunkworks.backpacksplus.domain.GearChoices;
+import com.chunkworks.backpacksplus.domain.GearGesture;
 import com.chunkworks.backpacksplus.domain.BackpackTier;
 import net.minecraft.network.chat.Component;
 import java.util.Map;
@@ -26,6 +27,8 @@ import net.neoforged.neoforge.network.PacketDistributor;
  * Client input/state adapter. AF: a bounded cache of server equipment snapshots plus a pending G selection.
  * RI: drawing this cache never changes items; releasing G sends identity/revision intent only.
  * GUI opening, focus loss, death, equipment changes or selecting another hotbar cell cancel an in-progress browse.
+ * Releasing G commits whatever is highlighted, wheel or no wheel ({@link GearGesture}); the highlight
+ * opens on the last swap made, else the first mount, never on a deposit ({@link GearChoices#defaultIndex}).
  */
 @EventBusSubscriber(modid=BackpacksPlus.ID, value=Dist.CLIENT)
 public final class GearClient {
@@ -41,7 +44,7 @@ public final class GearClient {
     private static List<Option> options=List.of();
     private static GearChoices.Choice lastChoice;
     private static ItemStack heldAtStart=ItemStack.EMPTY;
-    private static boolean held, browsing, moved;
+    private static final GearGesture GESTURE=new GearGesture();
     private static int selected, hotbar, age, bagSource;
     private static UUID bagId;
     private static long bagRevision, quickRevision;
@@ -93,10 +96,10 @@ public final class GearClient {
     /** effects: returns the latest cached semantic action, or null; animation consumers never mutate inventory. */
     public static GearProtocol.Action action(UUID player) { return ACTIONS.get(player); }
     /** effects: returns whether G currently owns wheel input. */
-    public static boolean browsing() { return browsing; }
+    public static boolean browsing() { return GESTURE.browsing(); }
     /** effects: returns the highlighted gear-bar cell while browsing. */
     public static int selection() { return selected; }
-    static Option option() { return browsing && selected<options.size() ? options.get(selected) : null; }
+    static Option option() { return GESTURE.browsing() && selected<options.size() ? options.get(selected) : null; }
     static List<Option> options() { return options; }
     static boolean selected(GearChoices.Kind kind, int mount) {
         Option option=option(); return option!=null && option.choice().kind()==kind && option.choice().mount()==mount;
@@ -114,8 +117,9 @@ public final class GearClient {
         long revision=view==null || view.bag.isEmpty() ? 0 : BagContents.revision(view.bag);
         return java.util.Objects.equals(current,bagId) && (view==null ? -1 : view.state.wornSource())==bagSource && revision==bagRevision && mc.player.getInventory().selected==hotbar && ItemStack.matches(heldAtStart,mc.player.getMainHandItem());
     }
+    /** effects: freezes the choices for one gesture and puts the highlight on its default. */
     private static void begin(Minecraft mc, View view) {
-        browsing=true; moved=false; hotbar=mc.player.getInventory().selected;
+        hotbar=mc.player.getInventory().selected;
         heldAtStart=mc.player.getMainHandItem().copy();
         int mounts=view==null ? 0 : view.mounts(), occupied=0;
         for (int i=0;i<mounts;i++) if (!view.mount(i).isEmpty()) occupied|=1<<i;
@@ -143,12 +147,27 @@ public final class GearClient {
             }
             next.add(new Option(choice,title,reason));
         }
-        options=List.copyOf(next); selected=0;
-        for (int i=0;i<options.size();i++) if (options.get(i).choice().equals(lastChoice)) { selected=i; break; }
+        options=List.copyOf(next); selected=GearChoices.defaultIndex(options.stream().map(Option::choice).toList(),lastChoice);
         bagId=view==null || view.bag.isEmpty() ? null : view.bag.get(BackpackItems.ID);
         bagRevision=view==null || view.bag.isEmpty() ? 0 : BagContents.revision(view.bag);
         bagSource=view==null ? -1 : view.state.wornSource();
         quickRevision=QUICK_SLOT ? QuickSlotCompat.revision(mc.player) : 0;
+    }
+    /**
+     * effects: commits the highlighted choice of the gesture just closed: a refused one shows its
+     * reason, a swap or a deposit sends its intent; a swap is remembered as the next default.
+     */
+    private static void commit(Minecraft mc) {
+        if (selected>=options.size()) return;
+        Option option=options.get(selected);
+        var kind=option.choice().kind();
+        if (kind==GearChoices.Kind.QUICK || kind==GearChoices.Kind.MOUNT) lastChoice=option.choice();
+        if (option.reason()!=null) { mc.player.displayClientMessage(option.reason(),true); return; }
+        switch (kind) {
+            case QUICK -> QuickSlotCompat.swap(hotbar,quickRevision);
+            case MOUNT -> PacketDistributor.sendToServer(new GearProtocol.Swap(bagId,bagRevision,option.choice().mount(),hotbar));
+            case STOW_MOUNT, STOW_HELD -> PacketDistributor.sendToServer(new GearProtocol.Stow(bagId,bagRevision,option.choice().mount(),hotbar));
+        }
     }
     @SubscribeEvent public static void tick(ClientTickEvent.Post event) {
         Minecraft mc=Minecraft.getInstance(); age++;
@@ -158,40 +177,30 @@ public final class GearClient {
             ACTIONS.values().removeIf(a -> mc.level==null || !a.dimension().equals(mc.level.dimension().location()) || mc.level.getGameTime()-a.startedAt()>40);
             MOTIONS.keySet().retainAll(ACTIONS.keySet());
         }
-        boolean down=GearClientSetup.BROWSE.isDown(); View view=self();
-        if (!usable(mc)) { browsing=false; moved=false; held=down; return; }
+        boolean down=GearClientSetup.BROWSE.isDown(), pressed=false;
+        while (GearClientSetup.BROWSE.consumeClick()) pressed=true;   // a press between two ticks still counts
+        View view=self();
+        if (!usable(mc)) { GESTURE.reset(down); return; }
         while (GearClientSetup.OPEN.consumeClick()) {
             if (view!=null && !view.bag.isEmpty()) PacketDistributor.sendToServer(new GearProtocol.Open(view.bag.get(BackpackItems.ID),BagContents.revision(view.bag)));
         }
-        if (down && !held && count(view)>0) {
-            begin(mc,view);
+        boolean valid=!GESTURE.browsing() || sameSelection(mc,view);
+        switch (GESTURE.tick(down,pressed,count(view)>0,valid)) {
+            case BEGIN -> begin(mc,view);
+            case TAP -> { begin(mc,view); commit(mc); }
+            case COMMIT -> commit(mc);
+            case CANCEL, NONE -> { }
         }
-        if (browsing && !sameSelection(mc,view)) { browsing=false; moved=false; }
-        if (!down && held && browsing) {
-            if (moved) {
-                Option option=options.get(selected); lastChoice=option.choice();
-                if (option.reason()!=null) mc.player.displayClientMessage(option.reason(),true);
-                else switch (option.choice().kind()) {
-                    case QUICK -> QuickSlotCompat.swap(hotbar,quickRevision);
-                    case MOUNT -> PacketDistributor.sendToServer(new GearProtocol.Swap(bagId,bagRevision,option.choice().mount(),hotbar));
-                    case STOW_MOUNT, STOW_HELD -> PacketDistributor.sendToServer(new GearProtocol.Stow(bagId,bagRevision,option.choice().mount(),hotbar));
-                }
-            }
-            browsing=false; moved=false;
-        }
-        held=down;
     }
     @SubscribeEvent public static void scroll(InputEvent.MouseScrollingEvent event) {
         Minecraft mc=Minecraft.getInstance();
-        if (!held && GearClientSetup.BROWSE.isDown() && usable(mc) && count(self())>0) {
-            begin(mc,self()); held=true;
-        }
-        if (!browsing || !usable(mc) || event.getScrollDeltaY()==0) return;
+        if (GESTURE.scrolled(GearClientSetup.BROWSE.isDown(),usable(mc) && count(self())>0)) begin(mc,self());
+        if (!GESTURE.browsing() || !usable(mc) || event.getScrollDeltaY()==0) return;
         int count=options.size(); if (count==0) return;
-        selected=Math.floorMod(selected-(event.getScrollDeltaY()>0 ? 1 : -1),count); moved=true; event.setCanceled(true);
+        selected=Math.floorMod(selected-(event.getScrollDeltaY()>0 ? 1 : -1),count); event.setCanceled(true);
     }
     @SubscribeEvent public static void logout(ClientPlayerNetworkEvent.LoggingOut event) {
-        VIEWS.clear(); ACTIONS.clear(); MOTIONS.clear(); GearPoses.clear(); browsing=false; held=false; moved=false; selected=0; age=0; options=List.of(); lastChoice=null; heldAtStart=ItemStack.EMPTY;
+        VIEWS.clear(); ACTIONS.clear(); MOTIONS.clear(); GearPoses.clear(); GESTURE.reset(false); selected=0; age=0; options=List.of(); lastChoice=null; heldAtStart=ItemStack.EMPTY;
     }
     /** effects: invalidates tag-derived mounting directions after server tag synchronization. */
     @SubscribeEvent public static void tags(net.neoforged.neoforge.event.TagsUpdatedEvent event) {

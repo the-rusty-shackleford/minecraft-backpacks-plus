@@ -80,8 +80,10 @@ Curios is optional; if both slots contain Backpacks+ bags, the Curios bag takes 
 Its render toggle hides the bag and mounts while leaving storage, gear access and light
 functional. The bag remains locked while its storage menu is open.
 
-**Hold G and scroll, then release G** to
-swap the highlighted gear cell with the selected hotbar item. **H remains original Quick
+**Hold G, scroll to a gear cell, release G** to
+swap it with the selected hotbar item. The highlight opens on the cell you last swapped
+with, or the first mount, so a tap of G repeats your last swap (draw the rifle, put it
+back) without touching the wheel. **H remains original Quick
 Slot only**. Mount swaps leave it untouched. An incompatible mount turns red and
 explains which size it accepts; neither item moves.
 
@@ -91,8 +93,9 @@ A separate **Put held [item] in bag** action frees the selected hotbar slot. Rel
 commit. The entire stack must fit ordinary storage; otherwise nothing moves and the HUD
 explains why. Stowing a mount leaves your held item and other mounts alone.
 
-Focus loss, opening a menu, or a bag/hotbar/held-stack change cancels browsing. Holding and
-releasing without scrolling does nothing. Item counts, names and other components survive
+Focus loss, opening a menu, or a bag/hotbar/held-stack change cancels browsing. Releasing G
+commits whatever is highlighted; a bag action is never highlighted until you scroll to it,
+so a tap never puts anything in the bag. Item counts, names and other components survive
 storage exactly as they do through the backpack menu.
 
 Curios also defaults to G. While wearing a bag, the gear gesture takes priority when the

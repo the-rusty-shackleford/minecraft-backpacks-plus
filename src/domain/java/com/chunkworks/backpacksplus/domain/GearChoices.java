@@ -39,4 +39,20 @@ public final class GearChoices {
         if (mounts > 0 && held) choices.add(new Choice(Kind.STOW_HELD, -1));
         return List.copyOf(choices);
     }
+
+    /**
+     * effects: returns the index the highlight starts on when a gesture opens: {@code remembered}
+     * if it is a swap (the quick slot or a mount) still offered, else the first mount, else 0.
+     * A deposit is never the default, so releasing without scrolling never puts anything in the bag.
+     * throws: IllegalArgumentException when there is nothing to choose from.
+     */
+    public static int defaultIndex(List<Choice> choices, Choice remembered) {
+        if (choices.isEmpty()) throw new IllegalArgumentException("No gear choices");
+        if (remembered != null && (remembered.kind() == Kind.QUICK || remembered.kind() == Kind.MOUNT)) {
+            int index = choices.indexOf(remembered);
+            if (index >= 0) return index;
+        }
+        for (int i=0; i<choices.size(); i++) if (choices.get(i).kind() == Kind.MOUNT) return i;
+        return 0;
+    }
 }

@@ -13,7 +13,9 @@ gear bar (D-0009). Release 0.1.0 shipped in pack 1.38.0 under D-0022; see the de
 - Basic / Reinforced / Expedition: 9 / 18 / 36 ordinary cells plus 2 / 3 / 4 mount cells.
   Mounts are long+small / long+long+small / long+long+small+small.
 - Persistent gear bar beside the distinct original Quick Slot. Hold G, scroll, release
-  to swap directly with the selected hotbar item. H remains original Quick Slot only,
+  to swap directly with the selected hotbar item; releasing commits the highlighted cell
+  whether or not the wheel moved, and the highlight opens on the last swap or the first
+  mount, never on a bag deposit (D-0024). H remains original Quick Slot only,
   yielding to driving controls. Mount swaps never route through or displace Quick Slot.
 - The bar stays horizontal, including at compact GUI sizes (D-0011). If it cannot fit
   beside Quick Slot, lift the complete mount row above the status icons, not into a column.
@@ -206,6 +208,18 @@ after the firearm visual and regression checks. This supersedes the automatic-re
 release hold above. Only this backpack hotfix is included; the other held releases
 remain held. A fresh empty-player check gates the production restart.
 
+
+## Release G commits without a scroll — 0.2.2 (2026-09-23), unreleased
+
+Rusty: holding and releasing G should swap with the highlighted cell, but a scroll was
+needed first. D-0024: releasing G commits the highlighted choice whether or not the wheel
+moved (a press and release inside one tick counts too); the highlight opens on the last
+swap made, else the first mount, never on a bag deposit, so a tap never puts anything in
+the bag. The rule is `domain.GearGesture` plus `GearChoices.defaultIndex`, pinned by
+seven new JUnit tests; the client reads the step. Protocol 4 is unchanged. 20 JUnit and
+35 real-server GameTests passed; the real-client tap check waits until a second client
+can run on this desktop. See `devtools/verification/gear-tap.md`. Release awaits Rusty's
+go, together with Ranged Weapons Mod 2.6.0.
 
 ## Published hotfix — 2026-09-18, pack 1.40.1
 

@@ -25,3 +25,5 @@
 - [D-0022](D-0022.md): Coordinated release authorized; preserve approved visuals and vehicle handling.
 
 - [D-0023](D-0023.md): Explicit held/mount deposits, consistent size rejection and vanilla hotbar HUD frames.
+
+- [D-0024](D-0024.md): Releasing G commits the highlighted cell, wheel or no wheel; a deposit is never the default.
