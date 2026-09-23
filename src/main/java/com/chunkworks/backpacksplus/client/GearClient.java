@@ -28,7 +28,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
  * RI: drawing this cache never changes items; releasing G sends identity/revision intent only.
  * GUI opening, focus loss, death, equipment changes or selecting another hotbar cell cancel an in-progress browse.
  * Releasing G commits whatever is highlighted, wheel or no wheel ({@link GearGesture}); the highlight
- * opens on the last swap made, else the first mount, never on a deposit ({@link GearChoices#defaultIndex}).
+ * opens on the first backpack mount, never on a deposit ({@link GearChoices#defaultIndex}).
  */
 @EventBusSubscriber(modid=BackpacksPlus.ID, value=Dist.CLIENT)
 public final class GearClient {
@@ -42,7 +42,6 @@ public final class GearClient {
     /** AF: a frozen gesture preview. RI: null reason means permitted; renderers never recalculate capacity. */
     record Option(GearChoices.Choice choice, Component title, Component reason) {}
     private static List<Option> options=List.of();
-    private static GearChoices.Choice lastChoice;
     private static ItemStack heldAtStart=ItemStack.EMPTY;
     private static final GearGesture GESTURE=new GearGesture();
     private static int selected, hotbar, age, bagSource;
@@ -147,7 +146,7 @@ public final class GearClient {
             }
             next.add(new Option(choice,title,reason));
         }
-        options=List.copyOf(next); selected=GearChoices.defaultIndex(options.stream().map(Option::choice).toList(),lastChoice);
+        options=List.copyOf(next); selected=GearChoices.defaultIndex(options.stream().map(Option::choice).toList());
         bagId=view==null || view.bag.isEmpty() ? null : view.bag.get(BackpackItems.ID);
         bagRevision=view==null || view.bag.isEmpty() ? 0 : BagContents.revision(view.bag);
         bagSource=view==null ? -1 : view.state.wornSource();
@@ -155,15 +154,13 @@ public final class GearClient {
     }
     /**
      * effects: commits the highlighted choice of the gesture just closed: a refused one shows its
-     * reason, a swap or a deposit sends its intent; a swap is remembered as the next default.
+     * reason, a swap or a deposit sends its intent.
      */
     private static void commit(Minecraft mc) {
         if (selected>=options.size()) return;
         Option option=options.get(selected);
-        var kind=option.choice().kind();
-        if (kind==GearChoices.Kind.QUICK || kind==GearChoices.Kind.MOUNT) lastChoice=option.choice();
         if (option.reason()!=null) { mc.player.displayClientMessage(option.reason(),true); return; }
-        switch (kind) {
+        switch (option.choice().kind()) {
             case QUICK -> QuickSlotCompat.swap(hotbar,quickRevision);
             case MOUNT -> PacketDistributor.sendToServer(new GearProtocol.Swap(bagId,bagRevision,option.choice().mount(),hotbar));
             case STOW_MOUNT, STOW_HELD -> PacketDistributor.sendToServer(new GearProtocol.Stow(bagId,bagRevision,option.choice().mount(),hotbar));
@@ -200,7 +197,7 @@ public final class GearClient {
         selected=Math.floorMod(selected-(event.getScrollDeltaY()>0 ? 1 : -1),count); event.setCanceled(true);
     }
     @SubscribeEvent public static void logout(ClientPlayerNetworkEvent.LoggingOut event) {
-        VIEWS.clear(); ACTIONS.clear(); MOTIONS.clear(); GearPoses.clear(); GESTURE.reset(false); selected=0; age=0; options=List.of(); lastChoice=null; heldAtStart=ItemStack.EMPTY;
+        VIEWS.clear(); ACTIONS.clear(); MOTIONS.clear(); GearPoses.clear(); GESTURE.reset(false); selected=0; age=0; options=List.of(); heldAtStart=ItemStack.EMPTY;
     }
     /** effects: invalidates tag-derived mounting directions after server tag synchronization. */
     @SubscribeEvent public static void tags(net.neoforged.neoforge.event.TagsUpdatedEvent event) {

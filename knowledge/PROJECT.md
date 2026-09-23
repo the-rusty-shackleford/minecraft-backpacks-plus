@@ -14,8 +14,8 @@ gear bar (D-0009). Release 0.1.0 shipped in pack 1.38.0 under D-0022; see the de
   Mounts are long+small / long+long+small / long+long+small+small.
 - Persistent gear bar beside the distinct original Quick Slot. Hold G, scroll, release
   to swap directly with the selected hotbar item; releasing commits the highlighted cell
-  whether or not the wheel moved, and the highlight opens on the last swap or the first
-  mount, never on a bag deposit (D-0024). H remains original Quick Slot only,
+  whether or not the wheel moved, and the highlight opens on the first backpack slot,
+  never on a bag deposit (D-0024). H remains original Quick Slot only,
   yielding to driving controls. Mount swaps never route through or displace Quick Slot.
 - The bar stays horizontal, including at compact GUI sizes (D-0011). If it cannot fit
   beside Quick Slot, lift the complete mount row above the status icons, not into a column.
@@ -209,14 +209,18 @@ release hold above. Only this backpack hotfix is included; the other held releas
 remain held. A fresh empty-player check gates the production restart.
 
 
-## Release G commits without a scroll — 0.2.2 (2026-09-23), unreleased
+## Release G commits without a scroll — 0.2.2 published, withdrawn; 0.2.3 (2026-09-23)
 
 Rusty: holding and releasing G should swap with the highlighted cell, but a scroll was
 needed first. D-0024: releasing G commits the highlighted choice whether or not the wheel
-moved (a press and release inside one tick counts too); the highlight opens on the last
-swap made, else the first mount, never on a bag deposit, so a tap never puts anything in
-the bag. The rule is `domain.GearGesture` plus `GearChoices.defaultIndex`, pinned by
-seven new JUnit tests; the client reads the step. Protocol 4 is unchanged. Also in 0.2.2:
+moved (a press and release inside one tick counts too); the highlight opens on the first
+backpack slot, never on a bag deposit, so releasing without a scroll never puts anything
+in the bag. 0.2.2 was published with the highlight opening on the last swap made; Rusty
+caught it in the two minutes before the server restart ("you shouldn't have to scroll if
+the item you want is in the first backpack slot, which is already selected"), the restart
+was cancelled, and 0.2.3 opens on the first slot with nothing remembered. The rule is
+`domain.GearGesture` plus `GearChoices.defaultIndex`, pinned by JUnit; the client reads
+the step. Protocol 4 is unchanged. Also since 0.2.2:
 the gear sync sends a payload only to a connection that negotiated its channel, so a
 server player whose connection has not (a gametest's mock, a client mid-handshake) is
 skipped instead of an exception aborting the login or tick event for every later

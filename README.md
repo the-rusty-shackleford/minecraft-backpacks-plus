@@ -81,10 +81,9 @@ Its render toggle hides the bag and mounts while leaving storage, gear access an
 functional. The bag remains locked while its storage menu is open.
 
 **Hold G, scroll to a gear cell, release G** to
-swap it with the selected hotbar item. The highlight opens on the cell you last swapped
-with, or the first mount, so a tap of G repeats your last swap (draw the rifle, put it
-back) without touching the wheel. **H remains original Quick
-Slot only**. Mount swaps leave it untouched. An incompatible mount turns red and
+swap it with the selected hotbar item. The highlight opens on the first backpack slot,
+so for whatever is there you hold G and let go without touching the wheel. **H remains
+original Quick Slot only**. Mount swaps leave it untouched. An incompatible mount turns red and
 explains which size it accepts; neither item moves.
 
 While holding G, scroll to a **backpack icon** to deliberately put something in the bag.

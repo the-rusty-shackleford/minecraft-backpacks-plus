@@ -1,4 +1,9 @@
-# Release G commits the highlight without a scroll — 0.2.2, 2026-09-23
+# Release G commits the highlight without a scroll — 0.2.2 and 0.2.3, 2026-09-23
+
+0.2.3 amends 0.2.2 before deployment: the highlight opens on the first backpack slot, not
+on the last swap made (Rusty: "you shouldn't have to scroll if the item you want is in the
+first backpack slot, which is already selected"). `GearChoices.defaultIndex` takes no
+remembered choice; its test covers every occupancy with and without Quick Slot ahead.
 
 Rusty, on 0.2.1: "When you hold G and let go, you expect it to swap with the highlighted
 item but it doesn't. You have to scroll one click for that to happen." The cause was
@@ -13,8 +18,8 @@ a pure default (`GearChoices.defaultIndex`); the client reads the step.
   and release inside one tick is a tap; a press with nothing to browse opens nothing and
   does not linger; a broken selection cancels and the held key opens nothing until
   released; the wheel opens the gesture before a tick sees the key; a reset drops the
-  gesture) and one in `GearChoicesTest` (the highlight starts on the remembered swap if
-  offered, else the first mount, never on a deposit; nothing to choose from is refused).
+  gesture) and one in `GearChoicesTest` (the highlight starts on the first mount, with or
+  without Quick Slot ahead of it, never on a deposit; nothing to choose from is refused).
 - `./gradlew --offline --no-watch-fs runGameTestServer`: all 35 required real-server
   GameTests passed (the plain set; the Curios and pack-mount variants were not rerun,
   since nothing server-side or in admission changed). The first two attempts died at mod

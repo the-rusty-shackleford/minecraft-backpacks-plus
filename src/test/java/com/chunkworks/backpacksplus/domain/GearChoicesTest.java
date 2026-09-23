@@ -6,20 +6,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /** Partitions: Quick Slot present/absent; no bag and all tiers; every mount occupancy;
  * held empty/nonempty; immutable output and invalid source indices/occupancy. The default
- * highlight: a remembered swap offered/not offered, a remembered deposit, nothing remembered
- * with and without mounts, and nothing to choose from. */
+ * highlight: the first mount with and without Quick Slot ahead of it, every occupancy, the
+ * quick slot alone, and nothing to choose from. */
 class GearChoicesTest {
-    @Test void theHighlightStartsOnTheRememberedSwapElseTheFirstMountAndNeverOnADeposit() {
-        var choices=GearChoices.build(true,3,7,true);   // quick, mount 0, stow 0, mount 1, stow 1, mount 2, stow 2, stow held
-        assertEquals(3,GearChoices.defaultIndex(choices,new GearChoices.Choice(GearChoices.Kind.MOUNT,1)));
-        assertEquals(0,GearChoices.defaultIndex(choices,new GearChoices.Choice(GearChoices.Kind.QUICK,-1)));
-        assertEquals(1,GearChoices.defaultIndex(choices,null));
-        assertEquals(1,GearChoices.defaultIndex(choices,new GearChoices.Choice(GearChoices.Kind.STOW_MOUNT,1)));
-        assertEquals(1,GearChoices.defaultIndex(choices,new GearChoices.Choice(GearChoices.Kind.STOW_HELD,-1)));
-        assertEquals(1,GearChoices.defaultIndex(GearChoices.build(true,2,0,false),new GearChoices.Choice(GearChoices.Kind.MOUNT,3)));
-        assertEquals(0,GearChoices.defaultIndex(GearChoices.build(false,2,0,false),null));
-        assertEquals(0,GearChoices.defaultIndex(GearChoices.build(true,0,0,true),new GearChoices.Choice(GearChoices.Kind.MOUNT,0)));
-        assertThrows(IllegalArgumentException.class,()->GearChoices.defaultIndex(GearChoices.build(false,0,0,true),null));
+    @Test void theHighlightStartsOnTheFirstMountAndNeverOnADeposit() {
+        assertEquals(1,GearChoices.defaultIndex(GearChoices.build(true,3,7,true)));   // quick, mount 0, stow 0, ...: the first mount
+        assertEquals(0,GearChoices.defaultIndex(GearChoices.build(false,3,7,true)));  // no quick slot: mount 0 is first
+        for (int occupied=0;occupied<8;occupied++) assertEquals(1,GearChoices.defaultIndex(GearChoices.build(true,3,occupied,true)));
+        assertEquals(0,GearChoices.defaultIndex(GearChoices.build(false,2,0,false)));
+        assertEquals(0,GearChoices.defaultIndex(GearChoices.build(true,0,0,true)));   // no mounts at all: the quick slot
+        assertThrows(IllegalArgumentException.class,()->GearChoices.defaultIndex(GearChoices.build(false,0,0,true)));
     }
     @Test void storageActionsFollowOnlyOccupiedMounts() {
         for (boolean quick:new boolean[]{false,true}) for (int mounts:new int[]{0,2,3,4})

@@ -41,17 +41,14 @@ public final class GearChoices {
     }
 
     /**
-     * effects: returns the index the highlight starts on when a gesture opens: {@code remembered}
-     * if it is a swap (the quick slot or a mount) still offered, else the first mount, else 0.
-     * A deposit is never the default, so releasing without scrolling never puts anything in the bag.
+     * effects: returns the index the highlight starts on when a gesture opens: the first backpack
+     * mount, so holding G and releasing takes what is in the first slot without a scroll; the quick
+     * slot only when no mount is offered. A deposit is never the default, so releasing without
+     * scrolling never puts anything in the bag.
      * throws: IllegalArgumentException when there is nothing to choose from.
      */
-    public static int defaultIndex(List<Choice> choices, Choice remembered) {
+    public static int defaultIndex(List<Choice> choices) {
         if (choices.isEmpty()) throw new IllegalArgumentException("No gear choices");
-        if (remembered != null && (remembered.kind() == Kind.QUICK || remembered.kind() == Kind.MOUNT)) {
-            int index = choices.indexOf(remembered);
-            if (index >= 0) return index;
-        }
         for (int i=0; i<choices.size(); i++) if (choices.get(i).kind() == Kind.MOUNT) return i;
         return 0;
     }
