@@ -240,3 +240,13 @@ followed a fresh zero-player check; world selection, seed, operators and DH conf
 were preserved. Mod Hub's downloaded client archive matches verified staging and
 contains the new jar. Rusty updates Prism themselves; no personal client was edited.
 The previous hotfix release hold is superseded by the explicit approval and deployment.
+
+## Published and deployed — 2026-09-23, pack 1.57.1
+
+Version 0.2.3 is [published](https://github.com/the-rusty-shackleford/minecraft-backpacks-plus/releases/tag/v0.2.3)
+and deployed through Mod Hub in pack **1.57.1**, replacing 0.2.1 on the server (0.2.2 was
+published, assembled into 1.57.0, and withdrawn before any restart). Release asset, tested
+jar and installed server jar match SHA-1 `e0fbcfd181273b78c7e004e5f136b493dc9d4d28`. Restart
+23:06:21 UTC with nobody online after the warning; ready at 23:06:35, the log notes
+"backpacksplus (version 0.2.1 -> 0.2.3)", 20 TPS, Mod Hub parity clean. The real-client
+check of the G release is Rusty's own on the pack.
