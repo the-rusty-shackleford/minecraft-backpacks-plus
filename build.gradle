@@ -79,7 +79,7 @@ dependencies {
     if (providers.gradleProperty("testMountMods").isPresent())
         gametestRuntimeOnly files(fileTree(providers.gradleProperty("testMountMods").get()) { include "*.jar" })
     // Unreleased companion built in the adjacent workspace; never bundled into this jar.
-    compileOnly files('../minecraft-quickslot/build/libs/quickslot-0.1.1.jar')
+    compileOnly files('../minecraft-quickslot/build/libs/quickslot-0.1.2.jar')
     // Optional client integration; use the pack's existing Luminance instance at runtime.
     compileOnly files('../minecraft-luminance/build/libs/luminance-1.1.0.jar')
     gametestCompileOnly("com.chunkworks.vanillawheels:vanillawheels:1.7.0") { transitive = false }
@@ -87,7 +87,7 @@ dependencies {
     implementation sourceSets.domain.output
     gametestImplementation sourceSets.main.output
     gametestImplementation sourceSets.domain.output
-    gametestImplementation files('../minecraft-quickslot/build/libs/quickslot-0.1.1.jar')
+    gametestImplementation files('../minecraft-quickslot/build/libs/quickslot-0.1.2.jar')
     testImplementation sourceSets.domain.output
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.9.2'

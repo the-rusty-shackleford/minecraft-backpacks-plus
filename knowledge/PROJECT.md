@@ -216,10 +216,15 @@ needed first. D-0024: releasing G commits the highlighted choice whether or not 
 moved (a press and release inside one tick counts too); the highlight opens on the last
 swap made, else the first mount, never on a bag deposit, so a tap never puts anything in
 the bag. The rule is `domain.GearGesture` plus `GearChoices.defaultIndex`, pinned by
-seven new JUnit tests; the client reads the step. Protocol 4 is unchanged. 20 JUnit and
-35 real-server GameTests passed; the real-client tap check waits until a second client
-can run on this desktop. See `devtools/verification/gear-tap.md`. Release awaits Rusty's
-go, together with Ranged Weapons Mod 2.6.0.
+seven new JUnit tests; the client reads the step. Protocol 4 is unchanged. Also in 0.2.2:
+the gear sync sends a payload only to a connection that negotiated its channel, so a
+server player whose connection has not (a gametest's mock, a client mid-handshake) is
+skipped instead of an exception aborting the login or tick event for every later
+listener; found when Ranged Weapons Mod put this jar on its gametest server for its
+loose-mode bag tests, pinned by a gametest here. 20 JUnit and the real-server GameTests
+passed; the real-client tap check waits until a second client can run on this desktop.
+See `devtools/verification/gear-tap.md`. Release awaits Rusty's go, together with Ranged
+Weapons Mod 2.7.0.
 
 ## Published hotfix — 2026-09-18, pack 1.40.1
 

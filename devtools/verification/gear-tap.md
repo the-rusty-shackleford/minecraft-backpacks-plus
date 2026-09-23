@@ -22,6 +22,13 @@ a pure default (`GearChoices.defaultIndex`); the client reads the step.
   inotify instance ceiling (128) with Rusty's own client running. The run directory's
   `fml.toml` now has `disableConfigWatcher = true`, the loader's documented switch;
   config hot-reload is irrelevant to the tests and the production jar is unaffected.
+- Folded in after Ranged Weapons Mod loaded this jar on its gametest server: `GearSync`
+  threw "Payload backpacksplus:state may not be sent to the client" for a mock server
+  player at login, and the event bus dropped every later listener of that event with
+  it. Sends now go only to connections that negotiated the channel
+  (`ICommonPacketListener.hasChannel`); trackers still get the broadcast.
+  `SyncGameTests.aPlayerWithoutTheChannelIsSkippedNotCrashed` pins it: a mock server
+  player wearing a bag logs in and ticks through the real event bus without a throw.
 - The existing two-client network checks (`devtools/network_test.py`) drive the gesture
   through the key mapping's own down state and a `+1/-1` scroll when the target is
   already highlighted, so they remain valid under the new rule.

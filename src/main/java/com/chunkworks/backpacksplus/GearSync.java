@@ -3,6 +3,7 @@ package com.chunkworks.backpacksplus;
 
 import com.chunkworks.backpacksplus.domain.GearAction;
 import java.util.function.Supplier;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.IEventBus;
@@ -15,7 +16,11 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
-/** Server tracking/state adapter. RI: one intent per tick; equipment identity/revision checks allocate only on changes. */
+/**
+ * Server tracking/state adapter. RI: one intent per tick; equipment identity/revision checks allocate only on changes.
+ * A payload goes only to a connection that negotiated its channel: a player whose connection has not (a test's mock
+ * server player, a client still in the handshake) is skipped, never a reason to abort the tick or the login.
+ */
 @EventBusSubscriber(modid=BackpacksPlus.ID)
 public final class GearSync {
     private GearSync() {}
@@ -49,7 +54,16 @@ public final class GearSync {
         if (changed) { state.openedAt=openSource>=0 ? player.level().getGameTime() : -1; state.openSource=openSource; }
         if (state.seen==bag && state.revision==revision && state.wornSource==source && state.visible==visible && !changed) return;
         state.seen=bag; state.revision=revision; state.wornSource=source; state.visible=visible; state.sequence++;
-        PacketDistributor.sendToPlayersTrackingEntityAndSelf(player, snapshot(player,state));
+        broadcast(player, snapshot(player,state));
+    }
+    /** effects: returns whether this player's connection negotiated the payload's channel; a test's mock or a mid-handshake client has not. */
+    private static boolean listens(ServerPlayer player, CustomPacketPayload payload) {
+        return player.connection!=null && player.connection.hasChannel(payload);
+    }
+    /** effects: sends to everyone tracking the player, and to the player themselves only if their connection can take it, so an unnegotiated connection is skipped rather than crashing the tick. */
+    private static void broadcast(ServerPlayer player, CustomPacketPayload payload) {
+        PacketDistributor.sendToPlayersTrackingEntity(player, payload);
+        if (listens(player, payload)) PacketDistributor.sendToPlayer(player, payload);
     }
     /** effects: accepts one current intent per tick, using only the server's equipped bag and actual held item. */
     public static void swap(ServerPlayer player, GearProtocol.Swap request) {
@@ -93,7 +107,7 @@ public final class GearSync {
         Session state=player.getData(SESSION);
         state.action=new GearProtocol.Action(player.getId(),player.getUUID(),player.level().dimension().location(),++state.sequence,
                 BagContents.identify(bag),kind,mount,player.level().getGameTime(),before,after);
-        PacketDistributor.sendToPlayersTrackingEntityAndSelf(player,state.action);
+        broadcast(player,state.action);
     }
     @SubscribeEvent public static void tick(PlayerTickEvent.Post event) {
         if (event.getEntity() instanceof ServerPlayer player) {
@@ -105,8 +119,9 @@ public final class GearSync {
     @SubscribeEvent public static void tracking(PlayerEvent.StartTracking event) {
         if (event.getEntity() instanceof ServerPlayer viewer && event.getTarget() instanceof ServerPlayer target) {
             observe(target); Session state=target.getData(SESSION);
-            PacketDistributor.sendToPlayer(viewer,snapshot(target,state));
-            if (state.action!=null && target.level().getGameTime()-state.action.startedAt()<=40)
+            GearProtocol.State snapshot=snapshot(target,state);
+            if (listens(viewer,snapshot)) PacketDistributor.sendToPlayer(viewer,snapshot);
+            if (state.action!=null && target.level().getGameTime()-state.action.startedAt()<=40 && listens(viewer,state.action))
                 PacketDistributor.sendToPlayer(viewer,state.action);
         }
     }
