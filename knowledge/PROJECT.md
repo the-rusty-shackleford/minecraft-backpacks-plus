@@ -255,8 +255,19 @@ width 320..1000), all 36 real-server gametests, jar `backpacksplus-0.3.0.jar` SH
 `6c2faee0f59831dfcfe7942a72ba3d03bb81e4c1` (157257 bytes). The corner was photographed through
 Ranged Weapons Mod's HUD booth at 427 and 480 GUI pixels wide, browsing and idle, with the
 counter clear of the row (`minecraft-ranged-weapons-mod/devtools/verification/release-2.7.1.md`).
-Release awaits Rusty's go, with Redstonewall Jackson 0.2.0 and Ranged Weapons Mod 2.7.1 (the
-counter's side of D-0025).
+Released with Redstonewall Jackson 0.2.0 and Ranged Weapons Mod 2.7.1 (the counter's side of
+D-0025) in pack 1.58.0, below.
+
+## Published and deployed — 2026-09-24 UTC, pack 1.58.0
+
+Version 0.3.0 is [published](https://github.com/the-rusty-shackleford/minecraft-backpacks-plus/releases/tag/v0.3.0)
+and deployed through Mod Hub in pack **1.58.0**, replacing 0.2.3 on the server. Release
+asset, tested jar and installed server jar match SHA-1 `6c2faee0f59831dfcfe7942a72ba3d03bb81e4c1`.
+Rusty: "go. 2 minute warning then restart server". Restart 00:16:11 UTC after the warning
+(one player still on), ready at 00:16:32, the log noting "backpacksplus (version 0.2.3 ->
+0.3.0)", 20 TPS, Mod Hub parity clean. Not seen on a live client yet: G without a bag, and
+the four-mount row on the friend's own screen. The server repo's
+`knowledge/releases/pack-1.58.0.md` has the whole deployment.
 
 ## Published hotfix — 2026-09-18, pack 1.40.1
 
