@@ -27,3 +27,5 @@
 - [D-0023](D-0023.md): Explicit held/mount deposits, consistent size rejection and vanilla hotbar HUD frames.
 
 - [D-0024](D-0024.md): Releasing G commits the highlighted cell, wheel or no wheel; a deposit is never the default.
+
+- [D-0025](D-0025.md): G is the bag's key alone (no bag, nothing); the mount row closes up beside the hotbar before it lifts; the ammo counter asks Backpacks+ where the gesture is.

@@ -82,9 +82,10 @@ functional. The bag remains locked while its storage menu is open.
 
 **Hold G, scroll to a gear cell, release G** to
 swap it with the selected hotbar item. The highlight opens on the first backpack slot,
-so for whatever is there you hold G and let go without touching the wheel. **H remains
-original Quick Slot only**. Mount swaps leave it untouched. An incompatible mount turns red and
-explains which size it accepts; neither item moves.
+so for whatever is there you hold G and let go without touching the wheel. G is the
+bag's key alone: without a worn backpack it does nothing, and the quick slot is never
+among its choices. **H remains original Quick Slot only**. Mount swaps leave it untouched.
+An incompatible mount turns red and explains which size it accepts; neither item moves.
 
 While holding G, scroll to a **backpack icon** to deliberately put something in the bag.
 Each occupied mount has its own arrow-linked action, labeled **Put mounted [item] in bag**.
@@ -103,8 +104,15 @@ without a bag, Curios retains its G shortcut. Your saved key bindings are not re
 See the [Curios compatibility checks](devtools/verification/curios.md).
 
 The HUD uses the active resource pack's vanilla hotbar frames and selection border,
-matching Quick Slot 0.1.1. The mounts always form a horizontal row. On smaller screens, the row sits above the
-status icons with its outer end aligned to Quick Slot; it never becomes a vertical column.
+matching Quick Slot 0.1.1. The mounts always form one horizontal row beside the hotbar, on
+your main hand's side. Where four mounts would run off the screen at a large GUI scale, the
+row closes its cells up (touching, then sharing borders as the hotbar's do) rather than
+moving; only at the smallest GUI width, where nothing fits beside the hotbar, does the row
+sit above the status icons with its outer end aligned to Quick Slot. It never becomes a
+vertical column. While you hold G with something in hand, the "put held item in bag" cell
+appears at the end of the row, or one row up over the quick slot's column when the row is
+full; the mounts themselves never move. Ranged Weapons Mod's ammo counter, which shares the
+bottom-right corner, asks this mod whether a gesture is open there and moves up while one is.
 
 Item IDs: `/give @s backpacksplus:basic_backpack`, with `reinforced_backpack`
 and `expedition_backpack` as the other IDs in that namespace. For existing worlds, follow the coordinated [cutover procedure](devtools/verification/legacy-retirement.md).

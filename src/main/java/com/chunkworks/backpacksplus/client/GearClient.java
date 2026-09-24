@@ -27,8 +27,10 @@ import net.neoforged.neoforge.network.PacketDistributor;
  * Client input/state adapter. AF: a bounded cache of server equipment snapshots plus a pending G selection.
  * RI: drawing this cache never changes items; releasing G sends identity/revision intent only.
  * GUI opening, focus loss, death, equipment changes or selecting another hotbar cell cancel an in-progress browse.
- * Releasing G commits whatever is highlighted, wheel or no wheel ({@link GearGesture}); the highlight
- * opens on the first backpack mount, never on a deposit ({@link GearChoices#defaultIndex}).
+ * G is the bag's key alone: without a worn bag it does nothing, and the quick slot is never among
+ * its choices (H is the quick slot's key). Releasing G commits whatever is highlighted, wheel or
+ * no wheel ({@link GearGesture}); the highlight opens on the first backpack mount, never on a
+ * deposit ({@link GearChoices#defaultIndex}).
  */
 @EventBusSubscriber(modid=BackpacksPlus.ID, value=Dist.CLIENT)
 public final class GearClient {
@@ -46,7 +48,8 @@ public final class GearClient {
     private static final GearGesture GESTURE=new GearGesture();
     private static int selected, hotbar, age, bagSource;
     private static UUID bagId;
-    private static long bagRevision, quickRevision;
+    private static long bagRevision;
+    /** Quick Slot's presence matters only for yielding to its driving controls; G never offers its slot. */
     static final boolean QUICK_SLOT = ModList.get().isLoaded("quickslot");
     /** AF: decoded equipment used by HUD/body renderers. RI: stacks belong to this view and must be treated read-only. */
     static final class View {
@@ -103,7 +106,21 @@ public final class GearClient {
     static boolean selected(GearChoices.Kind kind, int mount) {
         Option option=option(); return option!=null && option.choice().kind()==kind && option.choice().mount()==mount;
     }
-    private static int count(View view) { return (QUICK_SLOT ? 1 : 0)+(view==null ? 0 : view.mounts()); }
+    /** effects: returns the worn bag's mount count, zero without a bag: what G has to browse. */
+    private static int mounts(View view) { return view==null ? 0 : view.mounts(); }
+    /**
+     * effects: returns whether a G gesture is open with its mount row beside the hotbar on the
+     * screen's right, so the gesture's deposit cells and text rise into the bottom-right corner
+     * above the hotbar's row; false when the row is lifted above the status icons or sits on the
+     * left. Other HUDs sharing that corner read this to move out of the way.
+     */
+    public static boolean browsingBottomRight() {
+        Minecraft mc=Minecraft.getInstance();
+        if (!GESTURE.browsing() || mc.player==null || direction(mc)<0) return false;
+        int mounts=mounts(self()); if (mounts==0) return false;
+        return !GearHud.layout(mc,mc.getWindow().getGuiScaledWidth(),mc.getWindow().getGuiScaledHeight(),mounts,!heldAtStart.isEmpty()).lifted();
+    }
+    private static int direction(Minecraft mc) { return GearHud.direction(mc); }
     private static boolean usable(Minecraft mc) {
         return mc.player!=null && mc.level!=null && mc.screen==null && mc.isWindowActive() && mc.player.isAlive()
                 && !mc.player.isSpectator() && !mc.player.isUsingItem() && !(QUICK_SLOT && QuickSlotCompat.driving(mc.player));
@@ -120,13 +137,12 @@ public final class GearClient {
     private static void begin(Minecraft mc, View view) {
         hotbar=mc.player.getInventory().selected;
         heldAtStart=mc.player.getMainHandItem().copy();
-        int mounts=view==null ? 0 : view.mounts(), occupied=0;
+        int mounts=mounts(view), occupied=0;
         for (int i=0;i<mounts;i++) if (!view.mount(i).isEmpty()) occupied|=1<<i;
         var next=new ArrayList<Option>();
-        for (var choice:GearChoices.build(QUICK_SLOT,mounts,occupied,!heldAtStart.isEmpty())) {
+        for (var choice:GearChoices.build(mounts,occupied,!heldAtStart.isEmpty())) {
             Component title,reason=null;
             switch (choice.kind()) {
-                case QUICK -> title=Component.translatable("backpacksplus.quick_slot");
                 case MOUNT -> {
                     var tier=BagContents.tier(view.bag);
                     title=Component.translatable(tier.mounts().get(choice.mount())==BackpackTier.Mount.LONG
@@ -150,7 +166,6 @@ public final class GearClient {
         bagId=view==null || view.bag.isEmpty() ? null : view.bag.get(BackpackItems.ID);
         bagRevision=view==null || view.bag.isEmpty() ? 0 : BagContents.revision(view.bag);
         bagSource=view==null ? -1 : view.state.wornSource();
-        quickRevision=QUICK_SLOT ? QuickSlotCompat.revision(mc.player) : 0;
     }
     /**
      * effects: commits the highlighted choice of the gesture just closed: a refused one shows its
@@ -161,7 +176,6 @@ public final class GearClient {
         Option option=options.get(selected);
         if (option.reason()!=null) { mc.player.displayClientMessage(option.reason(),true); return; }
         switch (option.choice().kind()) {
-            case QUICK -> QuickSlotCompat.swap(hotbar,quickRevision);
             case MOUNT -> PacketDistributor.sendToServer(new GearProtocol.Swap(bagId,bagRevision,option.choice().mount(),hotbar));
             case STOW_MOUNT, STOW_HELD -> PacketDistributor.sendToServer(new GearProtocol.Stow(bagId,bagRevision,option.choice().mount(),hotbar));
         }
@@ -182,7 +196,7 @@ public final class GearClient {
             if (view!=null && !view.bag.isEmpty()) PacketDistributor.sendToServer(new GearProtocol.Open(view.bag.get(BackpackItems.ID),BagContents.revision(view.bag)));
         }
         boolean valid=!GESTURE.browsing() || sameSelection(mc,view);
-        switch (GESTURE.tick(down,pressed,count(view)>0,valid)) {
+        switch (GESTURE.tick(down,pressed,mounts(view)>0,valid)) {
             case BEGIN -> begin(mc,view);
             case TAP -> { begin(mc,view); commit(mc); }
             case COMMIT -> commit(mc);
@@ -191,7 +205,7 @@ public final class GearClient {
     }
     @SubscribeEvent public static void scroll(InputEvent.MouseScrollingEvent event) {
         Minecraft mc=Minecraft.getInstance();
-        if (GESTURE.scrolled(GearClientSetup.BROWSE.isDown(),usable(mc) && count(self())>0)) begin(mc,self());
+        if (GESTURE.scrolled(GearClientSetup.BROWSE.isDown(),usable(mc) && mounts(self())>0)) begin(mc,self());
         if (!GESTURE.browsing() || !usable(mc) || event.getScrollDeltaY()==0) return;
         int count=options.size(); if (count==0) return;
         selected=Math.floorMod(selected-(event.getScrollDeltaY()>0 ? 1 : -1),count); event.setCanceled(true);

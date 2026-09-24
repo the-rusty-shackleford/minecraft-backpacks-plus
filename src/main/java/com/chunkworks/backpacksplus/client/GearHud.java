@@ -2,6 +2,7 @@
 package com.chunkworks.backpacksplus.client;
 
 import com.chunkworks.backpacksplus.domain.GearChoices;
+import com.chunkworks.backpacksplus.domain.GearLayout;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.AttackIndicatorStatus;
 import net.minecraft.client.DeltaTracker;
@@ -13,8 +14,9 @@ import net.minecraft.world.entity.HumanoidArm;
 
 /**
  * AF: persistent mounts plus explicitly selected storage shortcuts during a G gesture.
- * RI: mount cells share one horizontal row; vanilla hotbar, offhand and status space stay clear.
- * Frames use the active resource pack's vanilla sprites. Rendering never simulates storage.
+ * RI: mount cells share one horizontal row placed by {@link GearLayout}; vanilla hotbar, offhand
+ * and status space stay clear. Frames use the active resource pack's vanilla sprites. Rendering
+ * never simulates storage.
  */
 final class GearHud {
     private static final ResourceLocation HOTBAR=ResourceLocation.withDefaultNamespace("hud/hotbar");
@@ -23,32 +25,35 @@ final class GearHud {
     private static final Component RELEASE_STOW=Component.translatable("backpacksplus.release_stow");
     private GearHud() {}
 
+    /** effects: returns +1 for a right-handed player (the bar runs right of the hotbar), -1 for a left-handed one */
+    static int direction(Minecraft mc) { return mc.player.getMainArm()==HumanoidArm.RIGHT ? 1 : -1; }
+
+    /** effects: returns the x of the quick slot's column beside the hotbar, on the main arm's side */
+    static int base(Minecraft mc, int guiWidth) {
+        int distance=mc.options.attackIndicator().get()==AttackIndicatorStatus.HOTBAR ? 121 : 97;
+        return guiWidth/2+(direction(mc)>0 ? distance : -distance-22);
+    }
+
+    /** effects: returns where the bar's cells go for {@code mounts} on this screen, with a held-deposit cell when {@code held} */
+    static GearLayout layout(Minecraft mc, int guiWidth, int guiHeight, int mounts, boolean held) {
+        return GearLayout.of(guiWidth,guiHeight,base(mc,guiWidth),direction(mc),mounts,held,Math.max(mc.gui.leftHeight,mc.gui.rightHeight));
+    }
+
     static void render(GuiGraphics g, DeltaTracker delta) {
         Minecraft mc=Minecraft.getInstance();
         if (mc.player==null || mc.options.hideGui || mc.player.isSpectator()) return;
         var view=GearClient.self(); int mounts=view==null ? 0 : view.mounts();
-        if (mounts==0 && !GearClient.browsing()) return;
-        boolean right=mc.player.getMainArm()==HumanoidArm.RIGHT;
-        int direction=right ? 1 : -1;
-        int distance=mc.options.attackIndicator().get()==AttackIndicatorStatus.HOTBAR ? 121 : 97;
-        int base=g.guiWidth()/2+(right ? distance : -distance-22), bottom=g.guiHeight()-22;
+        if (mounts==0) return;
+        int direction=direction(mc);
         boolean heldAction=false, mountActions=false;
         if (GearClient.browsing()) for (var option:GearClient.options()) {
             heldAction|=option.choice().kind()==GearChoices.Kind.STOW_HELD;
             mountActions|=option.choice().kind()==GearChoices.Kind.STOW_MOUNT;
         }
-        int columns=mounts+(heldAction ? 1 : 0);
-        int edge=right ? base+24+columns*24 : base-columns*24;
-        boolean compact=edge<3 || edge>g.guiWidth()-3;
-        int rowY=compact ? g.guiHeight()-Math.max(82,Math.max(mc.gui.leftHeight,mc.gui.rightHeight)+26) : bottom;
-        int first=compact ? base-direction*(mounts-1)*24 : base+direction*24;
-        int last=first+direction*Math.max(0,columns-1)*24;
-        int low=Math.min(first,last), high=Math.max(first,last)+22;
-        first+=Math.max(0,3-low)-Math.max(0,high-(g.guiWidth()-3));
-
-        if (GearClient.selected(GearChoices.Kind.QUICK,-1)) selection(g,base,bottom,false);
+        GearLayout layout=layout(mc,g.guiWidth(),g.guiHeight(),mounts,heldAction);
+        int rowY=layout.rowY();
         for (int i=0;i<mounts;i++) {
-            int x=first+direction*i*24;
+            int x=layout.mountX(direction,i);
             frame(g,x,rowY);
             var item=view.mount(i);
             if (!item.isEmpty()) { g.renderItem(item,x+3,rowY+3); g.renderItemDecorations(mc.font,item,x+3,rowY+3); }
@@ -59,15 +64,15 @@ final class GearHud {
             var choice=option.choice();
             if (choice.kind()!=GearChoices.Kind.STOW_MOUNT && choice.kind()!=GearChoices.Kind.STOW_HELD) continue;
             boolean held=choice.kind()==GearChoices.Kind.STOW_HELD;
-            int x=first+direction*(held ? mounts : choice.mount())*24, y=held ? rowY : rowY-34;
+            int x=held ? layout.heldX() : layout.mountX(direction,choice.mount()), y=held ? layout.heldY() : rowY-GearLayout.UPPER;
             frame(g,x,y); g.renderItem(view.bag,x+3,y+3);
-            g.drawString(mc.font,held ? "\u2193" : "\u2191",x+8,held ? y-11 : y+24,0xffeeeeee,true);
+            g.drawString(mc.font,held ? "↓" : "↑",x+8,held ? y-11 : y+24,0xffeeeeee,true);
             if (GearClient.selected(choice.kind(),choice.mount())) selection(g,x,y,option.reason()!=null);
         }
         var selected=GearClient.option();
         if (selected==null) return;
-        int center=first+direction*Math.max(0,columns-1)*12+11;
-        int textY=rowY-(mountActions ? 60 : 26);
+        int center=layout.first()+direction*(mounts-1)*layout.pitch()/2+11;
+        int textY=rowY-(mountActions || layout.heldAbove() ? 60 : 26);
         text(g,mc,selected.title(),center,textY,0xffffffff);
         Component detail=selected.reason()!=null ? selected.reason()
                 : selected.choice().kind()==GearChoices.Kind.STOW_MOUNT || selected.choice().kind()==GearChoices.Kind.STOW_HELD

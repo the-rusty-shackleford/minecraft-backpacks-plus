@@ -31,7 +31,7 @@ public final class GearGesture {
      * @param down      the key is down now
      * @param pressed   the key was pressed since the last tick, so a press and release between two
      *                  ticks still counts
-     * @param available there is something to browse (a bag's mounts or a quick slot)
+     * @param available there is something to browse (a worn bag's mounts; without a bag G does nothing)
      * @param valid     what the open gesture was frozen on still holds; read only while browsing
      */
     public Step tick(boolean down, boolean pressed, boolean available, boolean valid) {

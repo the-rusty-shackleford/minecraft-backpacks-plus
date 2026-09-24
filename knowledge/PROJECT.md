@@ -15,10 +15,15 @@ gear bar (D-0009). Release 0.1.0 shipped in pack 1.38.0 under D-0022; see the de
 - Persistent gear bar beside the distinct original Quick Slot. Hold G, scroll, release
   to swap directly with the selected hotbar item; releasing commits the highlighted cell
   whether or not the wheel moved, and the highlight opens on the first backpack slot,
-  never on a bag deposit (D-0024). H remains original Quick Slot only,
-  yielding to driving controls. Mount swaps never route through or displace Quick Slot.
-- The bar stays horizontal, including at compact GUI sizes (D-0011). If it cannot fit
-  beside Quick Slot, lift the complete mount row above the status icons, not into a column.
+  never on a bag deposit (D-0024). G is the bag's key alone: no bag, nothing; the quick
+  slot is never a G choice (D-0025). H remains original Quick Slot only, yielding to
+  driving controls. Mount swaps never route through or displace Quick Slot.
+- The bar stays one horizontal row beside the hotbar (D-0011, D-0025): where four mounts
+  would overflow, the cells close up (24, 22, then 20 pixels apart) before the row lifts
+  above the status icons, which now happens only at the minimum GUI width. The mounts never
+  move when G goes down; the held-deposit cell goes at the row's end or one row up over the
+  quick slot's column. The ammo counter of Ranged Weapons Mod reads
+  `GearClient.browsingBottomRight()` to move out of a gesture's way.
 - D-0023 replaces the implicit storage fallback: incompatible mounts refuse the swap.
   Explicit G-menu bag actions stow a whole held or mounted stack only when it fits.
 - No nested portable storage. Ordinary utility blocks including furnaces are permitted
@@ -229,6 +234,29 @@ loose-mode bag tests, pinned by a gametest here. 20 JUnit and the real-server Ga
 passed; the real-client tap check waits until a second client can run on this desktop.
 See `devtools/verification/gear-tap.md`. Release awaits Rusty's go, together with Ranged
 Weapons Mod 2.7.0.
+
+## G for the bag alone; the four-mount row stays beside the hotbar — 0.3.0 (2026-09-23, evening)
+
+Rusty, with 0.2.3 on the box: "G should not apply to Quickslot, only backpack slots. No
+backpack, G does nothing." and "my friends backpack slot bar, when the largest backpack is
+equipped with 4 slots, is not being shown in the bottom right like always but is being
+shown in the compact way. That sucks. When you fix this, make sure it does not clash with
+the ammo indicator UI." D-0025: G never offers the quick slot and does nothing without a
+worn bag (`GearChoices.build` takes no quick-slot flag and refuses zero mounts; the QUICK
+kind and the quick-slot swap through G are gone). The mount row is placed by the pure
+`domain.GearLayout`: beside the hotbar at 24, 22 or 20 pixels a cell, whichever first fits
+(four mounts at 1280 wide and GUI scale 3, or 1920 at scale 4 with the hotbar attack
+indicator, missed by four to six pixels and lifted), lifting above the status icons only
+at the 320-pixel minimum; the mounts never move when G goes down, the held-deposit cell
+going to the row's end or one row up over the quick slot's column. Ranged Weapons Mod's
+ammo counter now asks `GearClient.browsingBottomRight()` instead of recomputing the old
+fit. 28 JUnit (7 new for the layout at the friend's widths, the minimum, both hands, every
+width 320..1000), all 36 real-server gametests, jar `backpacksplus-0.3.0.jar` SHA-1
+`6c2faee0f59831dfcfe7942a72ba3d03bb81e4c1` (157257 bytes). The corner was photographed through
+Ranged Weapons Mod's HUD booth at 427 and 480 GUI pixels wide, browsing and idle, with the
+counter clear of the row (`minecraft-ranged-weapons-mod/devtools/verification/release-2.7.1.md`).
+Release awaits Rusty's go, with Redstonewall Jackson 0.2.0 and Ranged Weapons Mod 2.7.1 (the
+counter's side of D-0025).
 
 ## Published hotfix — 2026-09-18, pack 1.40.1
 
