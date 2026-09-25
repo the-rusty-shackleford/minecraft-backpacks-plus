@@ -114,6 +114,13 @@ appears at the end of the row, or one row up over the quick slot's column when t
 full; the mounts themselves never move. Ranged Weapons Mod's ammo counter, which shares the
 bottom-right corner, asks this mod whether a gesture is open there and moves up while one is.
 
+**E shows the bag too.** With a bag worn, your own inventory screen (E) carries the bag's
+cells in a panel to its left: the mounts across its top, the storage rows below, under the
+bag's name. Click, drag and split between them as between any two inventories. Shift-click
+from your inventory puts the item into the bag first (armor that would equip into an empty
+slot still equips); shift-click from the bag brings it back. Take the bag off and the panel
+goes. The bag's own screen (B) is unchanged.
+
 **Arrows in the bag count.** A bow or crossbow with nothing to shoot in your hands or
 inventory looks in your backpack, the worn one first and then any bag you carry, and takes
 its arrows (or any projectile it accepts) from there, one shot at a time; the bag's count

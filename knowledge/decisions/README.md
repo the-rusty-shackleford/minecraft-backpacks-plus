@@ -31,3 +31,5 @@
 - [D-0025](D-0025.md): G is the bag's key alone (no bag, nothing); the mount row closes up beside the hotbar before it lifts; the ammo counter asks Backpacks+ where the gesture is.
 
 - [D-0026](D-0026.md): Projectiles in a backpack count for the weapon in hand: lent as a marked copy, debited from the bag when the shot is taken, the arrow unmarked.
+
+- [D-0027](D-0027.md): The worn bag's cells sit on the player's own inventory screen, in a panel to its left, shift-click into the bag first.

@@ -5,12 +5,15 @@
   "compatibilityLevel": "JAVA_21",
   "client": [
     "PlayerModelMixin",
-    "ItemInHandLayerMixin"
+    "ItemInHandLayerMixin",
+    "client.InventoryScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "mixins": [
-    "ProjectileWeaponItemMixin"
+    "ProjectileWeaponItemMixin",
+    "AbstractContainerMenuAccessor",
+    "InventoryMenuMixin"
   ]
 }

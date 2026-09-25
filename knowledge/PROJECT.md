@@ -299,3 +299,14 @@ and a mixin at `ProjectileWeaponItem.useAmmo` debits the bag when the shot is ta
 the marker (D-0026). `BagAmmo` in main, `ProjectileWeaponItemMixin`, four GameTests in
 `AmmoGameTests`; 28 JUnit and 40 GameTests green; jar sha1 `f8eed7023d1c5f651e89b82e8836b2226c8744e5`.
 Waits on Rusty's go.
+
+## The worn bag on the inventory screen — 2026-09-24, 0.4.0, unreleased
+
+Rusty: E with a bag equipped should show the bag beside the inventory with free movement.
+Forty fixed slots over the live `WornBag` container hang on vanilla's `InventoryMenu` on both
+sides (mixin at its constructor's tail; the first index read off the menu since Quick Slot
+adds a slot after ours), inactive without a bag, sized to the worn tier; shift-click from the
+inventory goes into the bag first; `InventoryScreenMixin` draws the panel to the left
+(D-0027). Two GameTests in `InventoryGameTests`; 28 JUnit, 42 GameTests; jar sha1
+`a182ae2779d0f97ad443454ae2e9255c47597e5d`. Carries 0.3.1's bag ammo (D-0026). Waits on
+Rusty's go.
