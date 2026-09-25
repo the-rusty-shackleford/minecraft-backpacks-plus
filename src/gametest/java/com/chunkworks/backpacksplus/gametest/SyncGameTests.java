@@ -24,7 +24,7 @@ public final class SyncGameTests {
     public SyncGameTests() {}
 
     @GameTest(template="empty") public void aPlayerWithoutTheChannelIsSkippedNotCrashed(GameTestHelper h) {
-        ServerPlayer p=h.makeMockServerPlayerInLevel();
+        ServerPlayer p=mock(h);
         ItemStack bag=new ItemStack(BackpackItems.EXPEDITION.get()); BagContents.identify(bag);
         p.getInventory().setItem(38,bag);
         h.assertFalse(p.connection.hasChannel(com.chunkworks.backpacksplus.GearProtocol.State.TYPE),"the mock negotiated nothing");
@@ -35,5 +35,26 @@ public final class SyncGameTests {
         p.getInventory().setItem(38,ItemStack.EMPTY);              // a change the sync would announce
         GearSync.tick(new PlayerTickEvent.Post(p));
         h.succeed();
+    }
+    /** effects: the framework's mock player, built by hand so that, when Curios is on the
+     * classpath, its channels are declared before the player is placed: Curios syncs its own
+     * state to any player as they join and would throw for a mock that negotiated nothing,
+     * before this mod's listeners are reached. Only this mod's channel is left missing. */
+    private static ServerPlayer mock(GameTestHelper h) {
+        var server=h.getLevel().getServer();
+        var cookie=net.minecraft.server.network.CommonListenerCookie.createInitial(new com.mojang.authlib.GameProfile(java.util.UUID.randomUUID(),"test-mock-player"),false);
+        var player=new ServerPlayer(server,h.getLevel(),cookie.gameProfile(),cookie.clientInformation()) {
+            @Override public boolean isSpectator() { return false; }
+            @Override public boolean isCreative() { return true; }
+        };
+        var connection=new net.minecraft.network.Connection(net.minecraft.network.protocol.PacketFlow.SERVERBOUND);
+        new io.netty.channel.embedded.EmbeddedChannel(connection);
+        if(net.neoforged.fml.ModList.get().isLoaded("curios")) {
+            var channels=net.neoforged.neoforge.network.registration.ChannelAttributes.getOrCreateAdHocChannels(connection);
+            for(String id:new String[]{"sync_data","sync_curios","sync_modifiers","sync_render","sync_active","sync_stack","break","quick_move","server_page","grabbed_item","set_icons"})
+                channels.add(net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("curios",id));
+        }
+        server.getPlayerList().placeNewPlayer(connection,player,cookie);
+        return player;
     }
 }

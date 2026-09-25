@@ -10,6 +10,8 @@ repositories {
     mavenLocal { content { includeGroup "com.chunkworks.vanillawheels" } }
     mavenCentral()
     maven { url = "https://maven.theillusivec4.top/"; content { includeGroup "top.theillusivec4.curios" } }
+    // EMI (recipe viewer): the optional plugin that keeps its sidebars off the bag panel compiles against it.
+    maven { url = "https://maven.terraformersmc.com/releases/"; content { includeGroup "dev.emi" } }
 }
 
 // Domain rules will remain JDK-only; game adapters live in main.
@@ -72,6 +74,7 @@ neoForge.runs.matching { it.name != 'gameTestServer' && it.name != 'legacyServer
 }
 dependencies {
     compileOnly "top.theillusivec4.curios:curios-neoforge:9.5.1+1.21.1:api"
+    compileOnly "dev.emi:emi-neoforge:1.1.24+1.21.1"
     gametestCompileOnly "top.theillusivec4.curios:curios-neoforge:9.5.1+1.21.1"
     if (providers.gradleProperty("testCurios").isPresent())
         gametestRuntimeOnly "top.theillusivec4.curios:curios-neoforge:9.5.1+1.21.1"

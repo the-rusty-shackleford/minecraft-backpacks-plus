@@ -121,6 +121,13 @@ from your inventory puts the item into the bag first (armor that would equip int
 slot still equips); shift-click from the bag brings it back. Take the bag off and the panel
 goes. The bag's own screen (B) is unchanged.
 
+The panel and the inventory are centered together, so the inventory sits half a panel to the
+right of its usual place while a bag is worn. Open the vanilla recipe book and the panel moves
+left of the book; where panel, book and inventory do not all fit side by side (screens under
+589 GUI pixels wide, such as 1280 wide at GUI scale 3), the book takes the room and the panel
+comes back when the book closes. Under 360 GUI pixels wide there is no room for the panel at
+all and it is not shown. EMI, when installed, keeps its sidebars off the panel.
+
 **Arrows in the bag count.** A bow or crossbow with nothing to shoot in your hands or
 inventory looks in your backpack, the worn one first and then any bag you carry, and takes
 its arrows (or any projectile it accepts) from there, one shot at a time; the bag's count

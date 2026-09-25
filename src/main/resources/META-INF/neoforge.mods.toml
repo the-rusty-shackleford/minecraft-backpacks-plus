@@ -39,3 +39,10 @@ type="optional"
 versionRange="[9.5.1,10)"
 ordering="AFTER"
 side="BOTH"
+
+[[dependencies.backpacksplus]]
+modId="emi"
+type="optional"
+versionRange="[1.1,)"
+ordering="NONE"
+side="CLIENT"

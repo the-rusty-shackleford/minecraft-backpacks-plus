@@ -33,3 +33,5 @@
 - [D-0026](D-0026.md): Projectiles in a backpack count for the weapon in hand: lent as a marked copy, debited from the bag when the shot is taken, the arrow unmarked.
 
 - [D-0027](D-0027.md): The worn bag's cells sit on the player's own inventory screen, in a panel to its left, shift-click into the bag first.
+
+- [D-0028](D-0028.md): The bag panel and the vanilla layout are laid out as one, half a panel right of vanilla; the open recipe book stands beside the panel only where panel, tabs, book and screen all fit, else it takes the room and the panel yields; EMI keeps off the panel.

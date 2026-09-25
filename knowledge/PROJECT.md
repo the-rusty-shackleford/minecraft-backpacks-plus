@@ -307,6 +307,18 @@ Forty fixed slots over the live `WornBag` container hang on vanilla's `Inventory
 sides (mixin at its constructor's tail; the first index read off the menu since Quick Slot
 adds a slot after ours), inactive without a bag, sized to the worn tier; shift-click from the
 inventory goes into the bag first; `InventoryScreenMixin` draws the panel to the left
-(D-0027). Two GameTests in `InventoryGameTests`; 28 JUnit, 42 GameTests; jar sha1
-`a182ae2779d0f97ad443454ae2e9255c47597e5d`. Carries 0.3.1's bag ammo (D-0026). Waits on
-Rusty's go.
+(D-0027). Two GameTests in `InventoryGameTests`. Carries 0.3.1's bag ammo (D-0026).
+
+Photographed 2026-09-25 through the network fixture, which gained an inventory op, a book op
+and a `wear` op ([record](../devtools/verification/inventory-panel.md)): the open recipe book
+painted over the panel at every width and, under 540 wide, the book's button sat over the
+player model. D-0028 replaces the layout: a worn bag makes the vanilla layout 180 wider, so the
+screen and its book sit half a panel to the right and the pair is centered; the open book
+stands beside the panel from 589 wide (its tabs clear of the panel) and takes the room below
+that, the panel yielding and vanilla's own layout applying so the button stays reachable; under
+360 the panel hides. The rule is the pure `domain.InventoryPanel`, pinned at 320, 359, 360,
+370, 427, 588, 589, 640 and 688; the cells move through a mutable accessor on the slot's x. An
+EMI plugin excludes the panel's column at the screen's height (EMI ignores a smaller
+rectangle). 35 JUnit, 42 GameTests, 48 with Curios (the Curios variant had been red on the
+sync test's mock since 0.2.3; the mock now declares Curios' channels). Jar sha1
+`569337ae3fb7aa4a5a404c45b3138807903d8b5d` (177597 bytes). Waits on Rusty's go.

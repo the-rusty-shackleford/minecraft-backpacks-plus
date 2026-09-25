@@ -14,6 +14,7 @@
   "mixins": [
     "ProjectileWeaponItemMixin",
     "AbstractContainerMenuAccessor",
+    "SlotAccessor",
     "InventoryMenuMixin"
   ]
 }

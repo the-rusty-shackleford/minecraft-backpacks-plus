@@ -21,6 +21,8 @@ import net.neoforged.neoforge.event.tick.ServerTickEvent;
 public final class NetworkServer {
     private NetworkServer() {}
     private static int ticks;
+    /** The vehicle helper links against Vanilla Wheels, a compile-only dependency: touch it only when the mod is on. */
+    private static final boolean WHEELS=net.neoforged.fml.ModList.get().isLoaded("vanillawheels");
     private static int completed=NetworkFiles.initialSequence("server");
     private static String error="";
     @SubscribeEvent public static void tick(ServerTickEvent.Post event) {
@@ -35,7 +37,7 @@ public final class NetworkServer {
                 if (p==null) throw new IllegalStateException("Target not connected");
                 switch (op) {
                     case "release" -> ReleaseNetwork.execute(p,command);
-                    case "wheels" -> WheelsNetwork.execute(p,command);
+                    case "wheels" -> { if (!WHEELS) throw new IllegalStateException("Vanilla Wheels is not loaded"); WheelsNetwork.execute(p,command); }
                     case "life" -> LifecycleNetwork.execute(p,command);
                     case "curiosPrepare" -> CuriosNetwork.prepare(p,command);
                     case "curiosControl" -> CuriosNetwork.control(p,command);
@@ -63,6 +65,18 @@ public final class NetworkServer {
                         server.getGameRules().getRule(GameRules.RULE_DOMOBSPAWNING).set(false,server);
                         server.getGameRules().getRule(GameRules.RULE_DAYLIGHT).set(false,server);
                     }
+                    case "wear" -> {
+                        // A worn bag of the named tier with a few stacks and its mounts filled, for the inventory-screen captures.
+                        var tier=com.chunkworks.backpacksplus.domain.BackpackTier.valueOf(command.get("tier").getAsString().toUpperCase(java.util.Locale.ROOT));
+                        var item=switch (tier) { case BASIC -> BackpackItems.BASIC; case REINFORCED -> BackpackItems.REINFORCED; case EXPEDITION -> BackpackItems.EXPEDITION; };
+                        p.closeContainer(); p.getInventory().setItem(38,new ItemStack(item.get()));
+                        var inv=BagInventory.bind(p,38);
+                        ItemStack[] samples={new ItemStack(Items.BREAD,8),new ItemStack(Items.TORCH,32),new ItemStack(Items.COBBLESTONE,64),new ItemStack(Items.OAK_LOG,12),new ItemStack(Items.IRON_INGOT,5)};
+                        for (int i=0;i<samples.length&&i<tier.storageSlots();i++) inv.setItem(i,samples[i]);
+                        ItemStack[] longs={new ItemStack(Items.DIAMOND_PICKAXE),new ItemStack(Items.DIAMOND_SWORD)}, smalls={new ItemStack(Items.APPLE,12),new ItemStack(Items.TORCH,16)};
+                        int l=0,s=0;
+                        for (int i=0;i<tier.mounts().size();i++) inv.setItem(tier.mountSlot(i),tier.mounts().get(i)==com.chunkworks.backpacksplus.domain.BackpackTier.Mount.LONG ? longs[l++] : smalls[s++]);
+                    }
                     case "holdBag" -> { var bag=p.getInventory().getItem(38); p.getInventory().setItem(38,ItemStack.EMPTY); p.getInventory().setItem(0,bag); }
                     case "wearBag" -> { var bag=p.getInventory().getItem(0); p.getInventory().setItem(0,ItemStack.EMPTY); p.getInventory().setItem(38,bag); }
                     case "quick" -> Slot.replace(p,new ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.parse(command.get("item").getAsString())),command.has("count") ? command.get("count").getAsInt() : 1));
@@ -88,7 +102,7 @@ public final class NetworkServer {
         } catch (Exception failure) { error=failure.toString(); LogUtils.getLogger().error("Backpack fixture failed",failure); }
         JsonObject state=new JsonObject(); state.addProperty("seq",completed); state.addProperty("tick",ticks); state.addProperty("error",error);
         JsonObject players=new JsonObject(); for (var p : server.getPlayerList().getPlayers()) players.add(p.getGameProfile().getName(),NetworkFiles.player(p)); state.add("players",players);
-        var vehicles=new com.google.gson.JsonArray();for(var entity:server.overworld().getAllEntities()){
+        var vehicles=new com.google.gson.JsonArray();if(WHEELS)for(var entity:server.overworld().getAllEntities()){
             var vehicle=WheelsNetwork.describe(entity);if(vehicle!=null)vehicles.add(vehicle);
         }state.add("vehicles",vehicles);
         var actor=server.getPlayerList().getPlayerByName("QuickDriver");
