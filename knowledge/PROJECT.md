@@ -290,7 +290,7 @@ jar and installed server jar match SHA-1 `e0fbcfd181273b78c7e004e5f136b493dc9d4d
 "backpacksplus (version 0.2.1 -> 0.2.3)", 20 TPS, Mod Hub parity clean. The real-client
 check of the G release is Rusty's own on the pack.
 
-## Ammo from the bag — 2026-09-24, 0.3.1, unreleased
+## Ammo from the bag — 2026-09-24, 0.3.1 (shipped inside 0.4.0)
 
 Rusty: "My bow shows as empty even though I have many arrows in my backpack." Bows and
 crossbows now find projectiles in the worn bag and any carried bag after the hands and the
@@ -298,9 +298,9 @@ inventory, through NeoForge's `LivingGetProjectileEvent`; the weapon is handed a
 and a mixin at `ProjectileWeaponItem.useAmmo` debits the bag when the shot is taken and drops
 the marker (D-0026). `BagAmmo` in main, `ProjectileWeaponItemMixin`, four GameTests in
 `AmmoGameTests`; 28 JUnit and 40 GameTests green; jar sha1 `f8eed7023d1c5f651e89b82e8836b2226c8744e5`.
-Waits on Rusty's go.
+Never released on its own: it rides in 0.4.0, below.
 
-## The worn bag on the inventory screen — 2026-09-24, 0.4.0, unreleased
+## The worn bag on the inventory screen — 2026-09-24, 0.4.0
 
 Rusty: E with a bag equipped should show the bag beside the inventory with free movement.
 Forty fixed slots over the live `WornBag` container hang on vanilla's `InventoryMenu` on both
@@ -321,4 +321,16 @@ that, the panel yielding and vanilla's own layout applying so the button stays r
 EMI plugin excludes the panel's column at the screen's height (EMI ignores a smaller
 rectangle). 35 JUnit, 42 GameTests, 48 with Curios (the Curios variant had been red on the
 sync test's mock since 0.2.3; the mock now declares Curios' channels). Jar sha1
-`569337ae3fb7aa4a5a404c45b3138807903d8b5d` (177597 bytes). Waits on Rusty's go.
+`569337ae3fb7aa4a5a404c45b3138807903d8b5d` (177597 bytes). Released below.
+
+## Published and deployed — 2026-09-25, pack 1.64.0
+
+Version 0.4.0 is [published](https://github.com/the-rusty-shackleford/minecraft-backpacks-plus/releases/tag/v0.4.0)
+and deployed through Mod Hub in pack **1.64.0**, replacing 0.3.0 on the server, together with
+Magical Map 0.3.1, Warehouse Manager 0.5.0 and Schnappviecher 0.1.2. Rusty vetted the D-0028
+panel photos ("looks good") and gave the go. Release asset, tested jar and installed server jar
+match SHA-1 `569337ae3fb7aa4a5a404c45b3138807903d8b5d`. Restart 06:14:11 UTC with nobody on
+after the warning, `Done (2.808s)!` at 06:14:26, the log noting "backpacksplus (version 0.3.0 ->
+0.4.0)", 20 TPS, Mod Hub parity clean. Not seen on a live client: the panel on Rusty's own
+screen at GUI scale 5, and ammo from the bag in play. The server repo's
+`knowledge/releases/pack-1.64.0.md` has the whole deployment.
