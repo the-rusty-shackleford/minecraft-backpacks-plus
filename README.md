@@ -114,6 +114,12 @@ appears at the end of the row, or one row up over the quick slot's column when t
 full; the mounts themselves never move. Ranged Weapons Mod's ammo counter, which shares the
 bottom-right corner, asks this mod whether a gesture is open there and moves up while one is.
 
+**Arrows in the bag count.** A bow or crossbow with nothing to shoot in your hands or
+inventory looks in your backpack, the worn one first and then any bag you carry, and takes
+its arrows (or any projectile it accepts) from there, one shot at a time; the bag's count
+falls as you shoot, and an arrow you pick back up is an ordinary arrow. Arrows in your
+inventory are still used first. Infinity works off a bag's arrow without spending it.
+
 Item IDs: `/give @s backpacksplus:basic_backpack`, with `reinforced_backpack`
 and `expedition_backpack` as the other IDs in that namespace. For existing worlds, follow the coordinated [cutover procedure](devtools/verification/legacy-retirement.md).
 Existing legacy bags and their contents will be discarded as requested. In Survival, new bags require crafting; Creative provides all three tiers directly.

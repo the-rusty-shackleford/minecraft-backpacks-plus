@@ -3,6 +3,14 @@
   "minVersion": "0.8",
   "package": "com.chunkworks.backpacksplus.mixin",
   "compatibilityLevel": "JAVA_21",
-  "client": ["PlayerModelMixin", "ItemInHandLayerMixin"],
-  "injectors": {"defaultRequire": 1}
+  "client": [
+    "PlayerModelMixin",
+    "ItemInHandLayerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "mixins": [
+    "ProjectileWeaponItemMixin"
+  ]
 }

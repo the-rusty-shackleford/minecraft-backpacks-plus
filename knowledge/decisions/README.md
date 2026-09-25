@@ -29,3 +29,5 @@
 - [D-0024](D-0024.md): Releasing G commits the highlighted cell, wheel or no wheel; a deposit is never the default.
 
 - [D-0025](D-0025.md): G is the bag's key alone (no bag, nothing); the mount row closes up beside the hotbar before it lifts; the ammo counter asks Backpacks+ where the gesture is.
+
+- [D-0026](D-0026.md): Projectiles in a backpack count for the weapon in hand: lent as a marked copy, debited from the bag when the shot is taken, the arrow unmarked.

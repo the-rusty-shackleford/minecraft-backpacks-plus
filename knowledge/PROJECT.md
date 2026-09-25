@@ -289,3 +289,13 @@ jar and installed server jar match SHA-1 `e0fbcfd181273b78c7e004e5f136b493dc9d4d
 23:06:21 UTC with nobody online after the warning; ready at 23:06:35, the log notes
 "backpacksplus (version 0.2.1 -> 0.2.3)", 20 TPS, Mod Hub parity clean. The real-client
 check of the G release is Rusty's own on the pack.
+
+## Ammo from the bag — 2026-09-24, 0.3.1, unreleased
+
+Rusty: "My bow shows as empty even though I have many arrows in my backpack." Bows and
+crossbows now find projectiles in the worn bag and any carried bag after the hands and the
+inventory, through NeoForge's `LivingGetProjectileEvent`; the weapon is handed a marked copy
+and a mixin at `ProjectileWeaponItem.useAmmo` debits the bag when the shot is taken and drops
+the marker (D-0026). `BagAmmo` in main, `ProjectileWeaponItemMixin`, four GameTests in
+`AmmoGameTests`; 28 JUnit and 40 GameTests green; jar sha1 `f8eed7023d1c5f651e89b82e8836b2226c8744e5`.
+Waits on Rusty's go.

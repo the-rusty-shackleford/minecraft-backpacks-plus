@@ -11,7 +11,7 @@ public final class BackpacksPlus {
     public static final String ID = "backpacksplus";
 
     /** effects: initializes the common mod without loading any client classes. */
-    public BackpacksPlus(IEventBus bus) { BackpackItems.register(bus); BackpackRecipes.register(bus); GearSync.register(bus);
+    public BackpacksPlus(IEventBus bus) { BackpackItems.register(bus); BackpackRecipes.register(bus); GearSync.register(bus); BagAmmo.register();
         if(net.neoforged.fml.ModList.get().isLoaded("curios"))CuriosCompat.register(bus);
     }
 
