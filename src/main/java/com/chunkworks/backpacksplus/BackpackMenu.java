@@ -51,6 +51,8 @@ public final class BackpackMenu extends AbstractContainerMenu {
     public int inventoryTop() { return Math.max(112, 38 + tier.storageSlots() / 9 * 18); }
     /** effects: returns the locked inventory or Curios source address of this bag. */
     public int source() { return source; }
+    /** effects: returns the bag's working container, the one this menu's slots write through. */
+    public Container contents() { return contents; }
     private void addPlayerSlot(Inventory inventory, int cell, int x, int y) {
         addSlot(new Slot(inventory, cell, x, y) {
             @Override public boolean mayPickup(Player player) { return cell != source; }

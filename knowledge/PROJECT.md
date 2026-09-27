@@ -323,6 +323,24 @@ rectangle). 35 JUnit, 42 GameTests, 48 with Curios (the Curios variant had been 
 sync test's mock since 0.2.3; the mock now declares Curios' channels). Jar sha1
 `569337ae3fb7aa4a5a404c45b3138807903d8b5d` (177597 bytes). Released below.
 
+## Pickups into the bag and the panel beside a chest — 2026-09-27, 0.5.0
+
+Rusty: pickups should go into the backpack when the inventory is full, stacking onto the bag's
+stack as the inventory stacks, "test it, and release it when you confirm this behavior works
+without regressions"; then, "interacting with a chest should also show backpack inventory".
+D-0029: `BagPickup` places a pickup as one inventory (inventory stacks, bag stacks, inventory's
+own add, empty bag cells), worn bag then carried, never mounts, through a `@WrapOperation` on the
+`Inventory.add` call in `ItemEntity.playerTouch` and `AbstractArrow.tryPickup`; an open bag screen
+is written through its own container so it stays open. D-0030: `ChestMenuMixin` gives vanilla's
+chest menu (not subclasses) the forty cells and a shift-click that fills the inventory before the
+bag; `ContainerScreenMixin` draws the panel beside the chest screen, bottom-aligned, the pair
+centred, the vanilla texture moved to `leftPos`; the drawing is shared (`client.BagPanelArt`); EMI
+excludes it. 40 JUnit, 60 GameTests, 67 with Curios; jar sha1 `28423c747bc762d32d0e8235e0f873ef932ca4af` (191023 bytes); photographed on the network fixture
+([record](../devtools/verification/chest-panel.md)). The first live client launch crashed on a
+client mixin the gametest server cannot load: run the fixture before any release that touches a
+screen. Never send the fixture's `focus` op beside Rusty's session (it raised the iconified
+client and took their mouse).
+
 ## Published and deployed — 2026-09-25, pack 1.64.0
 
 Version 0.4.0 is [published](https://github.com/the-rusty-shackleford/minecraft-backpacks-plus/releases/tag/v0.4.0)

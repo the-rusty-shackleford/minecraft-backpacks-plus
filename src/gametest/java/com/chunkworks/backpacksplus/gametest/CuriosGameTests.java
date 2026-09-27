@@ -35,6 +35,22 @@ public final class CuriosGameTests {
         CuriosApi.getCuriosInventory(p).orElseThrow().setEquippedCurio("back",0,bag);
         return p;
     }
+    /** D-0029 on the back slot, where players wear their bags: with the inventory full a pickup
+     * lands in the Curios bag, not the chest bag, on top of its own stack first. */
+    @GameTest(template="empty",templateNamespace="backpacksplus")
+    public void aPickupOverflowsIntoTheCuriosBag(GameTestHelper h) {
+        var p=equipped(h);var chest=new ItemStack(BackpackItems.BASIC.get());p.getInventory().setItem(38,chest);
+        BagInventory.bind(p,41).setItem(5,new ItemStack(net.minecraft.world.item.Items.COBBLESTONE,60));
+        for(int i=0;i<36;i++)p.getInventory().setItem(i,new ItemStack(net.minecraft.world.item.Items.DIRT,64));
+        var e=new net.minecraft.world.entity.item.ItemEntity(h.getLevel(),p.getX(),p.getY(),p.getZ(),new ItemStack(net.minecraft.world.item.Items.COBBLESTONE,10));
+        e.setNoPickUpDelay();h.getLevel().addFreshEntity(e);e.playerTouch(p);
+        var cells=BagContents.copy(BagLocations.stack(p,41));
+        h.assertTrue(e.isRemoved(),"picked up");
+        h.assertTrue(cells.get(5).getCount()==64,"the back bag's stack topped up: "+cells.get(5));
+        h.assertTrue(cells.get(0).getCount()==6,"the rest in its first empty cell: "+cells.get(0));
+        h.assertTrue(BagContents.copy(chest).getFirst().isEmpty(),"the chest bag untouched");
+        h.succeed();
+    }
     @GameTest(template="empty",templateNamespace="backpacksplus")
     public void curiosWinsWithoutMutatingTheChestBag(GameTestHelper h) {
         var p=equipped(h);var chest=new ItemStack(BackpackItems.BASIC.get());p.getInventory().setItem(38,chest);

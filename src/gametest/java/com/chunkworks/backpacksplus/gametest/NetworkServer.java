@@ -77,6 +77,25 @@ public final class NetworkServer {
                         int l=0,s=0;
                         for (int i=0;i<tier.mounts().size();i++) inv.setItem(tier.mountSlot(i),tier.mounts().get(i)==com.chunkworks.backpacksplus.domain.BackpackTier.Mount.LONG ? longs[l++] : smalls[s++]);
                     }
+                    case "chest" -> {
+                        // A chest (or, with "double", two side by side) at the player's feet with a few stacks, opened for them: the chest-screen captures (D-0030).
+                        boolean pair=command.has("double") && command.get("double").getAsBoolean();
+                        p.closeContainer();
+                        // Facing north, a LEFT half joins the RIGHT half east of it.
+                        BlockPos at=p.blockPosition().offset(2,0,0), next=at.east();
+                        p.serverLevel().setBlock(at,Blocks.AIR.defaultBlockState(),3); p.serverLevel().setBlock(next,Blocks.AIR.defaultBlockState(),3);
+                        var state=Blocks.CHEST.defaultBlockState();
+                        if (pair) {
+                            p.serverLevel().setBlock(at,state.setValue(net.minecraft.world.level.block.ChestBlock.TYPE,net.minecraft.world.level.block.state.properties.ChestType.LEFT),3);
+                            p.serverLevel().setBlock(next,state.setValue(net.minecraft.world.level.block.ChestBlock.TYPE,net.minecraft.world.level.block.state.properties.ChestType.RIGHT),3);
+                        } else p.serverLevel().setBlock(at,state,3);
+                        var box=(net.minecraft.world.level.block.entity.ChestBlockEntity)p.serverLevel().getBlockEntity(at);
+                        box.clearContent();
+                        ItemStack[] samples={new ItemStack(Items.OAK_PLANKS,64),new ItemStack(Items.COAL,23),new ItemStack(Items.WHEAT,17),new ItemStack(Items.IRON_INGOT,9),new ItemStack(Items.GOLDEN_APPLE,2)};
+                        for (int i=0;i<samples.length;i++) box.setItem(i*2,samples[i]);
+                        var menu=p.serverLevel().getBlockState(at).getMenuProvider(p.serverLevel(),at);
+                        p.openMenu(menu);
+                    }
                     case "holdBag" -> { var bag=p.getInventory().getItem(38); p.getInventory().setItem(38,ItemStack.EMPTY); p.getInventory().setItem(0,bag); }
                     case "wearBag" -> { var bag=p.getInventory().getItem(0); p.getInventory().setItem(0,ItemStack.EMPTY); p.getInventory().setItem(38,bag); }
                     case "quick" -> Slot.replace(p,new ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.parse(command.get("item").getAsString())),command.has("count") ? command.get("count").getAsInt() : 1));

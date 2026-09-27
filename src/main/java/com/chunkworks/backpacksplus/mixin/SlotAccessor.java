@@ -12,4 +12,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(Slot.class)
 public interface SlotAccessor {
     @Accessor("x") @Mutable void backpacksplus$setX(int x);
+    /** The chest screen stands the panel beside the player's inventory rows, whose height
+     * follows the chest's (D-0030). */
+    @Accessor("y") @Mutable void backpacksplus$setY(int y);
 }

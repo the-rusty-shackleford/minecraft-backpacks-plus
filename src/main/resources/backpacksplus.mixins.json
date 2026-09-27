@@ -6,7 +6,8 @@
   "client": [
     "PlayerModelMixin",
     "ItemInHandLayerMixin",
-    "client.InventoryScreenMixin"
+    "client.InventoryScreenMixin",
+    "client.ContainerScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1
@@ -15,6 +16,9 @@
     "ProjectileWeaponItemMixin",
     "AbstractContainerMenuAccessor",
     "SlotAccessor",
-    "InventoryMenuMixin"
+    "InventoryMenuMixin",
+    "ItemEntityMixin",
+    "AbstractArrowMixin",
+    "ChestMenuMixin"
   ]
 }

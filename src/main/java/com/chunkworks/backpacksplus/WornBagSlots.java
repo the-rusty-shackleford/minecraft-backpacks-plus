@@ -5,6 +5,7 @@ import com.chunkworks.backpacksplus.domain.InventoryPanel;
 import com.chunkworks.backpacksplus.mixin.AbstractContainerMenuAccessor;
 import com.chunkworks.backpacksplus.mixin.SlotAccessor;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
@@ -32,11 +33,14 @@ public final class WornBagSlots {
         @Override public boolean mayPickup(Player player) { return bag.active(cell); }
         /** effects: the cell's column in its row of the panel. */
         int column() { return cell < WornBag.STORAGE ? cell % 9 : cell - WornBag.STORAGE; }
+        /** effects: the cell's top edge in the panel. */
+        int row() { return cell < WornBag.STORAGE ? STORAGE_Y + (cell / 9) * 18 : MOUNTS_Y; }
     }
 
-    /** effects: adds the forty cells to the menu, mounts first across the top, storage below;
-     * returns the menu index of the first. */
-    public static int add(InventoryMenu menu, WornBag bag) {
+    /** effects: adds the forty cells to the menu (the player's inventory menu, D-0027, or a
+     * chest's, D-0030), mounts first across the top, storage below; returns the menu index of
+     * the first. */
+    public static int add(AbstractContainerMenu menu, WornBag bag) {
         var access = (AbstractContainerMenuAccessor) menu;
         int first = menu.slots.size();
         for (int k = 0; k < WornBag.SIZE; k++) {
@@ -49,18 +53,22 @@ public final class WornBagSlots {
     }
     /** effects: on the client, stands the cells where the panel stands, or hides them when it
      * is not shown. Slot positions mean nothing to the server, which never calls this. */
-    public static void place(InventoryMenu menu, InventoryPanel panel) {
+    public static void place(InventoryMenu menu, InventoryPanel panel) { place(menu, panel, 0); }
+    /** effects: as {@link #place(InventoryMenu, InventoryPanel)} for any menu carrying the cells,
+     * the panel's top {@code panelY} below the screen's. */
+    public static void place(AbstractContainerMenu menu, InventoryPanel panel, int panelY) {
         int first = ((WornBagMenu) menu).backpacksplus$first();
         if (first < 0) return;
         for (int k = 0; k < WornBag.SIZE; k++) {
             var cell = (Cell) menu.slots.get(first + k);
             cell.shown = panel.shown();
             ((SlotAccessor) (Object) cell).backpacksplus$setX((panel.shown() ? panel.panelX() : PANEL_X) + 8 + cell.column() * 18);
+            ((SlotAccessor) (Object) cell).backpacksplus$setY(panelY + cell.row());
         }
     }
     /** effects: moves as much of the stack as the worn bag's active cells take, storage before
      * mounts; returns whether any moved. */
-    public static boolean moveInto(InventoryMenu menu, ItemStack stack) {
+    public static boolean moveInto(AbstractContainerMenu menu, ItemStack stack) {
         int first = ((WornBagMenu) menu).backpacksplus$first();
         return first >= 0 && ((AbstractContainerMenuAccessor) menu).backpacksplus$moveItemStackTo(stack, first, first + WornBag.SIZE, false);
     }

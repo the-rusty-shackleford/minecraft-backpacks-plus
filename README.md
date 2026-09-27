@@ -128,6 +128,21 @@ left of the book; where panel, book and inventory do not all fit side by side (s
 comes back when the book closes. Under 360 GUI pixels wide there is no room for the panel at
 all and it is not shown. EMI, when installed, keeps its sidebars off the panel.
 
+**So does a chest.** Open a chest, double chest, trapped chest, barrel or ender chest with a
+bag worn and the same panel stands to the left of the chest screen, level with your inventory
+rows. Shift-click from the chest fills your inventory first and puts only what does not fit
+into the bag; shift-click from your inventory goes into the chest as always; shift-click from
+the bag goes into the chest. Other containers (furnaces, shulker boxes, modded screens) are
+unchanged.
+
+**Picking things up.** Items you walk over, and arrows you pull out of the ground, go into your
+bags too. As in the inventory, a stack of the same thing is added to before a new stack is
+started: first your inventory's stacks, then the bag's, then an empty inventory slot, then an
+empty bag cell. So with a full inventory pickups land in the bag, and cobblestone joins the
+bag's cobblestone even while you have free slots. The worn bag comes first, then any bag you
+carry. Mounts are never filled by a pickup, and what the bag cannot hold (chests, bundles,
+other bags) stays on the ground as before.
+
 **Arrows in the bag count.** A bow or crossbow with nothing to shoot in your hands or
 inventory looks in your backpack, the worn one first and then any bag you carry, and takes
 its arrows (or any projectile it accepts) from there, one shot at a time; the bag's count

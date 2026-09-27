@@ -25,5 +25,10 @@ public final class BackpacksEmiPlugin implements EmiPlugin {
             var panel = ((BagPanelScreen) screen).backpacksplus$panel();
             if (panel != null) out.accept(new Bounds(panel[0], screen.getGuiTop(), panel[2], Math.max(panel[3], screen.getYSize())));
         });
+        // The chest screen's panel (D-0030) stands level with the screen's bottom; the column is its full height the same way.
+        registry.addExclusionArea(net.minecraft.client.gui.screens.inventory.ContainerScreen.class, (screen, out) -> {
+            var panel = ((BagPanelScreen) screen).backpacksplus$panel();
+            if (panel != null) out.accept(new Bounds(panel[0], screen.getGuiTop(), panel[2], screen.getYSize()));
+        });
     }
 }

@@ -1,9 +1,8 @@
 /* Copyright (C) 2026 Rusty Shackleford and nfx. SPDX-License-Identifier: AGPL-3.0-or-later */
 package com.chunkworks.backpacksplus.mixin.client;
 
-import com.chunkworks.backpacksplus.BagLocations;
-import com.chunkworks.backpacksplus.BagContents;
 import com.chunkworks.backpacksplus.WornBagSlots;
+import com.chunkworks.backpacksplus.client.BagPanelArt;
 import com.chunkworks.backpacksplus.client.BagPanelScreen;
 import com.chunkworks.backpacksplus.domain.InventoryPanel;
 import net.minecraft.client.gui.GuiGraphics;
@@ -11,7 +10,6 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.inventory.InventoryMenu;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Final;
@@ -92,35 +90,13 @@ abstract class InventoryScreenMixin extends AbstractContainerScreen<InventoryMen
 
     @Override public int[] backpacksplus$panel() {
         if (!backpacksplus$panel.shown() || !backpacksplus$worn()) return null;
-        var tier = BagContents.tier(BagLocations.stack(minecraft.player, BagLocations.worn(minecraft.player)));
-        return new int[] { leftPos + backpacksplus$panel.panelX(), topPos, WornBagSlots.PANEL_WIDTH, WornBagSlots.panelHeight((tier.storageSlots() + 8) / 9) };
+        return new int[] { leftPos + backpacksplus$panel.panelX(), topPos, WornBagSlots.PANEL_WIDTH, BagPanelArt.height() };
     }
 
     @Inject(method = "renderBg", at = @At("TAIL"))
     private void backpacksplus$panel(GuiGraphics g, float partialTick, int mouseX, int mouseY, CallbackInfo ci) {
         var bounds = backpacksplus$panel();
-        if (bounds == null) return;
-        var bag = BagLocations.stack(minecraft.player, BagLocations.worn(minecraft.player));
-        var tier = BagContents.tier(bag);
-        int mounts = tier.totalSlots() - tier.storageSlots();
-        int x0 = bounds[0], y0 = bounds[1], w = bounds[2], h = bounds[3];
-        g.fill(x0, y0, x0 + w, y0 + h, 0xFF000000);
-        g.fill(x0 + 1, y0 + 1, x0 + w - 1, y0 + h - 1, 0xFFC6C6C6);
-        g.fill(x0 + 1, y0 + 1, x0 + w - 2, y0 + 2, 0xFFFFFFFF); g.fill(x0 + 1, y0 + 1, x0 + 2, y0 + h - 2, 0xFFFFFFFF);
-        g.fill(x0 + 2, y0 + h - 2, x0 + w - 1, y0 + h - 1, 0xFF555555); g.fill(x0 + w - 2, y0 + 2, x0 + w - 1, y0 + h - 1, 0xFF555555);
-        g.drawString(font, bag.getHoverName(), x0 + 8, y0 + 6, 0x404040, false);
-        for (int i = 0; i < mounts; i++) backpacksplus$cell(g, x0 + 8 + i * 18, y0 + WornBagSlots.MOUNTS_Y);
-        for (int k = 0; k < tier.storageSlots(); k++) backpacksplus$cell(g, x0 + 8 + (k % 9) * 18, y0 + WornBagSlots.STORAGE_Y + (k / 9) * 18);
-        var label = Component.translatable("backpacksplus.mounts");
-        g.drawString(font, label, x0 + 8 + mounts * 18 + 4, y0 + WornBagSlots.MOUNTS_Y + 4, 0x404040, false);
+        if (bounds != null) BagPanelArt.draw(g, font, bounds[0], bounds[1]);
     }
-    /** effects: a vanilla-looking slot well at the cell's top-left corner. */
-    private void backpacksplus$cell(GuiGraphics g, int x, int y) {
-        g.fill(x - 1, y - 1, x + 17, y + 17, 0xFF373737);
-        g.fill(x, y, x + 17, y + 17, 0xFFFFFFFF);
-        g.fill(x, y, x + 16, y + 16, 0xFF8B8B8B);
-    }
-    private boolean backpacksplus$worn() {
-        return minecraft != null && minecraft.player != null && BagLocations.isBag(BagLocations.stack(minecraft.player, BagLocations.worn(minecraft.player)));
-    }
+    private boolean backpacksplus$worn() { return BagPanelArt.worn(); }
 }
