@@ -352,3 +352,13 @@ after the warning, `Done (2.808s)!` at 06:14:26, the log noting "backpacksplus (
 0.4.0)", 20 TPS, Mod Hub parity clean. Not seen on a live client: the panel on Rusty's own
 screen at GUI scale 5, and ammo from the bag in play. The server repo's
 `knowledge/releases/pack-1.64.0.md` has the whole deployment.
+
+## Published and deployed — 2026-09-27, pack 1.66.0
+
+Version 0.5.0 (D-0029 pickups into the bags; D-0030 the panel beside a chest) is
+[published](https://github.com/the-rusty-shackleford/minecraft-backpacks-plus/releases/tag/v0.5.0)
+(asset SHA-1 `28423c747bc762d32d0e8235e0f873ef932ca4af`, matching the tested jar) and deployed
+through Mod Hub in pack **1.66.0**, replacing 0.4.0: restart 19:40:00 UTC at the end of the
+two-minute warning with two players on (Rusty: never wait for people to log off), `Done` at
+19:40:14, "backpacksplus (version 0.4.0 -> 0.5.0)", 36 baseline errors, 20 TPS, parity clean. The
+server repo's `knowledge/releases/pack-1.66.0.md` has the deployment. Not yet seen in play by Rusty.
