@@ -9,19 +9,18 @@
     "client.InventoryScreenMixin",
     "client.ContainerScreenMixin",
     "client.AbstractContainerScreenMixin",
-    "client.CreativeModeInventoryScreenMixin"
+    "client.CreativeModeInventoryScreenMixin",
+    "client.CraftingScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "mixins": [
-    "ProjectileWeaponItemMixin",
     "AbstractContainerMenuAccessor",
     "SlotAccessor",
     "InventoryMenuMixin",
-    "ItemEntityMixin",
-    "AbstractArrowMixin",
     "ChestMenuMixin",
+    "CraftingMenuMixin",
     "ServerGamePacketListenerImplMixin"
   ]
 }

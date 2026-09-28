@@ -14,7 +14,7 @@ import net.neoforged.fml.ModList;
 public final class BagLocations {
     private BagLocations() {}
     public static final int NONE=-1, CHEST=38, CURIOS_BACK=41;
-    private static final boolean CURIOS=ModList.get().isLoaded("curios");
+    static final boolean CURIOS=ModList.get().isLoaded("curios");
     /** effects: returns whether the stack is one usable backpack. */
     public static boolean isBag(ItemStack stack) { return stack.getCount()==1 && stack.getItem() instanceof BackpackItem; }
     /** effects: resolves an address to its current stack, or EMPTY if missing/inactive. */

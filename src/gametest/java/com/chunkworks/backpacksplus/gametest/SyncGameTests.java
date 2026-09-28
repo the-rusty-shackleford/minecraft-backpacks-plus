@@ -36,6 +36,23 @@ public final class SyncGameTests {
         GearSync.tick(new PlayerTickEvent.Post(p));
         h.succeed();
     }
+    /** A player who sees the wearer but whose connection never negotiated this mod's channel (a
+     * mock beside them in another mod's GameTests, 2026-09-28: Warehouse Manager's suite with
+     * Backpacks+ loaded failed six tests this way) is skipped, not sent to, which threw out of the
+     * wearer's tick. */
+    @GameTest(template="empty",timeoutTicks=100) public void aViewerWithoutTheChannelIsSkippedNotCrashed(GameTestHelper h) {
+        ServerPlayer wearer=mock(h), viewer=mock(h);
+        h.runAfterDelay(5,() -> {
+            h.assertTrue(!viewer.connection.hasChannel(com.chunkworks.backpacksplus.GearProtocol.State.TYPE),"the viewer negotiated nothing");
+            ItemStack bag=new ItemStack(BackpackItems.BASIC.get()); BagContents.identify(bag);
+            wearer.getInventory().setItem(38,bag);
+            GearSync.tick(new PlayerTickEvent.Post(wearer));
+            wearer.getInventory().setItem(38,ItemStack.EMPTY);
+            GearSync.tick(new PlayerTickEvent.Post(wearer));
+            wearer.server.getPlayerList().remove(wearer); viewer.server.getPlayerList().remove(viewer);
+            h.succeed();
+        });
+    }
     /** effects: the framework's mock player, built by hand so that, when Curios is on the
      * classpath, its channels are declared before the player is placed: Curios syncs its own
      * state to any player as they join and would throw for a mock that negotiated nothing,
@@ -54,6 +71,11 @@ public final class SyncGameTests {
             for(String id:new String[]{"sync_data","sync_curios","sync_modifiers","sync_render","sync_active","sync_stack","break","quick_move","server_page","grabbed_item","set_icons"})
                 channels.add(net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("curios",id));
         }
+        // Quick Slot, on this classpath, broadcasts its own state to everyone watching a player
+        // whose equipment changes, the same unguarded way this mod did before; its channel is
+        // declared so only this mod's is missing.
+        if(net.neoforged.fml.ModList.get().isLoaded("quickslot"))
+            net.neoforged.neoforge.network.registration.ChannelAttributes.getOrCreateAdHocChannels(connection).add(com.chunkworks.quickslot.Payloads.State.TYPE.id());
         server.getPlayerList().placeNewPlayer(connection,player,cookie);
         return player;
     }

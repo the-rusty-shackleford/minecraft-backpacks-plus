@@ -10,6 +10,7 @@ public final class TestMod {
         bus.addListener((net.neoforged.neoforge.event.RegisterGameTestsEvent event) -> {
             if (net.neoforged.fml.ModList.get().isLoaded("curios")) event.register(CuriosGameTests.class);
             if (net.neoforged.fml.ModList.get().isLoaded("rangedweaponsmod")) event.register(MountSizingGameTests.class);
+            if (net.neoforged.fml.ModList.get().isLoaded("vanillawheels")) event.register(VehicleGameTests.class);
         });
     }
 }

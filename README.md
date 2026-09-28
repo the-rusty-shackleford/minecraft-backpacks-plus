@@ -3,7 +3,10 @@
 Rustic survival backpacks for Minecraft 1.21.1 / NeoForge 21.1.x, with tools and weapons
 mounted on the sides and small supplies carried on the outer face or hanging from straps.
 
-**Version 0.2.1.** Crafting and canvas dyes, Curios equipment, direct mount swaps,
+**Version 0.6.0.** Every mod that counts, takes or gives a player's items sees their bags, through
+the Carried protocol, which Backpacks+ provides and carries inside its jar: payments, crafting
+from the recipe book or EMI, ammunition, trading, pickups. The bag's panel stands beside the
+crafting table as it does beside chests. Earlier: crafting and canvas dyes, Curios equipment, direct mount swaps,
 the horizontal gear HUD, third-person carry/open/retrieval and optional Luminance lighting.
 The approved original pixel materials and item scales are retained. See the
 [actual motion and full-pack preview](devtools/release-preview/index.html) and

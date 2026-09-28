@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "#c:chests", "#c:barrels", "minecraft:bundle",
-    { "id": "#sophisticatedbackpacks:backpacks", "required": false }
+    { "id": "#sophisticatedbackpacks:backpacks", "required": false },
+    { "id": "vanillawheels:vehicle", "required": false }
   ]
 }

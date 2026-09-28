@@ -39,3 +39,11 @@
 - [D-0029](D-0029.md): Picked-up items and arrows go into the bags too, placed as one inventory: the inventory's stacks, the bags' stacks, an empty inventory slot, an empty bag cell; never a mount.
 
 - [D-0030](D-0030.md): The worn bag's panel beside every vanilla chest screen; shift-click from the chest fills the inventory before the bag, from the inventory into the chest as before.
+
+- [D-0031](D-0031.md): The worn bag's panel on the creative inventory tab, laid out half a panel right; the server takes a creative player's edits of the cells under the bag's rules.
+
+- [D-0032](D-0032.md): Backpacks+ is a provider of the Carried protocol: every carried bag's storage cells (never mounts), worn first; pickups (D-0029) and lent ammo (D-0026) move into Carried, which now pays for a loan by what the copy lost (Create's potato cannon fired a bag's potatoes for free).
+
+- [D-0033](D-0033.md): The worn bag's cells and panel at the crafting table (Rusty's option b); EMI counts and fills from the bag's cells at the table and on the inventory screen; registrar "5".
+
+- [D-0034](D-0034.md): A packed vehicle (Vanilla Wheels' `vehicle`, its chest in a cargo component) is portable storage and never goes into a bag.

@@ -149,6 +149,14 @@ public final class NetworkClient {
                         double x=screen.getGuiLeft()+104+10, y=mc.getWindow().getGuiScaledHeight()/2-22+9;
                         screen.mouseClicked(x,y,0); screen.mouseReleased(x,y,0);
                     }
+                    case "tableBook" -> {
+                        // The crafting screen's book button (vanilla: leftPos + 5, height / 2 - 49), through its click path.
+                        if (!(mc.screen instanceof net.minecraft.client.gui.screens.inventory.CraftingScreen screen)) throw new IllegalStateException("Crafting screen not open");
+                        double x=screen.getGuiLeft()+5+10, y=mc.getWindow().getGuiScaledHeight()/2-49+9;
+                        screen.mouseClicked(x,y,0); screen.mouseReleased(x,y,0);
+                    }
+                    case "emiCheck" -> EmiNetwork.check(c.get("recipe").getAsString());
+                    case "emiFill" -> EmiNetwork.fill(c.get("recipe").getAsString());
                     case "b" -> java.util.Arrays.stream(mc.options.keyMappings).filter(key -> key.getName().equals("key.backpacksplus.open"))
                             .findFirst().ifPresent(key -> KeyMapping.click(key.getKey()));
                     case "orbit" -> {
@@ -222,6 +230,8 @@ public final class NetworkClient {
         state.addProperty("screen",mc.screen==null ? "" : mc.screen.getClass().getSimpleName());
         if (mc.screen instanceof AbstractContainerScreen<?> container) { state.addProperty("guiLeft",container.getGuiLeft()); state.addProperty("guiTop",container.getGuiTop()); }
         if (mc.screen instanceof InventoryScreen inventory) state.addProperty("recipeBook",inventory.getRecipeBookComponent().isVisible());
+        if (mc.screen instanceof net.minecraft.client.gui.screens.inventory.CraftingScreen table) state.addProperty("recipeBook",table.getRecipeBookComponent().isVisible());
+        if (ModList.get().isLoaded("emi")) EmiNetwork.observe(state);
         JsonObject players=new JsonObject();
         if (mc.level!=null) for (var player : mc.level.players()) {
             JsonObject p=NetworkFiles.player(player); var view=GearClient.snapshot(player.getUUID());

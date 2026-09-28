@@ -7,7 +7,7 @@ group = 'com.chunkworks.backpacksplus'
 base { archivesName = 'backpacksplus' }
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 repositories {
-    mavenLocal { content { includeGroup "com.chunkworks.vanillawheels" } }
+    mavenLocal { content { includeGroup "com.chunkworks.vanillawheels"; includeGroup "com.chunkworks.carried" } }
     mavenCentral()
     maven { url = "https://maven.theillusivec4.top/"; content { includeGroup "top.theillusivec4.curios" } }
     // EMI (recipe viewer): the optional plugin that keeps its sidebars off the bag panel compiles against it.
@@ -72,10 +72,22 @@ neoForge {
 neoForge.runs.matching { it.name != 'gameTestServer' && it.name != 'legacyServer' && !it.name.startsWith('network') }.configureEach {
     loadedMods = neoForge.mods.matching { it.name != 'backpacksplus_gametest' }
 }
+// The gametest run's classpath gets main's dependencies (Carried among them) as well as its classes.
+configurations { gametestImplementation.extendsFrom implementation }
 dependencies {
+    // The Carried protocol (D-0032): Backpacks+ provides its bags to it. Nested, as every consumer
+    // nests it; the loader keeps one copy. `./gradlew publishToMavenLocal` in minecraft-carried first.
+    jarJar(implementation("com.chunkworks.carried:carried")) {
+        version {
+            strictly "[1.0,2.0)"
+            prefer "1.0.0"
+        }
+    }
     compileOnly "top.theillusivec4.curios:curios-neoforge:9.5.1+1.21.1:api"
     compileOnly "dev.emi:emi-neoforge:1.1.24+1.21.1"
     gametestCompileOnly "top.theillusivec4.curios:curios-neoforge:9.5.1+1.21.1"
+    // The fixture's EMI ops (D-0033) compile against EMI; it is on the classpath only when supplied.
+    gametestCompileOnly "dev.emi:emi-neoforge:1.1.24+1.21.1"
     if (providers.gradleProperty("testCurios").isPresent())
         gametestRuntimeOnly "top.theillusivec4.curios:curios-neoforge:9.5.1+1.21.1"
     // Optional integration fixture: actual mod jars supplied by the caller, never bundled.

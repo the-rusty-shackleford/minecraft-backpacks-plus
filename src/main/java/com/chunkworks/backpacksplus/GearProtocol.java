@@ -100,9 +100,9 @@ public final class GearProtocol {
 
     /** requires: client setup. effects: installs rendering adapters without loading client classes on a dedicated server. */
     public static void receive(Consumer<State> state, Consumer<Action> action) { stateReceiver=state; actionReceiver=action; }
-    /** effects: registers required version-four, main-thread handlers; only the server accepts inventory intent. */
+    /** effects: registers required version-five, main-thread handlers (five: the crafting table's menu carries the bag's cells, D-0033); only the server accepts inventory intent. */
     public static void register(RegisterPayloadHandlersEvent event) {
-        var registrar = event.registrar("4");
+        var registrar = event.registrar("5");
         registrar.playToServer(Swap.TYPE, Swap.CODEC, (packet, context) -> {
             if (context.player() instanceof ServerPlayer player) GearSync.swap(player, packet);
         });

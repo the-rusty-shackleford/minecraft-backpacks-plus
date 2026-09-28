@@ -60,9 +60,15 @@ public final class GearSync {
     private static boolean listens(ServerPlayer player, CustomPacketPayload payload) {
         return player.connection!=null && player.connection.hasChannel(payload);
     }
-    /** effects: sends to everyone tracking the player, and to the player themselves only if their connection can take it, so an unnegotiated connection is skipped rather than crashing the tick. */
+    /** effects: sends to the player and to every player whose view holds the player's chunk, each
+     * only if their connection can take it, so an unnegotiated connection (a test's mock, a client
+     * mid-handshake) is skipped rather than failing the tick. Those watching the chunk include
+     * everyone tracking the player; a state sent a little wide is harmless, the client keeping a
+     * bounded table of states for players it has not spawned yet. NeoForge's send to trackers
+     * could not skip one: the first connection without the channel threw for all of them. */
     private static void broadcast(ServerPlayer player, CustomPacketPayload payload) {
-        PacketDistributor.sendToPlayersTrackingEntity(player, payload);
+        for (ServerPlayer viewer : player.serverLevel().getChunkSource().chunkMap.getPlayers(player.chunkPosition(), false))
+            if (viewer != player && listens(viewer, payload)) PacketDistributor.sendToPlayer(viewer, payload);
         if (listens(player, payload)) PacketDistributor.sendToPlayer(player, payload);
     }
     /** effects: accepts one current intent per tick, using only the server's equipped bag and actual held item. */

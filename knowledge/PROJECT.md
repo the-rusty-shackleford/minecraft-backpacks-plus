@@ -384,3 +384,26 @@ Version 0.5.1 is [published](https://github.com/the-rusty-shackleford/minecraft-
 warning": restart 01:13:36 UTC at the end of the warning with nobody on, `Done` at 01:13:52,
 "(0.5.0 -> 0.5.1)" in the log, 36 baseline errors, 20 TPS, parity clean. The server repo's
 `knowledge/releases/pack-1.67.0.md` has the deployment. Not yet seen in play by Rusty.
+
+## Carried, the crafting table and packed vehicles — 2026-09-28, 0.6.0, unreleased
+
+Rusty, after Village Deed could not see the emeralds in his bag: one modification so that
+everything that sees the inventory sees the bag. The Carried protocol (`minecraft-carried`, its
+D-0001) answers inventory questions for a player with their carried storage in it; D-0032 makes
+Backpacks+ its provider: every carried bag's storage cells, worn first, then the inventory's bags
+(now also a second bag in the chest slot behind a Curios bag), never the mounts. Pickups (D-0029)
+and lent ammo (D-0026) moved into Carried with their rules; their GameTests stay here and pass on
+the provider. The audit behind the change found two bugs, fixed on Rusty's go: lent ammo was paid
+for only through vanilla's `useAmmo`, so Create's potato cannon fired a bag's potatoes for free
+(Carried now settles a loan by what the copy lost; reproduced with a test weapon, not with Create);
+and a packed Vanilla Wheels truck, its chest in a cargo component, was storable in a bag (D-0034,
+reproduced with the real jar). D-0033, Rusty's option (b): the crafting table's menu carries the
+bag's cells and its screen the panel, laid out by D-0028's rule; EMI's handlers get the bag's
+cells, so EMI counts and fills from the bag at the table and on the inventory screen; they stand
+just ahead of EMI's own handlers, behind Warehouse Manager's, which the release gate found both
+claiming the front (`domain.HandlerOrder`). Registrar "5". Counting a full inventory and a worn Expedition bag: 287 ns, 0 bytes allocated. The gear
+sync no longer throws for a watcher without its channel (it failed other mods' GameTests). 46
+JUnit, 73 GameTests, 81 with Curios, 69 with Vanilla Wheels loaded before the table tests; photographed
+and driven on the fixture with EMI on the client only
+([record](../devtools/verification/crafting-table.md)). Not released; ships with Carried 1.0.0
+and the migrated consumers as one pack on Rusty's go.

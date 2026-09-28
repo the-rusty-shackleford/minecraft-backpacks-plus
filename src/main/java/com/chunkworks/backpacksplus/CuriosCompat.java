@@ -45,6 +45,21 @@ public final class CuriosCompat {
     static ItemStack stack(Player player,int slot) {
         var back=back(player);return active(back,slot) ? back.getStacks().getStackInSlot(slot) : ItemStack.EMPTY;
     }
+    /** effects: fills {@code out} with the bag in each active back slot (EMPTY where there is
+     * none); returns how many slots it filled, at most out.length. The back slots' handler is
+     * looked up once per game tick and kept on the carrier (the lookup allocates, and HUDs list
+     * bags every frame). */
+    static int backBags(Player player,ItemStack[] out,BagStores.Carrier carrier) {
+        long now=player.level().getGameTime();
+        if(carrier.curiosAt!=now){carrier.curiosBack=back(player);carrier.curiosAt=now;}
+        var back=(ICurioStacksHandler)carrier.curiosBack;if(back==null)return 0;
+        int n=Math.min(out.length,back.getStacks().getSlots());
+        for(int slot=0;slot<n;slot++){
+            var stack=active(back,slot) ? back.getStacks().getStackInSlot(slot) : ItemStack.EMPTY;
+            out[slot]=BagLocations.isBag(stack) ? stack : ItemStack.EMPTY;
+        }
+        return n;
+    }
     static int firstBack(Player player) {
         var back=back(player);if(back==null)return -1;
         for(int slot=0;slot<back.getStacks().getSlots();slot++)

@@ -9,7 +9,9 @@ import dev.emi.emi.api.widget.Bounds;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 
 /** EMI lays its sidebars out from the vanilla screen's own rectangle and would paint its left
- * one over the worn bag's panel beside the inventory screen (D-0028). This plugin declares the
+ * one over the worn bag's panel beside the inventory screen (D-0028). It also counts and fills
+ * recipes from fixed slot ranges that leave the bag's cells out; this plugin registers handlers
+ * that count them (D-0033, {@link BagRecipeHandlers}). This plugin declares the
  * panel's column so EMI keeps off it. Loaded by EMI's entrypoint scan only when EMI is
  * installed; nothing else references it. */
 @EmiEntrypoint
@@ -30,6 +32,18 @@ public final class BackpacksEmiPlugin implements EmiPlugin {
             var panel = ((BagPanelScreen) screen).backpacksplus$panel();
             if (panel != null) out.accept(new Bounds(panel[0], screen.getGuiTop(), panel[2], screen.getYSize()));
         });
+        // The crafting table's panel (D-0033) stands where the inventory screen's does.
+        registry.addExclusionArea(net.minecraft.client.gui.screens.inventory.CraftingScreen.class, (screen, out) -> {
+            var panel = ((BagPanelScreen) screen).backpacksplus$panel();
+            if (panel != null) out.accept(new Bounds(panel[0], screen.getGuiTop(), panel[2], Math.max(panel[3], screen.getYSize())));
+        });
+        // EMI counts and fills from the bag's cells too, at the inventory screen and the table.
+        var inventory = new BagRecipeHandlers.Inventory();
+        var crafting = new BagRecipeHandlers.Crafting();
+        registry.addRecipeHandler(null, inventory);
+        registry.addRecipeHandler(net.minecraft.world.inventory.MenuType.CRAFTING, crafting);
+        BagRecipeHandlers.aheadOfEmis(null, inventory, com.mojang.logging.LogUtils.getLogger());
+        BagRecipeHandlers.aheadOfEmis(net.minecraft.world.inventory.MenuType.CRAFTING, crafting, com.mojang.logging.LogUtils.getLogger());
         // The creative screen's inventory tab (D-0031): the panel's top level with the screen's, the column its full height.
         registry.addExclusionArea(net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen.class, (screen, out) -> {
             var panel = ((BagPanelScreen) screen).backpacksplus$panel();

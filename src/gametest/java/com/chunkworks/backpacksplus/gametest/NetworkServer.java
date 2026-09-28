@@ -96,6 +96,13 @@ public final class NetworkServer {
                         var menu=p.serverLevel().getBlockState(at).getMenuProvider(p.serverLevel(),at);
                         p.openMenu(menu);
                     }
+                    case "table" -> {
+                        // A crafting table two blocks east, opened for the player: the table captures (D-0033).
+                        p.closeContainer();
+                        BlockPos at=p.blockPosition().offset(2,0,0);
+                        p.serverLevel().setBlock(at,Blocks.CRAFTING_TABLE.defaultBlockState(),3);
+                        p.openMenu(p.serverLevel().getBlockState(at).getMenuProvider(p.serverLevel(),at));
+                    }
                     case "holdBag" -> { var bag=p.getInventory().getItem(38); p.getInventory().setItem(38,ItemStack.EMPTY); p.getInventory().setItem(0,bag); }
                     case "wearBag" -> { var bag=p.getInventory().getItem(0); p.getInventory().setItem(0,ItemStack.EMPTY); p.getInventory().setItem(38,bag); }
                     case "quick" -> Slot.replace(p,new ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.parse(command.get("item").getAsString())),command.has("count") ? command.get("count").getAsInt() : 1));

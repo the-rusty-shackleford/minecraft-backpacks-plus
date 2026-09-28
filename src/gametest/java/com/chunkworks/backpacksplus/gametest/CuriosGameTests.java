@@ -51,6 +51,23 @@ public final class CuriosGameTests {
         h.assertTrue(BagContents.copy(chest).getFirst().isEmpty(),"the chest bag untouched");
         h.succeed();
     }
+    /** D-0032: with a bag on the back, a second bag in the chest slot is still carried: counted
+     * after the back bag, taken from once the back bag has none left. */
+    @GameTest(template="empty",templateNamespace="backpacksplus")
+    public void aSecondBagInTheChestSlotIsCarriedBehindTheBackBag(GameTestHelper h) {
+        var p=equipped(h);
+        var chest=ProviderGameTests.bag(BackpackItems.BASIC.get(),new int[]{0},new ItemStack(net.minecraft.world.item.Items.EMERALD,9));
+        p.getInventory().setItem(38,chest);
+        BagInventory.bind(p,41).setItem(2,new ItemStack(net.minecraft.world.item.Items.EMERALD,3));
+        var order=new java.util.ArrayList<String>();
+        com.chunkworks.carried.api.Carried.forEachStored(p,(store,cell,stack)->order.add(store));
+        h.assertValueEqual(order,java.util.List.of("backpacksplus:curios/0","backpacksplus:slot/38"),"the back bag, then the chest bag");
+        h.assertValueEqual(com.chunkworks.carried.api.Carried.count(p,net.minecraft.world.item.Items.EMERALD),12,"both counted");
+        h.assertTrue(com.chunkworks.carried.api.Carried.take(p,s->s.is(net.minecraft.world.item.Items.EMERALD),5,s->{}),"five taken");
+        h.assertTrue(BagContents.copy(BagLocations.stack(p,41)).get(2).isEmpty(),"the back bag's three first");
+        h.assertValueEqual(BagContents.copy(p.getInventory().getItem(38)).get(0).getCount(),7,"then two from the chest bag");
+        h.succeed();
+    }
     @GameTest(template="empty",templateNamespace="backpacksplus")
     public void curiosWinsWithoutMutatingTheChestBag(GameTestHelper h) {
         var p=equipped(h);var chest=new ItemStack(BackpackItems.BASIC.get());p.getInventory().setItem(38,chest);

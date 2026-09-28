@@ -2,6 +2,7 @@
 package com.chunkworks.backpacksplus.gametest;
 
 import com.chunkworks.backpacksplus.*;
+import com.chunkworks.carried.api.Carried;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.gametest.framework.GameTest;
@@ -47,15 +48,15 @@ public final class AmmoGameTests {
         var p = archer(h, bow);
         p.getInventory().setItem(BagLocations.CHEST, bagWith(new ItemStack(Items.ARROW, 16)));
         var lent = p.getProjectile(bow);
-        h.assertTrue(lent.is(Items.ARROW) && lent.getCount() == 16 && BagAmmo.lent(lent), "the bow sees the bag's sixteen arrows, marked: " + lent);
-        h.assertTrue(!BagAmmo.lent(BagContents.copy(p.getInventory().getItem(BagLocations.CHEST)).get(0)), "the bag's own cell is unmarked");
+        h.assertTrue(lent.is(Items.ARROW) && lent.getCount() == 16 && Carried.lent(lent), "the bow sees the bag's sixteen arrows, marked: " + lent);
+        h.assertTrue(!Carried.lent(BagContents.copy(p.getInventory().getItem(BagLocations.CHEST)).get(0)), "the bag's own cell is unmarked");
         bow.getItem().releaseUsing(bow, h.getLevel(), p, 72000 - 20);
         h.runAfterDelay(2, () -> {
             var bag = p.getInventory().getItem(BagLocations.CHEST);
             h.assertTrue(arrowsIn(bag, 0) == 15, "one arrow left the bag: " + arrowsIn(bag, 0));
-            var arrows = h.getLevel().getEntitiesOfClass(AbstractArrow.class, new AABB(h.absoluteVec(new net.minecraft.world.phys.Vec3(-16, -16, -16)), h.absoluteVec(new net.minecraft.world.phys.Vec3(32, 48, 32))));
+            var arrows = h.getLevel().getEntitiesOfClass(AbstractArrow.class, new AABB(h.absoluteVec(new net.minecraft.world.phys.Vec3(-16, -16, -16)), h.absoluteVec(new net.minecraft.world.phys.Vec3(32, 48, 32))), a -> a.getOwner() == p);
             h.assertTrue(arrows.size() == 1, "one arrow flew: " + arrows.size());
-            h.assertTrue(!BagAmmo.lent(arrows.get(0).getPickupItemStackOrigin()) && !arrows.get(0).getPickupItemStackOrigin().has(DataComponents.CUSTOM_DATA), "the arrow carries no marker: " + arrows.get(0).getPickupItemStackOrigin());
+            h.assertTrue(!Carried.lent(arrows.get(0).getPickupItemStackOrigin()) && !arrows.get(0).getPickupItemStackOrigin().has(DataComponents.CUSTOM_DATA), "the arrow carries no marker: " + arrows.get(0).getPickupItemStackOrigin());
             for (var s : p.getInventory().items) h.assertTrue(!s.is(Items.ARROW), "no arrow leaked into the inventory");
             arrows.get(0).discard();
             h.succeed();
@@ -67,7 +68,7 @@ public final class AmmoGameTests {
         p.getInventory().setItem(BagLocations.CHEST, bagWith(new ItemStack(Items.ARROW, 8)));
         p.getInventory().setItem(5, new ItemStack(Items.SPECTRAL_ARROW, 3));
         var found = p.getProjectile(bow);
-        h.assertTrue(found.is(Items.SPECTRAL_ARROW) && !BagAmmo.lent(found), "arrows in the inventory come first, unmarked: " + found);
+        h.assertTrue(found.is(Items.SPECTRAL_ARROW) && !Carried.lent(found), "arrows in the inventory come first, unmarked: " + found);
         p.getInventory().setItem(5, ItemStack.EMPTY);
         var infinity = h.getLevel().registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.INFINITY);
         bow.enchant(infinity, 1);
@@ -75,7 +76,7 @@ public final class AmmoGameTests {
         bow.getItem().releaseUsing(bow, h.getLevel(), p, 72000 - 20);
         h.runAfterDelay(2, () -> {
             h.assertTrue(arrowsIn(p.getInventory().getItem(BagLocations.CHEST), 0) == 8, "Infinity took nothing from the bag: " + arrowsIn(p.getInventory().getItem(BagLocations.CHEST), 0));
-            for (var a : h.getLevel().getEntitiesOfClass(AbstractArrow.class, new AABB(h.absoluteVec(new net.minecraft.world.phys.Vec3(-16, -16, -16)), h.absoluteVec(new net.minecraft.world.phys.Vec3(32, 48, 32))))) a.discard();
+            for (var a : h.getLevel().getEntitiesOfClass(AbstractArrow.class, new AABB(h.absoluteVec(new net.minecraft.world.phys.Vec3(-16, -16, -16)), h.absoluteVec(new net.minecraft.world.phys.Vec3(32, 48, 32))), x -> x.getOwner() == p)) a.discard();
             h.succeed();
         });
     }
@@ -86,7 +87,7 @@ public final class AmmoGameTests {
         crossbow.getItem().releaseUsing(crossbow, h.getLevel(), p, 0);
         var charged = crossbow.get(DataComponents.CHARGED_PROJECTILES);
         h.assertTrue(charged != null && !charged.isEmpty() && charged.getItems().get(0).is(Items.ARROW), "the crossbow loaded an arrow from the bag in slot 7: " + charged);
-        h.assertTrue(!BagAmmo.lent(charged.getItems().get(0)) && !charged.getItems().get(0).has(DataComponents.CUSTOM_DATA), "the loaded arrow is unmarked");
+        h.assertTrue(!Carried.lent(charged.getItems().get(0)) && !charged.getItems().get(0).has(DataComponents.CUSTOM_DATA), "the loaded arrow is unmarked");
         h.assertTrue(arrowsIn(p.getInventory().getItem(7), 1) == 4, "the bag's second cell lost one arrow: " + arrowsIn(p.getInventory().getItem(7), 1));
         h.assertTrue(arrowsIn(p.getInventory().getItem(7), 0) == 4, "the stone beside it is untouched");
         h.succeed();
