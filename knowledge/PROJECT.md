@@ -375,3 +375,12 @@ between the panel's cells no longer counts as outside (it threw the cursor's ite
 inventory, chest and creative screens. Registrar unchanged ("4"). 43 JUnit, 63 GameTests, 70 with
 Curios; driven and photographed on the fixture ([record](../devtools/verification/creative-panel.md)).
 The fixture's `focus` op refuses unless `-Dbackpacksplus.fixture.focus=true`.
+
+## Published and deployed — 2026-09-28, pack 1.67.0
+
+Version 0.5.1 is [published](https://github.com/the-rusty-shackleford/minecraft-backpacks-plus/releases/tag/v0.5.1)
+(asset SHA-1 `2fe39fd2a84fb9bf2983119188a53a4ea17378eb`, matching the clean-built jar) and deployed through Mod Hub in pack
+**1.67.0**, replacing 0.5.0, on Rusty's "release with everything else after a 5 minute server
+warning": restart 01:13:36 UTC at the end of the warning with nobody on, `Done` at 01:13:52,
+"(0.5.0 -> 0.5.1)" in the log, 36 baseline errors, 20 TPS, parity clean. The server repo's
+`knowledge/releases/pack-1.67.0.md` has the deployment. Not yet seen in play by Rusty.
