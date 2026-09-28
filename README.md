@@ -135,6 +135,13 @@ into the bag; shift-click from your inventory goes into the chest as always; shi
 the bag goes into the chest. Other containers (furnaces, shulker boxes, modded screens) are
 unchanged.
 
+**And the creative inventory.** In creative, E opens the creative screen; on its inventory tab
+(the chest icon) the same panel stands to the left, the pair centered, and the bag's cells take
+clicks and drags like any slot there, saved to the bag on the
+server under the bag's own rules (no bag inside a bag, mounts by size). The other creative tabs
+stay centered with no panel. Under 379 GUI pixels wide the panel is not shown. A click on the
+panel's background, between cells, never throws the item on your cursor, on any of these screens.
+
 **Picking things up.** Items you walk over, and arrows you pull out of the ground, go into your
 bags too. As in the inventory, a stack of the same thing is added to before a new stack is
 started: first your inventory's stacks, then the bag's, then an empty inventory slot, then an

@@ -108,7 +108,10 @@ public final class NetworkClient {
                         mc.options.keyShift.setDown(c.has("crouch")&&c.get("crouch").getAsBoolean());
                         mc.options.keySprint.setDown(c.has("sprint")&&c.get("sprint").getAsBoolean());
                     }
-                    case "focus" -> { GLFW.glfwFocusWindow(mc.getWindow().getWindow()); mc.mouseHandler.grabMouse(); }
+                    // Raising and grabbing a client beside Rusty's session takes their mouse (2026-09-27), so
+                    // only a run on a display of its own may: -Dbackpacksplus.fixture.focus=true.
+                    case "focus" -> { if (Boolean.getBoolean("backpacksplus.fixture.focus")) { GLFW.glfwFocusWindow(mc.getWindow().getWindow()); mc.mouseHandler.grabMouse(); }
+                                      else LogUtils.getLogger().info("Backpack client fixture: focus refused (set -Dbackpacksplus.fixture.focus=true on a display of its own)"); }
                     case "g" -> java.util.Arrays.stream(mc.options.keyMappings).filter(key -> key.getName().equals("key.backpacksplus.gear"))
                             .findFirst().orElseThrow().setDown(c.get("down").getAsBoolean());
                     case "scroll" -> {
@@ -118,6 +121,28 @@ public final class NetworkClient {
                     }
                     case "use" -> KeyMapping.click(mc.options.keyUse.getKey());
                     case "inventory" -> KeyMapping.click(mc.options.keyInventory.getKey());
+                    case "creativeTab" -> {
+                        // The creative screen's tab, by registry id, through its own (private) selectTab.
+                        if (!(mc.screen instanceof net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen screen)) throw new IllegalStateException("Creative screen not open");
+                        var tab=net.minecraft.core.registries.BuiltInRegistries.CREATIVE_MODE_TAB.get(net.minecraft.resources.ResourceLocation.parse(c.get("tab").getAsString()));
+                        if (tab==null) throw new IllegalStateException("No creative tab "+c.get("tab").getAsString());
+                        var select=net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen.class.getDeclaredMethod("selectTab",net.minecraft.world.item.CreativeModeTab.class);
+                        select.setAccessible(true); select.invoke(screen,tab);
+                    }
+                    case "creativeClick" -> {
+                        // A left click at a slot's centre through the screen's own mouse handling: `slot` is the
+                        // wrapped menu index, or `bagCell` a worn-bag cell (the inventory tab wraps in menu order).
+                        if (!(mc.screen instanceof net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen screen)) throw new IllegalStateException("Creative screen not open");
+                        // Or `x`/`y`, a point relative to the screen's corner, on no slot.
+                        double x, y;
+                        if (c.has("x")) { x=screen.getGuiLeft()+c.get("x").getAsDouble(); y=screen.getGuiTop()+c.get("y").getAsDouble(); }
+                        else {
+                            int index=c.has("bagCell") ? ((com.chunkworks.backpacksplus.WornBagMenu)mc.player.inventoryMenu).backpacksplus$first()+c.get("bagCell").getAsInt() : c.get("slot").getAsInt();
+                            var slot=screen.getMenu().slots.get(index);
+                            x=screen.getGuiLeft()+slot.x+8; y=screen.getGuiTop()+slot.y+8;
+                        }
+                        screen.mouseClicked(x,y,0); screen.mouseReleased(x,y,0);
+                    }
                     case "recipeBook" -> {
                         // The book's own button, through the screen's click path, so EMI's takeover of it runs too.
                         if (!(mc.screen instanceof InventoryScreen screen)) throw new IllegalStateException("Inventory screen not open");

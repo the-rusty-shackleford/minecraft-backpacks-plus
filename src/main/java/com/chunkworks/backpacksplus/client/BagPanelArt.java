@@ -45,6 +45,12 @@ public final class BagPanelArt {
         for (int k = 0; k < tier.storageSlots(); k++) cell(g, x0 + 8 + (k % 9) * 18, y0 + WornBagSlots.STORAGE_Y + (k / 9) * 18);
         g.drawString(font, Component.translatable("backpacksplus.mounts"), x0 + 8 + mounts * 18 + 4, y0 + WornBagSlots.MOUNTS_Y + 4, 0x404040, false);
     }
+    /** effects: whether (x, y) is inside the panel's {x, y, width, height}, false for null. A
+     * click there is on the screen, not outside it, even between cells: outside, with an item on
+     * the cursor, would throw the item. */
+    public static boolean inside(int[] panel, double x, double y) {
+        return panel != null && x >= panel[0] && x < panel[0] + panel[2] && y >= panel[1] && y < panel[1] + panel[3];
+    }
     /** effects: a vanilla-looking slot well at the cell's top-left corner. */
     private static void cell(GuiGraphics g, int x, int y) {
         g.fill(x - 1, y - 1, x + 17, y + 17, 0xFF373737);

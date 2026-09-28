@@ -7,7 +7,9 @@
     "PlayerModelMixin",
     "ItemInHandLayerMixin",
     "client.InventoryScreenMixin",
-    "client.ContainerScreenMixin"
+    "client.ContainerScreenMixin",
+    "client.AbstractContainerScreenMixin",
+    "client.CreativeModeInventoryScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1
@@ -19,6 +21,7 @@
     "InventoryMenuMixin",
     "ItemEntityMixin",
     "AbstractArrowMixin",
-    "ChestMenuMixin"
+    "ChestMenuMixin",
+    "ServerGamePacketListenerImplMixin"
   ]
 }

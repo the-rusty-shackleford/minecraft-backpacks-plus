@@ -114,6 +114,7 @@ public final class NetworkServer {
                     }
                     case "position" -> p.teleportTo(p.serverLevel(),command.get("x").getAsDouble(),command.has("y") ? command.get("y").getAsDouble() : 71,command.get("z").getAsDouble(),0,0);
                     case "save" -> server.getPlayerList().saveAll();
+                    case "gamemode" -> p.setGameMode(GameType.byName(command.get("mode").getAsString()));
                     default -> throw new IllegalArgumentException("Unknown operation "+op);
                 }
                 p.containerMenu.broadcastChanges(); p.inventoryMenu.broadcastChanges();

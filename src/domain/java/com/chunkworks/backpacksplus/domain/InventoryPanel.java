@@ -52,6 +52,18 @@ public record InventoryPanel(boolean shown, boolean beside, int panelX) {
         return new InventoryPanel(true, beside, -(WIDTH + GAP) - (bookOpen ? TABS + BOOK : 0));
     }
 
+    /** The creative screen's width (D-0031). */
+    public static final int CREATIVE = 195;
+
+    /** requires: width > 0; effects: the placement on the creative screen (D-0031): shown only on
+     * its inventory tab with a bag worn, where panel and screen fit side by side, left of the
+     * screen; the creative screen has no recipe book, so never beside. */
+    public static InventoryPanel creative(int width, boolean worn, boolean inventoryTab) {
+        if (width <= 0) throw new IllegalArgumentException("width");
+        if (!worn || !inventoryTab || width < WIDTH + GAP + CREATIVE + 2 * MARGIN) return NONE;
+        return new InventoryPanel(true, false, -(WIDTH + GAP));
+    }
+
     /** effects: how much wider than the screen the vanilla layout is laid out: the panel and its
      * gap while the panel is shown, nothing otherwise. */
     public int widen() { return shown ? WIDTH + GAP : 0; }

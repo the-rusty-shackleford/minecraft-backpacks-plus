@@ -30,5 +30,10 @@ public final class BackpacksEmiPlugin implements EmiPlugin {
             var panel = ((BagPanelScreen) screen).backpacksplus$panel();
             if (panel != null) out.accept(new Bounds(panel[0], screen.getGuiTop(), panel[2], screen.getYSize()));
         });
+        // The creative screen's inventory tab (D-0031): the panel's top level with the screen's, the column its full height.
+        registry.addExclusionArea(net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen.class, (screen, out) -> {
+            var panel = ((BagPanelScreen) screen).backpacksplus$panel();
+            if (panel != null) out.accept(new Bounds(panel[0], screen.getGuiTop(), panel[2], Math.max(panel[3], screen.getYSize())));
+        });
     }
 }

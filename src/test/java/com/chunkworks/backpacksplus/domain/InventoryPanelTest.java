@@ -97,7 +97,39 @@ class InventoryPanelTest {
         }
     }
 
+    /* The creative screen (D-0031). Partitions. Bag: none; worn. Tab: the inventory tab; any other.
+     * Width: the minimum (320); just under panel and screen side by side (378); exactly it (379);
+     * a friend's 427; 640; Rusty's 688. Invariant: the widened layout centres panel and screen. */
+
+    @Test void creativeShowsThePanelOnlyOnTheInventoryTabWithABagWorn() {
+        for (int width : new int[] { 320, 379, 427, 688 }) {
+            assertSame(InventoryPanel.NONE, InventoryPanel.creative(width, false, true), "no bag at " + width);
+            assertSame(InventoryPanel.NONE, InventoryPanel.creative(width, true, false), "another tab at " + width);
+        }
+    }
+
+    @Test void creativeHidesThePanelWherePanelAndScreenDoNotFit() {
+        for (int width : new int[] { 320, 378 }) assertSame(InventoryPanel.NONE, InventoryPanel.creative(width, true, true), "at " + width);
+        for (int width : new int[] { 379, 427, 640, 688 }) {
+            var panel = InventoryPanel.creative(width, true, true);
+            assertTrue(panel.shown() && !panel.beside(), "at " + width);
+            assertEquals(-(InventoryPanel.WIDTH + InventoryPanel.GAP), panel.panelX());
+            assertEquals(InventoryPanel.WIDTH + InventoryPanel.GAP, panel.widen());
+        }
+    }
+
+    @Test void creativeWidenedLayoutCentersPanelAndScreenOnTheScreen() {
+        for (int width : new int[] { 379, 427, 640, 688 }) {
+            var panel = InventoryPanel.creative(width, true, true);
+            int left = (width + panel.widen() - InventoryPanel.CREATIVE) / 2;  // AbstractContainerScreen's leftPos, widened
+            int leftMargin = left + panel.panelX(), rightMargin = width - (left + InventoryPanel.CREATIVE);
+            assertTrue(leftMargin >= 0 && rightMargin >= 0, "on the screen at " + width);
+            assertTrue(Math.abs(leftMargin - rightMargin) <= 1, "centred at " + width + ": " + leftMargin + " vs " + rightMargin);
+        }
+    }
+
     @Test void badInputIsRefused() {
+        assertThrows(IllegalArgumentException.class, () -> InventoryPanel.creative(0, true, true));
         assertThrows(IllegalArgumentException.class, () -> InventoryPanel.of(0, true, false));
         assertThrows(IllegalArgumentException.class, () -> new InventoryPanel(true, false, 0));
         assertThrows(IllegalArgumentException.class, () -> new InventoryPanel(true, false, -359));

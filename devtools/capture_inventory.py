@@ -57,13 +57,11 @@ def book(open_: bool) -> None:
 def capture(suffix: str) -> None:
     ready()
     command('server', 'seed')
-    command('driver', 'focus')
     for tier in TIERS:
         command('server', 'wear', tier=tier)
         time.sleep(6)  # the recipe and chat toasts fade before the first photo
         for width, height, scale, size in SIZES:
             command('driver', 'hud', width=width, height=height, arm='RIGHT', attack='HOTBAR', scale=scale)
-            command('driver', 'focus')
             time.sleep(.5)
             command('driver', 'inventory')
             wait_for(lambda: read('driver').get('screen') == 'InventoryScreen', 'The inventory did not open')

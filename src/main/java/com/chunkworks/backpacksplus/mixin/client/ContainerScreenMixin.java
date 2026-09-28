@@ -68,4 +68,9 @@ abstract class ContainerScreenMixin extends AbstractContainerScreen<ChestMenu> i
         var bounds = backpacksplus$panel();
         if (bounds != null) BagPanelArt.draw(g, font, bounds[0], bounds[1]);
     }
+    /** A click on the panel, between its cells too, is not outside the screen: outside, with an
+     * item on the cursor, would throw it. */
+    @Override protected boolean hasClickedOutside(double mouseX, double mouseY, int guiLeft, int guiTop, int button) {
+        return super.hasClickedOutside(mouseX, mouseY, guiLeft, guiTop, button) && !BagPanelArt.inside(backpacksplus$panel(), mouseX, mouseY);
+    }
 }

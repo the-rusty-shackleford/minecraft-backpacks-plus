@@ -20,6 +20,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /** The worn bag's panel beside the survival inventory screen (D-0027, D-0028). A worn bag makes
  * the vanilla layout the panel's width wider: the screen, and the recipe book when open, are
@@ -97,6 +98,12 @@ abstract class InventoryScreenMixin extends AbstractContainerScreen<InventoryMen
     private void backpacksplus$panel(GuiGraphics g, float partialTick, int mouseX, int mouseY, CallbackInfo ci) {
         var bounds = backpacksplus$panel();
         if (bounds != null) BagPanelArt.draw(g, font, bounds[0], bounds[1]);
+    }
+    /** A click on the panel, between its cells too, is not outside the screen: outside, with an
+     * item on the cursor, would throw it. */
+    @Inject(method = "hasClickedOutside", at = @At("RETURN"), cancellable = true)
+    private void backpacksplus$onPanel(double mouseX, double mouseY, int guiLeft, int guiTop, int button, CallbackInfoReturnable<Boolean> cir) {
+        if (cir.getReturnValueZ() && BagPanelArt.inside(backpacksplus$panel(), mouseX, mouseY)) cir.setReturnValue(false);
     }
     private boolean backpacksplus$worn() { return BagPanelArt.worn(); }
 }

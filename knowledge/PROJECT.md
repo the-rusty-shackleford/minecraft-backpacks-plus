@@ -362,3 +362,16 @@ through Mod Hub in pack **1.66.0**, replacing 0.4.0: restart 19:40:00 UTC at the
 two-minute warning with two players on (Rusty: never wait for people to log off), `Done` at
 19:40:14, "backpacksplus (version 0.4.0 -> 0.5.0)", 36 baseline errors, 20 TPS, parity clean. The
 server repo's `knowledge/releases/pack-1.66.0.md` has the deployment. Not yet seen in play by Rusty.
+
+## The panel on the creative inventory — 2026-09-28, 0.5.1
+
+Rusty: in creative "the backpack inventory in the E menu overlays on top of the regular inventory
+instead of working normally. Please make it work normally", release to follow. D-0031: the
+creative screen's inventory tab placed the forty cells over the hotbar row, and vanilla's creative
+slot packet takes only slots 1..45. Now the tab lays itself out half a panel right and stands the
+panel to its left (`InventoryPanel.creative`, from 379 wide; other tabs centred), and the server
+takes a creative player's edits of the cells under the bag's rules (`CreativeBagCells`). A click
+between the panel's cells no longer counts as outside (it threw the cursor's item) on the
+inventory, chest and creative screens. Registrar unchanged ("4"). 43 JUnit, 63 GameTests, 70 with
+Curios; driven and photographed on the fixture ([record](../devtools/verification/creative-panel.md)).
+The fixture's `focus` op refuses unless `-Dbackpacksplus.fixture.focus=true`.
