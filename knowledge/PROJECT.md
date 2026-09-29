@@ -385,7 +385,7 @@ warning": restart 01:13:36 UTC at the end of the warning with nobody on, `Done` 
 "(0.5.0 -> 0.5.1)" in the log, 36 baseline errors, 20 TPS, parity clean. The server repo's
 `knowledge/releases/pack-1.67.0.md` has the deployment. Not yet seen in play by Rusty.
 
-## Carried, the crafting table and packed vehicles — 2026-09-28, 0.6.0, unreleased
+## Carried, the crafting table and packed vehicles — 2026-09-28, 0.6.0, released 2026-09-29 in pack 1.68.0
 
 Rusty, after Village Deed could not see the emeralds in his bag: one modification so that
 everything that sees the inventory sees the bag. The Carried protocol (`minecraft-carried`, its
@@ -405,5 +405,7 @@ claiming the front (`domain.HandlerOrder`). Registrar "5". Counting a full inven
 sync no longer throws for a watcher without its channel (it failed other mods' GameTests). 46
 JUnit, 73 GameTests, 81 with Curios, 69 with Vanilla Wheels loaded before the table tests; photographed
 and driven on the fixture with EMI on the client only
-([record](../devtools/verification/crafting-table.md)). Not released; ships with Carried 1.0.0
-and the migrated consumers as one pack on Rusty's go.
+([record](../devtools/verification/crafting-table.md)). Released on Rusty's go and deployed in
+pack 1.68.0 with Carried 1.0.0 and the migrated consumers (sha1 `84194152` on the server; 74
+GameTests with the real Vanilla Wheels 1.9.5 and Metals and Materials 1.0.3 in the release gate).
+Registrar "5": every client had to update. Not yet seen in play.
