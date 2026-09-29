@@ -72,7 +72,13 @@ public final class BagContents {
     public static boolean storable(ItemStack item) {
         if (item.isEmpty()) return true;
         if (!validCount(item) || item.getItem() instanceof BackpackItem || !item.canFitInsideContainerItems()
-                || item.is(FORBIDDEN) || item.has(DataComponents.BUNDLE_CONTENTS)) return false;
+                || item.is(FORBIDDEN)) return false;
+        // A bundle rides in a bag (Rusty, 2026-09-29; D-0035). It cannot hold a bag -- a bag fits in no
+        // container item -- so no bag nests through it; what it holds must be what a bag could hold.
+        var bundle = item.get(DataComponents.BUNDLE_CONTENTS);
+        if (bundle != null) {
+            for (ItemStack inner : bundle.items()) if (!storable(inner)) return false;
+        }
         var contents = item.get(DataComponents.CONTAINER);
         if (contents != null && (contents.getSlots() > 0 || !(item.getItem() instanceof BlockItem))) return false;
         if (item.getCapability(Capabilities.ItemHandler.ITEM) != null) return false;

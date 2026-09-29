@@ -141,8 +141,8 @@ public final class PickupGameTests {
         for (int i = 0; i < 9; i++) full.add(new ItemStack(Items.STONE, 64));
         Player p = player(h, BackpackItems.BASIC.get(), full);
         fillMain(p);
-        var bundle = drop(h, p, new ItemStack(Items.BUNDLE));
-        h.assertTrue(!bundle.isRemoved(), "portable storage never goes into a bag");
+        var shulker = drop(h, p, new ItemStack(Items.SHULKER_BOX));
+        h.assertTrue(!shulker.isRemoved(), "portable storage never goes into a bag");
         var pick = drop(h, p, new ItemStack(Items.IRON_PICKAXE));
         h.assertTrue(!pick.isRemoved(), "storage full: the pickaxe is not put in a mount");
         var tier = BackpackTier.BASIC;

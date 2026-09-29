@@ -75,8 +75,9 @@ Hold a bag and right-click, or press **B** with a bag equipped, to open its actu
 The open key is configurable; legacy backpack mods may also bind B during migration.
 Click, split and shift-click normally;
 the opened bag stays locked in its source cell. Ordinary furnaces, smokers, hoppers and
-similar utility blocks fit. Backpacks, chests, barrels, bundles, shulkers and retained
-portable inventories are rejected. A backpack may itself be placed in a chest.
+similar utility blocks fit, and so do bundles, filled or not, as long as nothing in one is
+what a bag refuses (D-0035). Backpacks, chests, barrels, shulkers and retained portable
+inventories are rejected. A backpack may itself be placed in a chest.
 
 Wear the bag in Curios’ **back** slot alongside a chestplate, or use the native chest slot.
 Curios is optional; if both slots contain Backpacks+ bags, the Curios bag takes priority.
@@ -150,8 +151,8 @@ bags too. As in the inventory, a stack of the same thing is added to before a ne
 started: first your inventory's stacks, then the bag's, then an empty inventory slot, then an
 empty bag cell. So with a full inventory pickups land in the bag, and cobblestone joins the
 bag's cobblestone even while you have free slots. The worn bag comes first, then any bag you
-carry. Mounts are never filled by a pickup, and what the bag cannot hold (chests, bundles,
-other bags) stays on the ground as before.
+carry. Mounts are never filled by a pickup, and what the bag cannot hold (chests, shulker
+boxes, other bags) stays on the ground as before.
 
 **Arrows in the bag count.** A bow or crossbow with nothing to shoot in your hands or
 inventory looks in your backpack, the worn one first and then any bag you carry, and takes

@@ -5,6 +5,13 @@ Repository `minecraft-backpacks-plus`; mod ID `backpacksplus`; namespace
 official Mojang mappings. Rusty authorized implementation after approving the persistent
 gear bar (D-0009). Release 0.1.0 shipped in pack 1.38.0 under D-0022; see the deployment record.
 
+## 0.7.0 — in progress, unreleased (2026-09-29)
+
+Rusty could not put a bundle in his backpack. D-0035 admits bundles, filled or not, while nothing
+in one is what a bag refuses; a bag still goes into no bundle, so nothing nests. One gametest
+(it failed on 0.6.0's rule); the pickup test's refused example is now a shulker box. 74
+gametests and 46 JUnit green. Ships with Vanilla Wheels 1.10.0 on Rusty's go.
+
 ## Approved direction
 
 - Separate rustic survival backpack mod, replacing SB through the approved legacy discard and Stowed holster preservation (D-0019).

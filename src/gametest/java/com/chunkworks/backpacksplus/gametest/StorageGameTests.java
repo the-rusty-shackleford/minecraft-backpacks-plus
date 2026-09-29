@@ -59,7 +59,7 @@ public final class StorageGameTests {
     @GameTest(template="empty") public void utilityBlocksAllowedPortableStorageRejected(GameTestHelper h) {
         for (var item : List.of(Items.FURNACE, Items.BLAST_FURNACE, Items.SMOKER, Items.HOPPER, Items.DISPENSER, Items.DROPPER, Items.CRAFTING_TABLE))
             h.assertTrue(BagContents.storable(new ItemStack(item)), "ordinary utility block admitted: " + item);
-        for (var item : List.of(Items.CHEST, Items.TRAPPED_CHEST, Items.ENDER_CHEST, Items.BARREL, Items.SHULKER_BOX, Items.RED_SHULKER_BOX, Items.BUNDLE, BackpackItems.BASIC.get()))
+        for (var item : List.of(Items.CHEST, Items.TRAPPED_CHEST, Items.ENDER_CHEST, Items.BARREL, Items.SHULKER_BOX, Items.RED_SHULKER_BOX, BackpackItems.BASIC.get()))
             h.assertTrue(!BagContents.storable(new ItemStack(item)), "empty storage container rejected: " + item);
         ItemStack furnace = new ItemStack(Items.FURNACE);
         furnace.set(DataComponents.CONTAINER, ItemContainerContents.fromItems(List.of(new ItemStack(Items.DIAMOND))));
@@ -68,6 +68,24 @@ public final class StorageGameTests {
         CompoundTag legacy = new CompoundTag(); legacy.putString("id", "minecraft:furnace"); legacy.put("Items", new ListTag());
         furnace.set(DataComponents.BLOCK_ENTITY_DATA, CustomData.of(legacy));
         h.assertTrue(!BagContents.storable(furnace), "retained legacy inventory cannot bypass admission");
+        h.succeed();
+    }
+    /** D-0035: a bundle rides in a bag, but never carries in what a bag may not hold, and never a bag. */
+    @GameTest(template="empty") public void aBundleRidesInABagButCarriesNoStorageAndNoBagInto(GameTestHelper h) {
+        var empty = new ItemStack(Items.BUNDLE);
+        h.assertTrue(BagContents.storable(empty), "an empty bundle is admitted");
+        h.assertTrue(BagContents.admits(BackpackTier.BASIC, 0, empty), "into a storage cell");
+        var apples = new ItemStack(Items.BUNDLE);
+        apples.set(DataComponents.BUNDLE_CONTENTS, new net.minecraft.world.item.component.BundleContents(List.of(new ItemStack(Items.APPLE, 16), new ItemStack(Items.STRING, 8))));
+        h.assertTrue(BagContents.storable(apples), "a bundle of apples and string is admitted");
+        var chest = new ItemStack(Items.BUNDLE);
+        chest.set(DataComponents.BUNDLE_CONTENTS, new net.minecraft.world.item.component.BundleContents(List.of(new ItemStack(Items.CHEST))));
+        h.assertTrue(!BagContents.storable(chest), "a bundle carrying a chest is refused, as the chest is");
+        var inner = new ItemStack(Items.BUNDLE);
+        inner.set(DataComponents.BUNDLE_CONTENTS, new net.minecraft.world.item.component.BundleContents(List.of(chest)));
+        h.assertTrue(!BagContents.storable(inner), "and one carrying that bundle");
+        var mutable = new net.minecraft.world.item.component.BundleContents.Mutable(net.minecraft.world.item.component.BundleContents.EMPTY);
+        h.assertValueEqual(mutable.tryInsert(new ItemStack(BackpackItems.BASIC.get())), 0, "a bag goes into no bundle, so no bag nests through one");
         h.succeed();
     }
     @GameTest(template="empty") public void clickSplitAndPlaceConserveContents(GameTestHelper h) {

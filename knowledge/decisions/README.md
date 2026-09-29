@@ -47,3 +47,5 @@
 - [D-0033](D-0033.md): The worn bag's cells and panel at the crafting table (Rusty's option b); EMI counts and fills from the bag's cells at the table and on the inventory screen; registrar "5".
 
 - [D-0034](D-0034.md): A packed vehicle (Vanilla Wheels' `vehicle`, its chest in a cargo component) is portable storage and never goes into a bag.
+
+- [D-0035](D-0035.md): A bundle rides in a bag (Rusty); what it carries must be what a bag could hold, and a bag goes into no bundle. Supersedes D-0010 for bundles.
