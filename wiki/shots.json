@@ -1,0 +1,11 @@
+{
+  "shots": [
+    {"from": "devtools/release-preview/shader-final.png", "to": "img/backpack.webp", "crop": [0, 45, 854, 480]},
+    {"from": "devtools/tier-preview/tier-basic-quarter-gear.png", "to": "img/basic.webp"},
+    {"from": "devtools/tier-preview/tier-reinforced-quarter-gear.png", "to": "img/reinforced.webp"},
+    {"from": "devtools/tier-preview/tier-expedition-quarter-gear.png", "to": "img/expedition.webp"},
+    {"from": "run/network-driver/screenshots/survival-inventory-regression-640x360.png", "to": "img/inventory-panel.webp", "crop": [278, 185, 996, 530], "screen": true},
+    {"from": "run/network-driver/screenshots/chest-expedition-double-640x360.png", "to": "img/chest-panel.webp", "crop": [278, 135, 1002, 585], "screen": true},
+    {"from": "devtools/release-preview/crouch.png", "to": "img/crouch.webp", "crop": [0, 60, 1280, 720]}
+  ]
+}
