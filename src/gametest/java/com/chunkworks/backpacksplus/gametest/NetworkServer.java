@@ -48,6 +48,7 @@ public final class NetworkServer {
                     case "unPocketBag" -> { var bag=p.getInventory().getItem(9);p.getInventory().setItem(9,ItemStack.EMPTY);p.getInventory().setItem(38,bag); }
                     case "craftSetup" -> CraftingNetwork.setup(p,command);
                     case "craftFill" -> CraftingNetwork.fill(p);
+                    case "creativeRace" -> CreativeRaceNetwork.setup(p);
                     case "seed" -> {
                         p.closeContainer(); p.stopRiding();
                         if(net.neoforged.fml.ModList.get().isLoaded("curios"))CuriosNetwork.clear(p); p.getInventory().clearContent(); p.getInventory().selected=0;

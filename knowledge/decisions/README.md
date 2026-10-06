@@ -49,3 +49,5 @@
 - [D-0034](D-0034.md): A packed vehicle (Vanilla Wheels' `vehicle`, its chest in a cargo component) is portable storage and never goes into a bag.
 
 - [D-0035](D-0035.md): A bundle rides in a bag (Rusty); what it carries must be what a bag could hold, and a bag goes into no bundle. Supersedes D-0010 for bundles.
+
+- [D-0036](D-0036.md): The client's view of the bag's cells follows the menu's slot sync and is seeded from the bag only when a different bag is worn; a sync of the bag replaced it, and under a ping the creative screen sent that older view back as edits (Bobandy_'s emptied bag, 2026-10-06).

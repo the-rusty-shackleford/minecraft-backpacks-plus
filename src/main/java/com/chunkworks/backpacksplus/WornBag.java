@@ -16,10 +16,13 @@ import net.minecraft.world.item.ItemStack;
  * <p>AF: {@code index(k)} maps a menu cell to the worn bag's real cell, or −1 when the worn bag
  * has no such cell. On the server, edits go through a {@link BagInventory} bound to the worn
  * bag, rebound whenever the bag, its identity or its revision changed under us; on the client
- * the cells are a snapshot of the client's copy of the bag, refreshed whenever the bag's
- * revision changes, and a client-side write is a prediction the server's slot sync overwrites.
+ * the cells are the menu's own, like every other slot of it: seeded from the client's copy of a
+ * bag when that bag is first worn, then kept by the menu's slot sync, a client-side write being
+ * a prediction that sync overwrites. A sync of the bag itself never replaces them: it can be
+ * older than the player's edits still in flight, and the creative screen sends the server every
+ * cell it sees change, so a replaced view undid those edits on the server (D-0036).
  * <p>RI: bound is null, or bound.stillValid(owner) held at the last call; snapshot is sized to
- * the snapshot tier's total slots. */
+ * the snapshot tier's total slots, empty exactly when snapshotTier is null. */
 public final class WornBag implements Container {
     public static final int STORAGE = 36, MOUNTS = 4, SIZE = STORAGE + MOUNTS;
     private final Player owner;
@@ -27,8 +30,7 @@ public final class WornBag implements Container {
     private int boundSource = BagLocations.NONE;
     private NonNullList<ItemStack> snapshot = NonNullList.withSize(0, ItemStack.EMPTY);
     private BackpackTier snapshotTier;
-    private ItemStack snapshotBag = ItemStack.EMPTY;
-    private long snapshotRevision = -1;
+    private java.util.UUID snapshotId;
 
     public WornBag(Player owner) { this.owner = owner; }
 
@@ -62,15 +64,17 @@ public final class WornBag implements Container {
         }
         return bound;
     }
-    /** effects: the client's snapshot of the worn bag's cells, refreshed when the bag changed. */
+    /** effects: the client's view of the worn bag's cells, seeded from the client's copy of the bag
+     * when a different bag (identity or tier) is worn, otherwise as the menu's sync left it. */
     private NonNullList<ItemStack> client() {
         var bag = BagLocations.stack(owner, source());
-        if (!BagLocations.isBag(bag)) { snapshot = NonNullList.withSize(0, ItemStack.EMPTY); snapshotBag = ItemStack.EMPTY; snapshotTier = null; return snapshot; }
-        if (bag != snapshotBag || BagContents.revision(bag) != snapshotRevision) {
+        if (!BagLocations.isBag(bag)) { snapshot = NonNullList.withSize(0, ItemStack.EMPTY); snapshotTier = null; snapshotId = null; return snapshot; }
+        var tier = BagContents.tier(bag);
+        var id = bag.get(BackpackItems.ID);
+        if (tier != snapshotTier || !java.util.Objects.equals(id, snapshotId)) {
             snapshot = BagContents.copy(bag);
-            snapshotTier = BagContents.tier(bag);
-            snapshotBag = bag;
-            snapshotRevision = BagContents.revision(bag);
+            snapshotTier = tier;
+            snapshotId = id;
         }
         return snapshot;
     }

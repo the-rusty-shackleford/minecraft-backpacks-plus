@@ -19,6 +19,7 @@ final class CuriosNetwork {
         var handler=CuriosApi.getCuriosInventory(p).orElseThrow().getStacksHandler("back").orElseThrow();
         for(int i=0;i<handler.getSlots();i++){handler.getStacks().setStackInSlot(i,ItemStack.EMPTY);handler.getRenders().set(i,true);}
     }
+    static void wear(Player p,ItemStack bag) { CuriosApi.getCuriosInventory(p).orElseThrow().setEquippedCurio("back",0,bag); }
     static void prepare(ServerPlayer p,JsonObject c) {
         clear(p);p.closeContainer();
         var item=BuiltInRegistries.ITEM.get(ResourceLocation.parse("backpacksplus:"+c.get("tier").getAsString()+"_backpack"));

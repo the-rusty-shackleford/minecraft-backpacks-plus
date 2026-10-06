@@ -50,8 +50,31 @@ public final class NetworkClient {
         Minecraft mc=Minecraft.getInstance(); nextFrame=System.nanoTime()+50_000_000L; frames--;
         Screenshot.grab(mc.gameDirectory,capturePrefix+String.format(java.util.Locale.ROOT,"-%04d.png",frameIndex++),mc.getMainRenderTarget(),message -> {});
     }
+    private static final java.util.ArrayDeque<JsonObject> BURST=new java.util.ArrayDeque<>();
+    private static int burstPeriod=1, burstWait;
+    /** A click at a slot's centre through the creative screen's own mouse handling: `slot` is the wrapped
+     * menu index, or `bagCell` a worn-bag cell (the inventory tab wraps in menu order), or `x`/`y` a point
+     * relative to the screen's corner, on no slot; `button` 0 left (default), 1 right, 2 middle. */
+    private static void creativeClick(Minecraft mc,JsonObject c) {
+        if (!(mc.screen instanceof net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen screen)) throw new IllegalStateException("Creative screen not open");
+        double x, y;
+        if (c.has("x")) { x=screen.getGuiLeft()+c.get("x").getAsDouble(); y=screen.getGuiTop()+c.get("y").getAsDouble(); }
+        else {
+            int index=c.has("bagCell") ? ((com.chunkworks.backpacksplus.WornBagMenu)mc.player.inventoryMenu).backpacksplus$first()+c.get("bagCell").getAsInt() : c.get("slot").getAsInt();
+            var slot=screen.getMenu().slots.get(index);
+            x=screen.getGuiLeft()+slot.x+8; y=screen.getGuiTop()+slot.y+8;
+        }
+        int button=c.has("button") ? c.get("button").getAsInt() : 0;
+        screen.mouseClicked(x,y,button); screen.mouseReleased(x,y,button);
+    }
     @SubscribeEvent public static void tick(ClientTickEvent.Post event) {
-        if (!NetworkFiles.ENABLED || ++ticks%5!=0) return;
+        if (!NetworkFiles.ENABLED) return;
+        if (!BURST.isEmpty() && --burstWait<=0) {
+            burstWait=burstPeriod;
+            try { creativeClick(Minecraft.getInstance(),BURST.poll()); }
+            catch (Exception failure) { BURST.clear(); error=failure.toString(); LogUtils.getLogger().error("Backpack client burst failed",failure); }
+        }
+        if (++ticks%5!=0) return;
         Minecraft mc=Minecraft.getInstance(); String role=System.getProperty("backpacksplus.testRole");
         mc.options.getSoundSourceOptionInstance(SoundSource.MASTER).set(0.0);
         try {
@@ -129,19 +152,12 @@ public final class NetworkClient {
                         var select=net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen.class.getDeclaredMethod("selectTab",net.minecraft.world.item.CreativeModeTab.class);
                         select.setAccessible(true); select.invoke(screen,tab);
                     }
-                    case "creativeClick" -> {
-                        // A left click at a slot's centre through the screen's own mouse handling: `slot` is the
-                        // wrapped menu index, or `bagCell` a worn-bag cell (the inventory tab wraps in menu order).
-                        if (!(mc.screen instanceof net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen screen)) throw new IllegalStateException("Creative screen not open");
-                        // Or `x`/`y`, a point relative to the screen's corner, on no slot.
-                        double x, y;
-                        if (c.has("x")) { x=screen.getGuiLeft()+c.get("x").getAsDouble(); y=screen.getGuiTop()+c.get("y").getAsDouble(); }
-                        else {
-                            int index=c.has("bagCell") ? ((com.chunkworks.backpacksplus.WornBagMenu)mc.player.inventoryMenu).backpacksplus$first()+c.get("bagCell").getAsInt() : c.get("slot").getAsInt();
-                            var slot=screen.getMenu().slots.get(index);
-                            x=screen.getGuiLeft()+slot.x+8; y=screen.getGuiTop()+slot.y+8;
-                        }
-                        screen.mouseClicked(x,y,0); screen.mouseReleased(x,y,0);
+                    case "creativeClick" -> creativeClick(mc,c);
+                    case "creativeBurst" -> {
+                        // The clicks in `clicks`, one every `period` client ticks, as a quick hand makes them:
+                        // the next lands before the server's answer to the last (Bobandy_'s loss, 2026-10-06).
+                        BURST.clear(); for (var click : c.getAsJsonArray("clicks")) BURST.add(click.getAsJsonObject());
+                        burstPeriod=c.has("period") ? c.get("period").getAsInt() : 1; burstWait=0;
                     }
                     case "recipeBook" -> {
                         // The book's own button, through the screen's click path, so EMI's takeover of it runs too.
@@ -220,7 +236,7 @@ public final class NetworkClient {
         JsonObject state=new JsonObject(); state.addProperty("seq",completed); state.addProperty("tick",ticks); state.addProperty("error",error);
         state.addProperty("connected",mc.player!=null); state.addProperty("focused",mc.isWindowActive());
         state.addProperty("browsing",GearClient.browsing()); state.addProperty("selection",GearClient.selection());
-        state.addProperty("framesRemaining",frames);
+        state.addProperty("framesRemaining",frames); state.addProperty("burstRemaining",BURST.size());
         state.addProperty("reloading",mc.getOverlay()!=null);
         if(ModList.get().isLoaded("curios"))CuriosClient.observe(state);
         state.addProperty("curios",ModList.get().isLoaded("curios"));

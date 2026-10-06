@@ -143,7 +143,9 @@ unchanged.
 **And the creative inventory.** In creative, E opens the creative screen; on its inventory tab
 (the chest icon) the same panel stands to the left, the pair centered, and the bag's cells take
 clicks and drags like any slot there, saved to the bag on the
-server under the bag's own rules (no bag inside a bag, mounts by size). The other creative tabs
+server under the bag's own rules (no bag inside a bag, mounts by size). The creative screen sends
+the server whatever the client shows, so the client's cells follow the menu's own slot sync and
+are taken from the bag only when a different bag goes on (D-0036). The other creative tabs
 stay centered with no panel. Under 379 GUI pixels wide the panel is not shown. A click on the
 panel's background, between cells, never throws the item on your cursor, on any of these screens.
 
