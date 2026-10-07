@@ -5,7 +5,7 @@ Repository `minecraft-backpacks-plus`; mod ID `backpacksplus`; namespace
 official Mojang mappings. Rusty authorized implementation after approving the persistent
 gear bar (D-0009). Release 0.1.0 shipped in pack 1.38.0 under D-0022; see the deployment record.
 
-## 0.7.1 — built 2026-10-06, unreleased (to ride in the next batch release on Rusty's go)
+## 0.7.1 — released 2026-10-07 (UTC) in pack 1.74.0
 
 Bobandy_'s bag on the box emptied and filled with 126 spider eyes during three minutes in creative
 (revision +126). D-0036: on the client the cells were a snapshot of the client's copy of the bag,
@@ -16,7 +16,9 @@ are seeded from the bag only when a different bag is worn. Reproduced on the fix
 150 ms proxy (0.7.0: the whole bag gone at one click a tick, five kinds gone and torches tripled at
 one every three) and conserved at every period on 0.7.1
 ([record](../devtools/verification/creative-race.md)). `clean build` green: 46 JUnit, 74
-GameTests, 82 with Curios. Rusty: not to be released on its own. Not seen on the box.
+GameTests, 82 with Curios. Rusty: not to be released on its own. Deployed with Serfdom 0.9.3, sha1
+`a311909f` on the server (the server repo's `knowledge/releases/pack-1.74.0.md`). Not yet seen in
+creative on the box.
 
 ## 0.7.0 — released 2026-09-30 in pack 1.69.0
 

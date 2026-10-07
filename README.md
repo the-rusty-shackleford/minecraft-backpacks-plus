@@ -3,8 +3,9 @@
 Rustic survival backpacks for Minecraft 1.21.1 / NeoForge 21.1.x, with tools and weapons
 mounted on the sides and small supplies carried on the outer face or hanging from straps.
 
-**Version 0.7.0.** A bundle, filled or not, rides in a bag; a bag still goes into no bundle (D-0035).
-Since 0.6.0, every mod that counts, takes or gives a player's items sees their bags, through
+**Version 0.7.1.** In Creative, under a real ping, the bag's panel no longer loses or doubles stacks
+(D-0036). Since 0.7.0, a bundle, filled or not, rides in a bag; a bag still goes into no bundle
+(D-0035). Since 0.6.0, every mod that counts, takes or gives a player's items sees their bags, through
 the Carried protocol, which Backpacks+ provides and carries inside its jar: payments, crafting
 from the recipe book or EMI, ammunition, trading, pickups. The bag's panel stands beside the
 crafting table as it does beside chests. Earlier: crafting and canvas dyes, Curios equipment, direct mount swaps,
